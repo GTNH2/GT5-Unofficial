@@ -34,15 +34,15 @@ public class GT_BlockResistanceLoader
         Blocks.sponge.setHarvestLevel("axe", 0);
         Blocks.monster_egg.setHarvestLevel("pickaxe", 0);
 
-        GT_Utility.callMethod(Material.tnt, "func_85158_p", true, false, false, new Object[0]);
-        GT_Utility.callMethod(Material.tnt, "setAdventureModeExempt", true, false, false, new Object[0]);
+        GT_Utility.callMethod(Material.tnt, "func_85158_p", true, false, false);
+        GT_Utility.callMethod(Material.tnt, "setAdventureModeExempt", true, false, false);
 
-        Set tSet = (Set) GT_Utility.getFieldContent(ItemAxe.class, "field_150917_c", true, true);
+        Set<Object> tSet = (Set<Object>) GT_Utility.getFieldContent(ItemAxe.class, "field_150917_c", true, true);
         tSet.add(Blocks.bed);
         tSet.add(Blocks.hay_block);
         tSet.add(Blocks.sponge);
 
-        tSet = (Set) GT_Utility.getFieldContent(ItemPickaxe.class, "field_150915_c", true, true);
+        tSet = (Set<Object>) GT_Utility.getFieldContent(ItemPickaxe.class, "field_150915_c", true, true);
         tSet.add(Blocks.monster_egg);
         tSet.add(Blocks.tnt);
     }
