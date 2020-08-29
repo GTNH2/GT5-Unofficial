@@ -16,6 +16,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 import static gregtech.api.enums.GT_Values.MOD_ID_FR;
 
+@SuppressWarnings("ALL")
 public class GT_Bees {
 
     public static IAlleleInteger noFertility;
@@ -124,8 +125,8 @@ public class GT_Bees {
 
     public static class DimensionMutationCondition implements IMutationCondition {
 
-        int dimID;
-        String dimName;
+        final int dimID;
+        final String dimName;
 
         public DimensionMutationCondition(int id, String name) {
             dimID = id;
@@ -147,8 +148,8 @@ public class GT_Bees {
 
     public static class BiomeIDMutationCondition implements IMutationCondition {
 
-        int biomeID;
-        String biomeName;
+        final int biomeID;
+        final String biomeName;
 
         public BiomeIDMutationCondition(int id, String name) {
             biomeID = id;

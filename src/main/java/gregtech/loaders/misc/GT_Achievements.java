@@ -28,16 +28,17 @@ import thaumcraft.api.ThaumcraftApiHelper;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+@SuppressWarnings("ALL")
 public class GT_Achievements {
 
-    //public static List<Materials> oreList = new ArrayList<Materials>();
-    //public static List<Integer[]> oreStats = new ArrayList<Integer[]>();
-    public static int oreReg = -1;
+//    public static List<Materials> oreList = new ArrayList<Materials>();
+//    public static List<Integer[]> oreStats = new ArrayList<Integer[]>();
+//    public static int oreReg = -1;
     public static int assReg=-1;
-    public ConcurrentHashMap<String, Achievement> achievementList;
-    public ConcurrentHashMap<String, Boolean> issuedAchievements;
-    public int adjX = 5;
-    public int adjY = 9;
+    public final ConcurrentHashMap<String, Achievement> achievementList;
+    public final ConcurrentHashMap<String, Boolean> issuedAchievements;
+    public final int adjX = 5;
+    public final int adjY = 9;
 
     public GT_Achievements() {
         this.achievementList = new ConcurrentHashMap<>();
@@ -222,12 +223,13 @@ public class GT_Achievements {
 //        }
         if (GT_Mod.gregtechproxy.mAchievements) {
             AchievementPage.registerAchievementPage(new AchievementPage("GregTech 5", this.achievementList.values().toArray(
-                    new Achievement[this.achievementList.size()])));
+                    new Achievement[0])));
             MinecraftForge.EVENT_BUS.register(this);
             FMLCommonHandler.instance().bus().register(this);
         }
     }
 
+    @SuppressWarnings("ALL")
     public static void registerOre(Materials aMaterial, int min, int max, int chance, boolean overworld, boolean nether, boolean end) {
         /*if (aMaterial != Materials._NULL) {
             oreList.add(aMaterial);
@@ -268,6 +270,7 @@ public class GT_Achievements {
         this.achievementList.put(textId, achievement);
     }
 
+    @SuppressWarnings("ALL")
     public Achievement registerOreAchievement(Materials aMaterial) {
     	/*
         if (this.achievementList.get(aMaterial.mName) == null) {
