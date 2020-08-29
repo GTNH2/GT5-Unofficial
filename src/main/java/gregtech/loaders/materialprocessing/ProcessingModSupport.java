@@ -6,17 +6,17 @@ import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 
 public class ProcessingModSupport implements gregtech.api.interfaces.IMaterialHandler {
-    public static boolean aTGregSupport = Loader.isModLoaded("TGregworks") || Loader.isModLoaded("dreamcraft");
-    public static boolean aEnableUBCMats = Loader.isModLoaded("UndergroundBiomes") || aTGregSupport;
-    public static boolean aEnableThaumcraftMats = Loader.isModLoaded("Thaumcraft") || aTGregSupport;
-    public static boolean aEnableRotaryCraftMats = Loader.isModLoaded("RotaryCraft") || aTGregSupport;
-    public static boolean aEnableThermalFoundationMats = Loader.isModLoaded("ThermalFoundation") || aTGregSupport;
-    public static boolean aEnableEnderIOMats = Loader.isModLoaded("EnderIO") || aTGregSupport;
-    public static boolean aEnableRailcraftMats = Loader.isModLoaded(GT_Values.MOD_ID_RC) || aTGregSupport;
-    public static boolean aEnableGCMarsMats = Loader.isModLoaded("GalacticraftMars") || aTGregSupport;
-    public static boolean aEnableTwilightMats = Loader.isModLoaded(GT_Values.MOD_ID_TF) || aTGregSupport;
-    public static boolean aEnableMetallurgyMats = Loader.isModLoaded("Metallurgy") || aTGregSupport;
-    public static boolean aEnableProjectRedMats = Loader.isModLoaded("ProjRed|Core") || aTGregSupport;
+    public static final boolean aTGregSupport = Loader.isModLoaded("TGregworks") || Loader.isModLoaded("dreamcraft");
+    public static final boolean aEnableUBCMats = Loader.isModLoaded("UndergroundBiomes") || aTGregSupport;
+    public static final boolean aEnableThaumcraftMats = Loader.isModLoaded("Thaumcraft") || aTGregSupport;
+    public static final boolean aEnableRotaryCraftMats = Loader.isModLoaded("RotaryCraft") || aTGregSupport;
+    public static final boolean aEnableThermalFoundationMats = Loader.isModLoaded("ThermalFoundation") || aTGregSupport;
+    public static final boolean aEnableEnderIOMats = Loader.isModLoaded("EnderIO") || aTGregSupport;
+    public static final boolean aEnableRailcraftMats = Loader.isModLoaded(GT_Values.MOD_ID_RC) || aTGregSupport;
+    public static final boolean aEnableGCMarsMats = Loader.isModLoaded("GalacticraftMars") || aTGregSupport;
+    public static final boolean aEnableTwilightMats = Loader.isModLoaded(GT_Values.MOD_ID_TF) || aTGregSupport;
+    public static final boolean aEnableMetallurgyMats = Loader.isModLoaded("Metallurgy") || aTGregSupport;
+    public static final boolean aEnableProjectRedMats = Loader.isModLoaded("ProjRed|Core") || aTGregSupport;
 
     public ProcessingModSupport() {
         Materials.add(this);
