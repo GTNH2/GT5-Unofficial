@@ -49,6 +49,7 @@ public class PartP2PGTPower extends PartP2PIC2Power implements IGridTickable {
         return getZCoord() + ForgeDirection.getOrientation(aSide).offsetZ * aMultiplier;
     }
 
+    @SuppressWarnings("unused")
     public final TileEntity getTileEntity(int aX, int aY, int aZ) {
         return getWorld().getTileEntity(aX, aY, aZ);
     }
