@@ -11,6 +11,7 @@ import java.util.Set;
 
 public class GT_BlockResistanceLoader
         implements Runnable {
+    @SuppressWarnings("unchecked")
     public void run() {
         if (GT_Mod.gregtechproxy.mHardRock) {
             Blocks.stone.setHardness(16.0F);
@@ -38,11 +39,13 @@ public class GT_BlockResistanceLoader
         GT_Utility.callMethod(Material.tnt, "setAdventureModeExempt", true, false, false);
 
         Set<Object> tSet = (Set<Object>) GT_Utility.getFieldContent(ItemAxe.class, "field_150917_c", true, true);
+        assert tSet != null;
         tSet.add(Blocks.bed);
         tSet.add(Blocks.hay_block);
         tSet.add(Blocks.sponge);
 
         tSet = (Set<Object>) GT_Utility.getFieldContent(ItemPickaxe.class, "field_150915_c", true, true);
+        assert tSet != null;
         tSet.add(Blocks.monster_egg);
         tSet.add(Blocks.tnt);
     }
