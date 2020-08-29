@@ -434,6 +434,7 @@ public class GT_Loader_Item_Block_And_Fluid
         BaseMetaTileEntity tBaseMetaTileEntity = GregTech_API.constructBaseMetaTileEntity();
 
         GT_Log.out.println("GT_Mod: Testing BaseMetaTileEntity.");
+        //noinspection ConstantConditions
         if (tBaseMetaTileEntity == null) {
             GT_Log.out.println("GT_Mod: Fatal Error ocurred while initializing TileEntities, crashing Minecraft.");
             throw new RuntimeException("");
@@ -451,8 +452,14 @@ public class GT_Loader_Item_Block_And_Fluid
         FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", GT_TileEntity_Ores.class.getName());
         if (!GregTech_API.mIC2Classic) {
             GT_Log.out.println("GT_Mod: Registering Fluids.");
-            Materials.ConstructionFoam.mFluid = GT_Utility.getFluidForFilledItem(GT_ModHandler.getIC2Item("CFCell", 1L), true).getFluid();
-            Materials.UUMatter.mFluid = GT_Utility.getFluidForFilledItem(GT_ModHandler.getIC2Item("uuMatterCell", 1L), true).getFluid();
+
+            FluidStack fluidStack = GT_Utility.getFluidForFilledItem(GT_ModHandler.getIC2Item("CFCell", 1L), true);
+            assert fluidStack != null;
+            Materials.ConstructionFoam.mFluid = fluidStack.getFluid();
+
+            fluidStack = GT_Utility.getFluidForFilledItem(GT_ModHandler.getIC2Item("uuMatterCell", 1L), true);
+            assert fluidStack != null;
+            Materials.UUMatter.mFluid = fluidStack.getFluid();
         }
 
         GT_Mod.gregtechproxy.addFluid("Air", "Air", Materials.Air, 2, 295, ItemList.Cell_Air.get(1L), ItemList.Cell_Empty.get(1L), 2000);
@@ -544,6 +551,8 @@ public class GT_Loader_Item_Block_And_Fluid
         for (byte i = 0; i < Dyes.VALUES.length; i = (byte) (i + 1)) {
             Dyes tDye = Dyes.VALUES[i];
             Fluid tFluid;
+            //TODO: research why fluid gets set
+            //noinspection UnusedAssignment
             tDye.addFluidDye(tFluid = GT_Mod.gregtechproxy.addFluid("dye.watermixed." + tDye.name().toLowerCase(Locale.ENGLISH), "dyes", "Water Mixed " + tDye.mName + " Dye", null, tDye.getRGBA(), 1, 295, null, null, 0));
             tDye.addFluidDye(tFluid = GT_Mod.gregtechproxy.addFluid("dye.chemical." + tDye.name().toLowerCase(Locale.ENGLISH), "dyes", "Chemical " + tDye.mName + " Dye", null, tDye.getRGBA(), 1, 295, null, null, 0));
             FluidContainerRegistry.registerFluidContainer(new FluidStack(tFluid, 2304), ItemList.SPRAY_CAN_DYES[i].get(1L), ItemList.Spray_Empty.get(1L));
