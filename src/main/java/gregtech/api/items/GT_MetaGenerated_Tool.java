@@ -18,6 +18,7 @@ import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.tools.GT_Tool_Drill_LV;
 import gregtech.common.tools.GT_Tool_Turbine;
 import mods.railcraft.api.core.items.IToolCrowbar;
 import net.minecraft.block.Block;
@@ -31,20 +32,26 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.potion.Potion;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import tconstruct.library.tools.AbilityHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +78,12 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 	/* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
 
     public final ConcurrentHashMap<Short, IToolStats> mToolStats = new ConcurrentHashMap<Short, IToolStats>();
+
+    /**
+     * setings of AOE mining with drill
+     */
+    private float mDamageMult = 2;
+    private float mSpeedReduction = 6;
 
     /**
      * Creates the Item using these Parameters.
@@ -227,32 +240,32 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
     @Override
     public boolean onBlockStartBreak(ItemStack aStack, int aX, int aY, int aZ, EntityPlayer aPlayer)
     {
-    	if(aPlayer.worldObj.isRemote){
-    		return false;
-    	}
-    	IToolStats tStats = getToolStats(aStack);
-      Block aBlock = aPlayer.worldObj.getBlock(aX, aY, aZ);
-      if (tStats.isChainsaw()&&(aBlock instanceof IShearable))
-      {
-        IShearable target = (IShearable)aBlock;
-        if ((target.isShearable(aStack, aPlayer.worldObj, aX, aY, aZ)))
-        {
-          ArrayList<ItemStack> drops = target.onSheared(aStack, aPlayer.worldObj, aX, aY, aZ, EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, aStack));
-          for (ItemStack stack : drops)
-          {
-            float f = 0.7F;
-            double d = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
-            double d1 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
-            double d2 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
-            EntityItem entityitem = new EntityItem(aPlayer.worldObj, aX + d, aY + d1, aZ + d2, stack);
-            entityitem.delayBeforeCanPickup = 10;
-            aPlayer.worldObj.spawnEntityInWorld(entityitem);
-          }
-          aPlayer.addStat(net.minecraft.stats.StatList.mineBlockStatArray[Block.getIdFromBlock(aBlock)], 1);
-          onBlockDestroyed(aStack, aPlayer.worldObj, aBlock, aX, aY, aZ, aPlayer);
+        if(aPlayer.worldObj.isRemote){
+            return false;
         }
-        return false;
-      }
+        IToolStats tStats = getToolStats(aStack);
+        Block aBlock = aPlayer.worldObj.getBlock(aX, aY, aZ);
+        if (tStats.isChainsaw()&&(aBlock instanceof IShearable))
+        {
+            IShearable target = (IShearable)aBlock;
+            if ((target.isShearable(aStack, aPlayer.worldObj, aX, aY, aZ)))
+            {
+                ArrayList<ItemStack> drops = target.onSheared(aStack, aPlayer.worldObj, aX, aY, aZ, EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, aStack));
+                for (ItemStack stack : drops)
+                {
+                    float f = 0.7F;
+                    double d = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
+                    double d1 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
+                    double d2 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
+                    EntityItem entityitem = new EntityItem(aPlayer.worldObj, aX + d, aY + d1, aZ + d2, stack);
+                    entityitem.delayBeforeCanPickup = 10;
+                    aPlayer.worldObj.spawnEntityInWorld(entityitem);
+                }
+                aPlayer.addStat(net.minecraft.stats.StatList.mineBlockStatArray[Block.getIdFromBlock(aBlock)], 1);
+                onBlockDestroyed(aStack, aPlayer.worldObj, aBlock, aX, aY, aZ, aPlayer);
+            }
+            return false;
+        }
       return super.onBlockStartBreak(aStack, aX, aY, aZ, aPlayer);
     }
 
@@ -300,7 +313,17 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
     @Override
     public ItemStack onItemRightClick(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
         IToolStats tStats = getToolStats(aStack);
-        if (tStats != null && tStats.canBlock()) aPlayer.setItemInUse(aStack, 72000);
+        if (tStats != null)
+        {
+            if (tStats.canBlock())
+                aPlayer.setItemInUse(aStack, 72000);
+            if (aPlayer.isSneaking())
+            {
+                boolean tAOE = isAOE(aStack);
+                setAOE(aStack,!tAOE);
+                GT_Utility.sendChatToPlayer(aPlayer,"AOE is "+!tAOE);
+            }
+        }
         return super.onItemRightClick(aStack, aWorld, aPlayer);
     }
 
@@ -377,6 +400,11 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
                 aList.add(tOffset + 1, EnumChatFormatting.WHITE + String.format(trans("002", "%s lvl %s"), tMaterial.mLocalizedName + EnumChatFormatting.YELLOW, "" + getHarvestLevel(aStack, "")) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 2, EnumChatFormatting.WHITE + String.format(trans("003", "Attack Damage: %s"), "" + EnumChatFormatting.BLUE + getToolCombatDamage(aStack)) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 3, EnumChatFormatting.WHITE + String.format(trans("004", "Mining Speed: %s"), "" + EnumChatFormatting.GOLD + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed)) + EnumChatFormatting.GRAY);
+                if (tStats instanceof GT_Tool_Drill_LV)
+                {
+                    boolean tAOE = isAOE(aStack);
+                    aList.add(tOffset + 4,EnumChatFormatting.WHITE + String.format("AOE MODE: " + (tAOE?EnumChatFormatting.GREEN+"true":EnumChatFormatting.RED+"false")));
+                }
                 NBTTagCompound aNBT = aStack.getTagCompound();
                 if (aNBT != null) {
                     aNBT = aNBT.getCompoundTag("GT.ToolStats");
@@ -462,7 +490,6 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 
     @Override
     public float getDigSpeed(ItemStack aStack, Block aBlock, int aMetaData) {
-
         if (!isItemStackUsable(aStack))
             return 0.0F;
 
@@ -473,8 +500,11 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 
         if (aBlock.getHarvestLevel(aMetaData) == 0 && !tStats.isMinableBlock(aBlock, (byte) aMetaData))
             return Math.min(Math.max(Float.MIN_NORMAL, ((tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) /2)),1.0F);
-
-        return tStats.isMinableBlock(aBlock, (byte) aMetaData) ? Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) : 0.0F;
+        float tDigSpeed = tStats.isMinableBlock(aBlock, (byte) aMetaData) ? Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) : 0.0F;
+        if (tStats instanceof GT_Tool_Drill_LV)
+            if (isAOE(aStack))
+                tDigSpeed /= mSpeedReduction;
+        return tDigSpeed;
     }
 
     @Override
@@ -494,8 +524,137 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         IToolStats tStats = getToolStats(aStack);
         if (tStats == null) return false;
         GT_Utility.doSoundAtClient(tStats.getMiningSound(), 1, 1.0F);
-        doDamage(aStack, (int) Math.max(1, aBlock.getBlockHardness(aWorld, aX, aY, aZ) * tStats.getToolDamagePerBlockBreak()));
-        return getDigSpeed(aStack, aBlock, aWorld.getBlockMetadata(aX, aY, aZ)) > 0.0F;
+        float digSpeed = getDigSpeed(aStack, aBlock, aWorld.getBlockMetadata(aX, aY, aZ));
+        int tDamageMult = 0;
+        if (tStats instanceof GT_Tool_Drill_LV)
+        {
+            if (isAOE(aStack))
+            {
+                tDamageMult +=  (doAOEMining(aStack,aWorld,aBlock,aX,aY,aZ,aPlayer,digSpeed)+1)*mDamageMult;
+            }
+        }
+        tDamageMult =  tDamageMult == 0?0:tDamageMult;
+        doDamage(aStack, (int) Math.max(1, aBlock.getBlockHardness(aWorld, aX, aY, aZ) * tStats.getToolDamagePerBlockBreak()*tDamageMult));
+        return digSpeed > 0.0F;
+    }
+
+    public void setAOE(ItemStack aStack,boolean aState)
+    {
+        NBTTagCompound aNBT = isValidDril(aStack);
+        if (aNBT != null)
+        {
+            aNBT.setBoolean("AOE",aState);
+        }
+    }
+
+    public boolean isAOE(ItemStack aStack)
+    {
+        NBTTagCompound aNBT = isValidDril(aStack);
+        if (aNBT != null)
+        {
+            return aNBT.getBoolean("AOE");
+        }
+        return false;
+    }
+
+    public NBTTagCompound isValidDril(ItemStack aStack)
+    {
+        IToolStats tTool = getToolStats(aStack);
+        if (tTool != null)
+        {
+            if (tTool instanceof GT_Tool_Drill_LV)
+            {
+                NBTTagCompound aNBT = aStack.getTagCompound();
+                if (aNBT != null)
+                {
+                    aNBT = aNBT.getCompoundTag("GT.ToolStats");
+                    if (aNBT != null)
+                    {
+                        return aNBT;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public int doAOEMining(ItemStack aStack, World aWorld, Block aBlock, int aX, int aY, int aZ, EntityLivingBase aPlayer,float aDigSpeed)
+    {
+        MovingObjectPosition tMop = AbilityHelper.raytraceFromEntity(aPlayer.worldObj,aPlayer,false,5);
+        if (tMop == null) {
+            return 0;
+        }
+        int tSide = tMop.sideHit;
+        if (!(aPlayer instanceof EntityPlayerMP))
+            return 0;
+        EntityPlayerMP tPlayerMP = (EntityPlayerMP) aPlayer;
+        int tDX;
+        int tDY;
+        int tDZ;
+        boolean tDown = tSide < 2;
+        boolean tNorth = tSide < 4;
+        int tBroken = 0;
+
+        for (int i = -1;i<2;i++)
+        {
+            for (int j = -1;j<2;j++)
+            {
+                if (i != 0 || j != 0)
+                {
+                    if (tDown)
+                    {
+                        tDX = aX + i;
+                        tDY = aY;
+                        tDZ = aZ + j;
+                    }
+                    else if (tNorth)
+                    {
+                        tDX = aX + i;
+                        tDY = aY + j;
+                        tDZ = aZ;
+                    }
+                    else
+                    {
+                        tDX = aX;
+                        tDY = aY + j;
+                        tDZ = aZ + i;
+                    }
+                    if (breakBlock(aStack,aWorld,tDX,tDY,tDZ,tPlayerMP,aDigSpeed))
+                        tBroken++;
+                }
+            }
+        }
+        return tBroken;
+    }
+
+    public boolean breakBlock(ItemStack aStack, World aWorld, int aX, int aY, int aZ, EntityPlayerMP aPlayer,float aDigSpeed)
+    {
+        // most of this code is stolen from TiC
+        if (aWorld.isAirBlock(aX,aY,aZ))
+            return false;
+        Block tBlock = aWorld.getBlock(aX,aY,aZ);
+        int tMeta = aWorld.getBlockMetadata(aX,aY,aZ);
+        float tSpeed = getDigSpeed(aStack,tBlock,tMeta);
+        if (!(tSpeed >0f || tSpeed*10 < aDigSpeed))
+            return false;
+        BlockEvent.BreakEvent tEvent = ForgeHooks.onBlockBreakEvent(aWorld,aPlayer.theItemInWorldManager.getGameType(),aPlayer,aX,aY,aZ);
+        if (tEvent.isCanceled())
+            return false;
+        if (!aWorld.isRemote)
+        {
+            tBlock.onBlockHarvested(aWorld,aX,aY,aZ,tMeta,aPlayer);
+            if(tBlock.removedByPlayer(aWorld,aPlayer,aX,aY,aZ,true))
+            {
+                tBlock.onBlockDestroyedByPlayer(aWorld,aX,aY,aZ,tMeta);
+                tBlock.harvestBlock(aWorld,aPlayer,aX,aY,aZ,tMeta);
+                tBlock.dropXpOnBlockBreak(aWorld,aX,aY,aZ,tEvent.getExpToDrop());
+            }
+            IToolStats tStats = getToolStats(aStack);
+            if (tStats == null) return false;
+            doDamage(aStack, (int) Math.max(1, tBlock.getBlockHardness(aWorld, aX, aY, aZ) * tStats.getToolDamagePerBlockBreak()));
+            aPlayer.playerNetServerHandler.sendPacket(new S23PacketBlockChange(aX,aY,aZ,aWorld));
+        }
+        return true;
     }
 
     @Override
