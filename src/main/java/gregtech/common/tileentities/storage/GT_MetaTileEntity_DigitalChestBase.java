@@ -263,6 +263,7 @@ public abstract class GT_MetaTileEntity_DigitalChestBase extends GT_MetaTileEnti
         return overflow;
     }
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @Optional.Method(modid = "appliedenergistics2")
     public appeng.api.storage.data.IAEItemStack extractItems(final appeng.api.storage.data.IAEItemStack request, final appeng.api.config.Actionable mode, final appeng.api.networking.security.BaseActionSource src) {
         if (request.equals(getItemStack())) {

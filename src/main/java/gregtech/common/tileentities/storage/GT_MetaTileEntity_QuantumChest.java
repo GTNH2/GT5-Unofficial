@@ -5,6 +5,7 @@ import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import net.minecraft.item.ItemStack;
 
+@SuppressWarnings("unused")
 public class GT_MetaTileEntity_QuantumChest extends GT_MetaTileEntity_DigitalChestBase {
     public int mItemCount = 0;
     public ItemStack mItemStack = null;

@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
+@SuppressWarnings("unused")
 public class GT_MetaTileEntity_QuantumTank
         extends GT_MetaTileEntity_BasicTank {
     public GT_MetaTileEntity_QuantumTank(int aID, String aName, String aNameRegional, int aTier) {
@@ -110,7 +111,7 @@ public class GT_MetaTileEntity_QuantumTank
                     "Stored Fluid:",
                     EnumChatFormatting.GOLD + "No Fluid"+ EnumChatFormatting.RESET,
                     EnumChatFormatting.GREEN + Integer.toString(0) + " L"+ EnumChatFormatting.RESET+" "+
-                    EnumChatFormatting.YELLOW + Integer.toString(getCapacity()) + " L"+ EnumChatFormatting.RESET
+                    EnumChatFormatting.YELLOW + getCapacity() + " L"+ EnumChatFormatting.RESET
             };
         }
         return new String[]{
@@ -118,7 +119,7 @@ public class GT_MetaTileEntity_QuantumTank
                 "Stored Fluid:",
                 EnumChatFormatting.GOLD + mFluid.getLocalizedName()+ EnumChatFormatting.RESET,
                 EnumChatFormatting.GREEN + Integer.toString(mFluid.amount) + " L"+ EnumChatFormatting.RESET+" "+
-                EnumChatFormatting.YELLOW+ Integer.toString(getCapacity()) + " L"+ EnumChatFormatting.RESET
+                EnumChatFormatting.YELLOW+ getCapacity() + " L"+ EnumChatFormatting.RESET
         };
     }
 
