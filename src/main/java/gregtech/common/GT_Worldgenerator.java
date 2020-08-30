@@ -7,7 +7,6 @@ import static gregtech.api.enums.GT_Values.oreveinMaxPlacementAttempts;
 import static gregtech.api.enums.GT_Values.oreveinPercentage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
@@ -33,17 +32,17 @@ implements IWorldGenerator {
     //public static boolean sAsteroids = true;
     private static int mEndAsteroidProbability = 300;
     //private static int mGCAsteroidProbability = 50;
+    @SuppressWarnings("FieldCanBeLocal")
     private static int mSize = 100;
     private static int endMinSize = 50;
     private static int endMaxSize = 200;
     //private static int gcMinSize = 100;
     //private static int gcMaxSize = 400;
     private static boolean endAsteroids = true;
-    public static List<Runnable> mList = new ArrayList();
-    public static HashSet<Long> ProcChunks = new HashSet<Long>();
+    public static final List<Runnable> mList = new ArrayList<>();
     // This is probably not going to work.  Trying to create a fake orevein to put into hashtable when there will be no ores in a vein.
-    public static GT_Worldgen_GT_Ore_Layer noOresInVein = new GT_Worldgen_GT_Ore_Layer( "NoOresInVein", false, 0, 255, 0, 255, 16,  false, false, false, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium);
-    public static Hashtable<Long, GT_Worldgen_GT_Ore_Layer> validOreveins = new Hashtable(1024);
+    public static final GT_Worldgen_GT_Ore_Layer noOresInVein = new GT_Worldgen_GT_Ore_Layer( "NoOresInVein", false, 0, 255, 0, 255, 16,  false, false, false, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium);
+    public static final Hashtable<Long, GT_Worldgen_GT_Ore_Layer> validOreveins = new Hashtable<>(1024);
     public boolean mIsGenerating = false;
     public static final Object listLock = new Object();
     //private static boolean gcAsteroids = true;
@@ -69,33 +68,33 @@ implements IWorldGenerator {
     public void generate(Random aRandom, int aX, int aZ, World aWorld, IChunkProvider aChunkGenerator, IChunkProvider aChunkProvider) {
         synchronized (listLock)
         {
-            this.mList.add(new WorldGenContainer(new XSTR(Math.abs(aRandom.nextInt()) +1), aX, aZ, aWorld.provider.dimensionId, aWorld, aChunkGenerator, aChunkProvider, aWorld.getBiomeGenForCoords(aX * 16 + 8, aZ * 16 + 8).biomeName));
+            mList.add(new WorldGenContainer(new XSTR(Math.abs(aRandom.nextInt()) +1), aX, aZ, aWorld.provider.dimensionId, aWorld, aChunkGenerator, aChunkProvider, aWorld.getBiomeGenForCoords(aX * 16 + 8, aZ * 16 + 8).biomeName));
             if (debugWorldGen) GT_Log.out.println(
                 "ADD WorldSeed:"+aWorld.getSeed() +
                 " DimId" + aWorld.provider.dimensionId + 
                 " chunk x:" + aX + 
                 " z:" + aZ + 
-                " SIZE: " + this.mList.size()
+                " SIZE: " + mList.size()
             );
         }
 
         if (!this.mIsGenerating) {
             this.mIsGenerating = true;
-            int mList_sS=this.mList.size();
+            int mList_sS= mList.size();
             mList_sS = Math.min(mList_sS, 5); // Run a maximum of 5 chunks at a time through worldgen. Extra chunks get done later.
             for (int i = 0; i < mList_sS; i++) {
-                WorldGenContainer toRun = (WorldGenContainer) this.mList.get(0);
+                WorldGenContainer toRun = (WorldGenContainer) mList.get(0);
                 if (debugWorldGen) GT_Log.out.println(
                     "RUN WorldSeed:"+aWorld.getSeed()+
                     " DimId" + aWorld.provider.dimensionId + 
                     " chunk x:" + toRun.mX + 
                     " z:" + toRun.mZ + 
-                    " SIZE: " + this.mList.size() + 
+                    " SIZE: " + mList.size() +
                     " i: " + i 
                 );
                 synchronized (listLock)
                 {
-                    this.mList.remove(0);
+                    mList.remove(0);
                 }
                 toRun.run();
             }
@@ -119,8 +118,8 @@ implements IWorldGenerator {
 
         // Local class to track which orevein seeds must be checked when doing chunkified worldgen
         class NearbySeeds {
-            public int mX;
-            public int mZ;
+            public final int mX;
+            public final int mZ;
             NearbySeeds( int x, int z) {
                 this.mX = x;
                 this.mZ = z;
@@ -141,9 +140,9 @@ implements IWorldGenerator {
                 result = 31 * result + this.mZ;
                 return result;
             }
-        };
+        }
 
-        public static ArrayList<GT_Worldgenerator.WorldGenContainer.NearbySeeds> seedList = new ArrayList();
+        public static final ArrayList<GT_Worldgenerator.WorldGenContainer.NearbySeeds> seedList = new ArrayList<>();
 
         // aX and aZ are now the by-chunk X and Z for the chunk of interest
         public WorldGenContainer(Random aRandom, int aX, int aZ, int aDimensionType, World aWorld, IChunkProvider aChunkGenerator, IChunkProvider aChunkProvider, String aBiome) {
@@ -187,10 +186,9 @@ implements IWorldGenerator {
             // ((this.mWorld.provider.dimensionId & 0xffL)<<56)    Puts the dimension in the top bits of the hash, to make sure to get unique hashes per dimension
             // ((long)oreseedX & 0x000000000fffffffL) << 28)    Puts the chunk X in the bits 29-55. Cuts off the top few bits of the chunk so we have bits for dimension.
             // ( (long)oreseedZ & 0x000000000fffffffL ))    Puts the chunk Z in the bits 0-27. Cuts off the top few bits of the chunk so we have bits for dimension.
-            long oreveinSeed = ((long)this.mWorld.getSeed()<<16) ^  ((long)((this.mWorld.provider.dimensionId & 0xffL)<<56) |( ((long)oreseedX & 0x000000000fffffffL) << 28) | ( (long)oreseedZ & 0x000000000fffffffL )); // Use an RNG that is identical every time it is called for this oreseed.
+            long oreveinSeed = (this.mWorld.getSeed() <<16) ^  (((this.mWorld.provider.dimensionId & 0xffL)<<56) |( ((long)oreseedX & 0x000000000fffffffL) << 28) | ( (long)oreseedZ & 0x000000000fffffffL )); // Use an RNG that is identical every time it is called for this oreseed.
             XSTR oreveinRNG = new XSTR( oreveinSeed );
             int oreveinPercentageRoll = oreveinRNG.nextInt(100); // Roll the dice, see if we get an orevein here at all
-            int noOrePlacedCount=0;
             String tDimensionName = "";
             if (debugOrevein) { tDimensionName = this.mWorld.provider.getDimensionName(); }
 
@@ -412,11 +410,11 @@ implements IWorldGenerator {
                     for (int i = 0; (i < oreveinAttempts) && (temp); i++) {
                         tRandomWeight = aRandom.nextInt(GT_Worldgen_GT_Ore_Layer.sWeight);
                         for (GT_Worldgen_GT_Ore_Layer tWorldGen : GT_Worldgen_GT_Ore_Layer.sList) {
-                            tRandomWeight -= ((GT_Worldgen_GT_Ore_Layer) tWorldGen).mWeight;
+                            tRandomWeight -= tWorldGen.mWeight;
                             if (tRandomWeight <= 0) {
                                 try {
                                     //if ((tWorldGen.mEndAsteroid && tDimensionType == 1) || (tWorldGen.mAsteroid && tDimensionType == -30)) {
-                                    if (tWorldGen.mEndAsteroid && tDimensionType == 1) {
+                                    if (tWorldGen.mEndAsteroid) {
                                         primaryMeta = tWorldGen.mPrimaryMeta;
                                         secondaryMeta = tWorldGen.mSecondaryMeta;
                                         betweenMeta = tWorldGen.mBetweenMeta;
@@ -435,11 +433,9 @@ implements IWorldGenerator {
                 int tX = mX * 16 + aRandom.nextInt(16);
                 int tY = 50 + aRandom.nextInt(200 - 50);
                 int tZ = mZ * 16 + aRandom.nextInt(16);
-                if (tDimensionType == 1) {
-                    mSize = aRandom.nextInt((int) (endMaxSize - endMinSize));
-                    //} else if (tDimensionName.equals("Asteroids")) {
-                    //    mSize = aRandom.nextInt((int) (gcMaxSize - gcMinSize));
-                }
+
+                mSize = aRandom.nextInt(endMaxSize - endMinSize);
+
                 if ((mWorld.getBlock(tX, tY, tZ).isAir(mWorld, tX, tY, tZ))) {
                     float var6 = aRandom.nextFloat() * 3.141593F;
                     double var7 = tX + 8 + MathHelper.sin(var6) * mSize / 8.0F;

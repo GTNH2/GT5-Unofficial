@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+@SuppressWarnings("unused")
 public class GT_Server
         extends GT_Proxy {
     public boolean isServerSide() {

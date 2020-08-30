@@ -19,36 +19,38 @@ import java.util.Random;
 
 import static gregtech.api.enums.GT_Values.debugStones;
 
+//TODO: Determine if inner classes can be made static
 public class GT_Worldgen_Stone
         extends GT_Worldgen_Ore {
 
-    static final double sizeConversion[] = { 1, 1, 1.333333, 1.333333, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 }; // Bias the sizes towards skinnier boulders, ie more "shafts" than dikes or sills. 
+    static final double[] sizeConversion = { 1, 1, 1.333333, 1.333333, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 }; // Bias the sizes towards skinnier boulders, ie more "shafts" than dikes or sills.
 
-    public Hashtable<Long, StoneSeeds> validStoneSeeds = new Hashtable(1024);
+    public final Hashtable<Long, StoneSeeds> validStoneSeeds = new Hashtable<>(1024);
 
     class StoneSeeds {
-        public boolean mExists;
+        public final boolean mExists;
 
         StoneSeeds( boolean exists ) {
             mExists = exists;
         }
-    };
+    }
 
     class ValidSeeds {
-        public int mX;
-        public int mZ;
+        public final int mX;
+        public final int mZ;
         ValidSeeds( int x, int z) {
             this.mX = x;
             this.mZ = z;
         }
-    };
+    }
+
     public GT_Worldgen_Stone(String aName, boolean aDefault, Block aBlock, int aBlockMeta, int aDimensionType, int aAmount, int aSize, int aProbability, int aMinY, int aMaxY, Collection<String> aBiomeList, boolean aAllowToGenerateinVoid) {
         super(aName, aDefault, aBlock, aBlockMeta, aDimensionType, aAmount, aSize, aProbability, aMinY, aMaxY, aBiomeList, aAllowToGenerateinVoid);
     }
 
     public boolean executeWorldgen(World aWorld, Random aRandom, String aBiome, int aDimensionType, int aChunkX, int aChunkZ, IChunkProvider aChunkGenerator, IChunkProvider aChunkProvider) {
         XSTR stoneRNG = new XSTR();
-        ArrayList<ValidSeeds> stones = new ArrayList();
+        ArrayList<ValidSeeds> stones = new ArrayList<>();
         
         if ( !isGenerationAllowed(aWorld, aDimensionType, this.mDimensionType)) {
             return false;
@@ -58,15 +60,15 @@ public class GT_Worldgen_Stone
         }
         // I think the real size of the balls is mSize/8, but the original code was difficult to understand. 
         // Overall there will be less GT stones since they aren't spheres any more. /16 since this code uses it as a radius.
-        double realSize = mSize/16;
+        double realSize = mSize/16D;
         int windowWidth = ((int)realSize)/16 + 1; // Width of chunks to check for a potential stoneseed
         // Check stone seeds to see if they have been added
         for( int x = aChunkX/16 - windowWidth; x < (aChunkX/16 + windowWidth + 1); x++ ) {
             for( int z = aChunkZ/16 - windowWidth; z < (aChunkZ/16 + windowWidth + 1); z++ ) {
-                long hash = ((long)((aWorld.provider.dimensionId & 0xffL)<<56) |( ((long)x & 0x000000000fffffffL) << 28) | ( (long)z & 0x000000000fffffffL ));
+                long hash = (((aWorld.provider.dimensionId & 0xffL)<<56) |( ((long)x & 0x000000000fffffffL) << 28) | ( (long)z & 0x000000000fffffffL ));
                 if( !validStoneSeeds.containsKey(hash) ) {
                     // Determine if RNG says to add stone at this chunk
-                    stoneRNG.setSeed((long)aWorld.getSeed() ^  hash + Math.abs(mBlockMeta) + Math.abs(mSize) + ((GregTech_API.sBlockGranites==mBlock)?(32768):(0)));  //Don't judge me. Want different values for different block types
+                    stoneRNG.setSeed(aWorld.getSeed() ^  hash + Math.abs(mBlockMeta) + Math.abs(mSize) + ((GregTech_API.sBlockGranites==mBlock)?(32768):(0)));  //Don't judge me. Want different values for different block types
                     if ( (this.mProbability <= 1) || (stoneRNG.nextInt(this.mProbability) == 0) ) { 
                         // Add stone at this chunk
                         validStoneSeeds.put( hash, new StoneSeeds(true) );
@@ -100,7 +102,7 @@ public class GT_Worldgen_Stone
             int x = stones.get(0).mX*16;
             int z = stones.get(0).mZ*16;
             
-            stoneRNG.setSeed((long)aWorld.getSeed() ^  ((long)((aWorld.provider.dimensionId & 0xffL)<<56) |( ((long)x & 0x000000000fffffffL)<< 28) | ( (long)z & 0x000000000fffffffL )) + Math.abs(mBlockMeta) + Math.abs(mSize) + ((GregTech_API.sBlockGranites==mBlock)?(32768):(0)));  //Don't judge me
+            stoneRNG.setSeed(aWorld.getSeed() ^  (((aWorld.provider.dimensionId & 0xffL)<<56) |( ((long)x & 0x000000000fffffffL)<< 28) | ( (long)z & 0x000000000fffffffL )) + Math.abs(mBlockMeta) + Math.abs(mSize) + ((GregTech_API.sBlockGranites==mBlock)?(32768):(0)));  //Don't judge me
             for (int i = 0; i < this.mAmount; i++) { // Not sure why you would want more than one in a chunk! Left alone though.
                 // Locate the stoneseed XYZ. Original code would request an isAir at the seed location, causing a chunk generation request.
                 // To reduce potential worldgen cascade, we just always try to place a ball and use the check inside the for loop to prevent
@@ -142,7 +144,7 @@ public class GT_Worldgen_Stone
                         " tMaxY=" + tMaxY +
                         " - Skipped because first requesting chunk would not contain this stone"
                     );
-                    long hash = ((long)((aWorld.provider.dimensionId & 0xffL)<<56) |( ((long)x & 0x000000000fffffffL) << 28) | ( (long)z & 0x000000000fffffffL ));
+                    long hash = (((aWorld.provider.dimensionId & 0xffL)<<56) |( ((long)x & 0x000000000fffffffL) << 28) | ( (long)z & 0x000000000fffffffL ));
                     validStoneSeeds.remove(hash);
                     validStoneSeeds.put( hash, new StoneSeeds(false) );
                 }
@@ -175,6 +177,7 @@ public class GT_Worldgen_Stone
                 for( int iY = tMinY; iY < tMaxY; iY++) {  // Do placement from the bottom up layer up.  Maybe better on cache usage?
                     double yCalc = ( (double)(iY-tY)*ySize );
                     yCalc = yCalc * yCalc; // (y*Sy)^2
+                    @SuppressWarnings("SuspiciousNameCombination")
                     double leftHandSize = yCalc;
                     if( leftHandSize > rightHandSide ) {
                         continue; // If Y alone is larger than the RHS, skip the rest of the loops
@@ -190,9 +193,7 @@ public class GT_Worldgen_Stone
                             double zCalc = ( (double)(iZ-tZ)*zSize );
                             zCalc = zCalc * zCalc;
                             leftHandSize = zCalc + xCalc + yCalc;
-                            if( leftHandSize > rightHandSide ) {
-                                continue;
-                            } else {
+                            if (!(leftHandSize > rightHandSide)) {
                                 // Yay! We can actually place a block now. (this part copied from original code)
                                 Block tTargetedBlock = aWorld.getBlock(iX, iY, iZ);
                                 if (tTargetedBlock instanceof GT_Block_Ores_Abstract) {
