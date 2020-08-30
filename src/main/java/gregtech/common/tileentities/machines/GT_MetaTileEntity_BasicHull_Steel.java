@@ -14,6 +14,7 @@ public class GT_MetaTileEntity_BasicHull_Steel
         super(aID, aName, aNameRegional, aTier, aDescription);
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_BasicHull_Steel(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, aDescription, aTextures);
     }

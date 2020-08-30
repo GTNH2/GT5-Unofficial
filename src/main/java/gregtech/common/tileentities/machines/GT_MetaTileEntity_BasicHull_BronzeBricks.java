@@ -14,6 +14,7 @@ public class GT_MetaTileEntity_BasicHull_BronzeBricks
         super(aID, aName, aNameRegional, aTier, aDescription);
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_BasicHull_BronzeBricks(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, aDescription, aTextures);
     }
