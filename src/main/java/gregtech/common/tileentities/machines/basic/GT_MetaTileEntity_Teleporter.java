@@ -55,6 +55,7 @@ public class GT_MetaTileEntity_Teleporter extends GT_MetaTileEntity_BasicTank {
         super(aID, aName, aNameRegional, aTier, 3, new String[]{"Teleport long distances with this little device.", "Use a Dragon Egg or Nitrogen Plasma", "for Inter-dimensional transmission"});
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_Teleporter(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
     }
@@ -68,7 +69,7 @@ public class GT_MetaTileEntity_Teleporter extends GT_MetaTileEntity_BasicTank {
             if ((aEntity instanceof EntityFX)) {
                 return -1.0F;
             }
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
         if ((aEntity instanceof EntityFishHook)) {
             return -1.0F;
@@ -287,7 +288,7 @@ public class GT_MetaTileEntity_Teleporter extends GT_MetaTileEntity_BasicTank {
                                 tTile = tWorld.getTileEntity(this.mTargetX, this.mTargetY, this.mTargetZ);
                             }
                         }
-                        if (tTile != null && tTile instanceof IInventory) {
+                        if (tTile instanceof IInventory) {
                             int tStacksize = mInventory[0].stackSize;
                             GT_Utility.moveOneItemStack(this, tTile, (byte) 0, (byte) 0, null, false, (byte) 64, (byte) 1, (byte) 64, (byte) 1);
                             if (mInventory[0] == null || mInventory[0].stackSize < tStacksize) {
@@ -296,6 +297,7 @@ public class GT_MetaTileEntity_Teleporter extends GT_MetaTileEntity_BasicTank {
                         }
 
                     }
+                    @SuppressWarnings("rawtypes")
                     List entities_in_box =  getBaseMetaTileEntity().getWorld().getEntitiesWithinAABB(
                             Entity.class,AxisAlignedBB.getBoundingBox(
                                     getBaseMetaTileEntity().getOffsetX(getBaseMetaTileEntity().getFrontFacing(),2) - 1,

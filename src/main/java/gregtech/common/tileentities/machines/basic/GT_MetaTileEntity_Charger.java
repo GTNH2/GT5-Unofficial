@@ -17,6 +17,7 @@ public class GT_MetaTileEntity_Charger extends GT_MetaTileEntity_BasicBatteryBuf
         super(aID, aName, aNameRegional, aTier, aDescription, aSlotCount);
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_Charger(String aName, int aTier, String aDescription, ITexture[][][] aTextures, int aSlotCount) {
         super(aName, aTier, aDescription, aTextures, aSlotCount);
     }
