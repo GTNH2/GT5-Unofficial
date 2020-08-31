@@ -580,7 +580,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
 
     public int doAOEMining(ItemStack aStack, World aWorld, Block aBlock, int aX, int aY, int aZ, EntityLivingBase aPlayer,float aDigSpeed)
     {
-        MovingObjectPosition tMop = AbilityHelper.raytraceFromEntity(aPlayer.worldObj,aPlayer,false,5);
+        MovingObjectPosition tMop = GT_Utility.raytraceFromEntity(aPlayer.worldObj,aPlayer,false,5);
         if (tMop == null) {
             return 0;
         }
