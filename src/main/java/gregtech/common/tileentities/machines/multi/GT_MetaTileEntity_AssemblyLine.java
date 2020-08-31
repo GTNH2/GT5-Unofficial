@@ -27,7 +27,7 @@ import static gregtech.GT_Mod.GT_FML_LOGGER;
 public class GT_MetaTileEntity_AssemblyLine
         extends GT_MetaTileEntity_MultiBlockBase {
 
-    public ArrayList<GT_MetaTileEntity_Hatch_DataAccess> mDataAccessHatches = new ArrayList<>();
+    public final ArrayList<GT_MetaTileEntity_Hatch_DataAccess> mDataAccessHatches = new ArrayList<>();
 
     public GT_MetaTileEntity_AssemblyLine(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
@@ -86,7 +86,7 @@ public class GT_MetaTileEntity_AssemblyLine
             if(GT_Values.D1)
                 GT_FML_LOGGER.info("Stick accepted, " + tDataStickList.size() + " Data Sticks found");
 
-        ItemStack tStack[] = new ItemStack[15];
+        ItemStack[] tStack = new ItemStack[15];
         FluidStack[] tFluids = new FluidStack[4];
         boolean findRecipe = false;
         nextDS:for (ItemStack tDataStick : tDataStickList){
@@ -118,8 +118,7 @@ public class GT_MetaTileEntity_AssemblyLine
                 if (flag) {
             		tStack[i] = GT_Utility.loadItem(tTag, "" + i);
             		if (tStack[i] == null) {
-            			flag = false;
-            			continue;
+                        continue;
             		}
             		if(GT_Values.D1)
             		    GT_FML_LOGGER.info("Item "+i+" : "+tStack[i].getUnlocalizedName());
@@ -144,6 +143,7 @@ public class GT_MetaTileEntity_AssemblyLine
                     continue nextDS;
                 }
                 FluidStack fluidInHatch = mInputHatches.get(i).mFluid;
+                //noinspection PointlessNullCheck
                 if (fluidInHatch == null || !GT_Utility.areFluidsEqual(fluidInHatch, tFluids[i], true) || fluidInHatch.amount < tFluids[i].amount) {
                     if(GT_Values.D1)
                         GT_FML_LOGGER.info(i+" not accepted");
@@ -365,15 +365,14 @@ public class GT_MetaTileEntity_AssemblyLine
     private boolean isCorrectDataItem(ItemStack aStack, int state){
         if ((state & 1) != 0 && ItemList.Circuit_Integrated.isStackEqual(aStack, true, true)) return true;
         if ((state & 2) != 0 && ItemList.Tool_DataStick.isStackEqual(aStack, false, true)) return true;
-        if ((state & 4) != 0 && ItemList.Tool_DataOrb.isStackEqual(aStack, false, true)) return true;
-        return false;
+        return (state & 4) != 0 && ItemList.Tool_DataOrb.isStackEqual(aStack, false, true);
     }
 
     /**
      * @param state using bitmask, 1 for IntegratedCircuit, 2 for DataStick, 4 for DataOrb
      */
     public ArrayList<ItemStack> getDataItems(int state) {
-        ArrayList<ItemStack> rList = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> rList = new ArrayList<>();
         if (GT_Utility.isStackValid(mInventory[1]) && isCorrectDataItem(mInventory[1], state)) {
             rList.add(mInventory[1]);
         }

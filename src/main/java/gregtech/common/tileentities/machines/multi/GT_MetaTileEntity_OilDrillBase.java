@@ -23,9 +23,10 @@ import static gregtech.common.GT_UndergroundOil.undergroundOilReadInformation;
 
 public abstract class GT_MetaTileEntity_OilDrillBase extends GT_MetaTileEntity_DrillerBase {
 
-    private boolean completedCycle = false;
+    @SuppressWarnings("unused")
+    private final boolean completedCycle = false;
 
-    private ArrayList<Chunk> mOilFieldChunks = new ArrayList<Chunk>();
+    private final ArrayList<Chunk> mOilFieldChunks = new ArrayList<>();
     private int mOilId = 0;
 
     private int chunkRangeConfig = getRangeInChunks();
@@ -205,7 +206,7 @@ public abstract class GT_MetaTileEntity_OilDrillBase extends GT_MetaTileEntity_D
              );
         }
 
-        ArrayList<Chunk> emptyChunks = new ArrayList<Chunk>();
+        ArrayList<Chunk> emptyChunks = new ArrayList<>();
         
         for (Chunk tChunk : mOilFieldChunks) {
             tFluid = undergroundOil(tChunk,speed);
@@ -225,8 +226,12 @@ public abstract class GT_MetaTileEntity_OilDrillBase extends GT_MetaTileEntity_D
                 }
                 
             }
-            if (tFluid == null || tFluid.amount<1) emptyChunks.add(tChunk);
-            if (tOil.isFluidEqual(tFluid)) tOil.amount += tFluid.amount;
+            if (tFluid == null || tFluid.amount<1)
+                emptyChunks.add(tChunk);
+            if (tOil.isFluidEqual(tFluid)) {
+                assert tFluid != null;
+                tOil.amount += tFluid.amount;
+            }
         }
         for( Chunk tChunk : emptyChunks) {
             mOilFieldChunks.remove( tChunk );

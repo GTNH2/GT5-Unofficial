@@ -68,7 +68,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
      */
     public static final ConcurrentHashMap<String, GT_MetaGenerated_Tool> sInstances = new ConcurrentHashMap<String, GT_MetaGenerated_Tool>();
 
-	/* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
+    /* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
 
     public final ConcurrentHashMap<Short, IToolStats> mToolStats = new ConcurrentHashMap<Short, IToolStats>();
 
@@ -84,14 +84,15 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         setMaxStackSize(1);
         sInstances.put(getUnlocalizedName(), this);
     }
-	
-	/* ---------- FOR ADDING CUSTOM ITEMS INTO THE REMAINING 766 RANGE ---------- */
+
+    /* ---------- FOR ADDING CUSTOM ITEMS INTO THE REMAINING 766 RANGE ---------- */
 
     public static final Materials getPrimaryMaterial(ItemStack aStack) {
         NBTTagCompound aNBT = aStack.getTagCompound();
         if (aNBT != null) {
             aNBT = aNBT.getCompoundTag("GT.ToolStats");
-            if (aNBT != null) return Materials.getRealMaterial(aNBT.getString("PrimaryMaterial"));
+            if (aNBT != null)
+                return Materials.getRealMaterial(aNBT.getString("PrimaryMaterial"));
         }
         return Materials._NULL;
     }
@@ -100,18 +101,20 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         NBTTagCompound aNBT = aStack.getTagCompound();
         if (aNBT != null) {
             aNBT = aNBT.getCompoundTag("GT.ToolStats");
-            if (aNBT != null) return Materials.getRealMaterial(aNBT.getString("SecondaryMaterial"));
+            if (aNBT != null)
+                return Materials.getRealMaterial(aNBT.getString("SecondaryMaterial"));
         }
         return Materials._NULL;
     }
-	
-	/* ---------- INTERNAL OVERRIDES ---------- */
+
+    /* ---------- INTERNAL OVERRIDES ---------- */
 
     public static final long getToolMaxDamage(ItemStack aStack) {
         NBTTagCompound aNBT = aStack.getTagCompound();
         if (aNBT != null) {
             aNBT = aNBT.getCompoundTag("GT.ToolStats");
-            if (aNBT != null) return aNBT.getLong("MaxDamage");
+            if (aNBT != null)
+                return aNBT.getLong("MaxDamage");
         }
         return 0;
     }
@@ -120,7 +123,8 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         NBTTagCompound aNBT = aStack.getTagCompound();
         if (aNBT != null) {
             aNBT = aNBT.getCompoundTag("GT.ToolStats");
-            if (aNBT != null) return aNBT.getLong("Damage");
+            if (aNBT != null)
+                return aNBT.getLong("Damage");
         }
         return 0;
     }
@@ -190,7 +194,8 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
                 tToolNBT.setString("PrimaryMaterial", aPrimaryMaterial.mName);
                 tToolNBT.setLong("MaxDamage", 100L * (long) (aPrimaryMaterial.mDurability * tToolStats.getMaxDurabilityMultiplier()));
             }
-            if (aSecondaryMaterial != null) tToolNBT.setString("SecondaryMaterial", aSecondaryMaterial.mName);
+            if (aSecondaryMaterial != null)
+                tToolNBT.setString("SecondaryMaterial", aSecondaryMaterial.mName);
 
             if (aElectricArray != null) {
                 tToolNBT.setBoolean("Electric", true);
@@ -216,44 +221,39 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         if (isItemStackUsable(aStack) && getDigSpeed(aStack, aBlock, aMetaData) > 0.0F)
             doDamage(aStack, tStats.convertBlockDrops(aDrops, aStack, aPlayer, aBlock, aX, aY, aZ, aMetaData, aFortune, aSilkTouch, aEvent) * tStats.getToolDamagePerDropConversion());
     }
-    
+
     @Mod.EventHandler
-    public float onBlockBreakSpeedEvent(float aDefault, ItemStack aStack, EntityPlayer aPlayer, Block aBlock, int aX, int aY, int aZ, byte aMetaData, PlayerEvent.BreakSpeed aEvent)
-    {
-      IToolStats tStats = getToolStats(aStack); 
-      return tStats == null ? aDefault : tStats.getMiningSpeed(aBlock, aMetaData, aDefault, aPlayer, aPlayer.worldObj, aX, aY, aZ);
+    public float onBlockBreakSpeedEvent(float aDefault, ItemStack aStack, EntityPlayer aPlayer, Block aBlock, int aX, int aY, int aZ, byte aMetaData, PlayerEvent.BreakSpeed aEvent) {
+        IToolStats tStats = getToolStats(aStack);
+        return tStats == null ? aDefault : tStats.getMiningSpeed(aBlock, aMetaData, aDefault, aPlayer, aPlayer.worldObj, aX, aY, aZ);
     }
-    
+
     @Override
-    public boolean onBlockStartBreak(ItemStack aStack, int aX, int aY, int aZ, EntityPlayer aPlayer)
-    {
-    	if(aPlayer.worldObj.isRemote){
-    		return false;
-    	}
-    	IToolStats tStats = getToolStats(aStack);
-      Block aBlock = aPlayer.worldObj.getBlock(aX, aY, aZ);
-      if (tStats.isChainsaw()&&(aBlock instanceof IShearable))
-      {
-        IShearable target = (IShearable)aBlock;
-        if ((target.isShearable(aStack, aPlayer.worldObj, aX, aY, aZ)))
-        {
-          ArrayList<ItemStack> drops = target.onSheared(aStack, aPlayer.worldObj, aX, aY, aZ, EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, aStack));
-          for (ItemStack stack : drops)
-          {
-            float f = 0.7F;
-            double d = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
-            double d1 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
-            double d2 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
-            EntityItem entityitem = new EntityItem(aPlayer.worldObj, aX + d, aY + d1, aZ + d2, stack);
-            entityitem.delayBeforeCanPickup = 10;
-            aPlayer.worldObj.spawnEntityInWorld(entityitem);
-          }
-          aPlayer.addStat(net.minecraft.stats.StatList.mineBlockStatArray[Block.getIdFromBlock(aBlock)], 1);
-          onBlockDestroyed(aStack, aPlayer.worldObj, aBlock, aX, aY, aZ, aPlayer);
+    public boolean onBlockStartBreak(ItemStack aStack, int aX, int aY, int aZ, EntityPlayer aPlayer) {
+        if (aPlayer.worldObj.isRemote) {
+            return false;
         }
-        return false;
-      }
-      return super.onBlockStartBreak(aStack, aX, aY, aZ, aPlayer);
+        IToolStats tStats = getToolStats(aStack);
+        Block aBlock = aPlayer.worldObj.getBlock(aX, aY, aZ);
+        if (tStats.isChainsaw() && (aBlock instanceof IShearable)) {
+            IShearable target = (IShearable) aBlock;
+            if ((target.isShearable(aStack, aPlayer.worldObj, aX, aY, aZ))) {
+                ArrayList<ItemStack> drops = target.onSheared(aStack, aPlayer.worldObj, aX, aY, aZ, EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, aStack));
+                for (ItemStack stack : drops) {
+                    float f = 0.7F;
+                    double d = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
+                    double d1 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
+                    double d2 = itemRand.nextFloat() * f + (1.0F - f) * 0.5D;
+                    EntityItem entityitem = new EntityItem(aPlayer.worldObj, aX + d, aY + d1, aZ + d2, stack);
+                    entityitem.delayBeforeCanPickup = 10;
+                    aPlayer.worldObj.spawnEntityInWorld(entityitem);
+                }
+                aPlayer.addStat(net.minecraft.stats.StatList.mineBlockStatArray[Block.getIdFromBlock(aBlock)], 1);
+                onBlockDestroyed(aStack, aPlayer.worldObj, aBlock, aX, aY, aZ, aPlayer);
+            }
+            return false;
+        }
+        return super.onBlockStartBreak(aStack, aX, aY, aZ, aPlayer);
     }
 
     @Override
@@ -324,7 +324,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
                 ItemStack tStack = new ItemStack(this, 1, i);
                 isItemStackUsable(tStack);
                 aList.add(tStack);
-                aList.add(getToolWithStats(i,1,Materials.Neutronium,Materials.Neutronium,null));
+                aList.add(getToolWithStats(i, 1, Materials.Neutronium, Materials.Neutronium, null));
             }
 
         }
@@ -349,51 +349,51 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         int tOffset = getElectricStats(aStack) != null ? 2 : 1;
         if (tStats != null) {
             if (tStats instanceof GT_Tool_Turbine) {
-                int aOptFlow=GT_Utility.safeInt((long)Math.max(Float.MIN_NORMAL, ((GT_MetaGenerated_Tool) aStack.getItem()).getToolStats(aStack).getSpeedMultiplier() * ((GT_MetaGenerated_Tool) aStack.getItem()).getPrimaryMaterial(aStack).mToolSpeed * 50));
+                int aOptFlow = GT_Utility.safeInt((long) Math.max(Float.MIN_NORMAL, ((GT_MetaGenerated_Tool) aStack.getItem()).getToolStats(aStack).getSpeedMultiplier() * ((GT_MetaGenerated_Tool) aStack.getItem()).getPrimaryMaterial(aStack).mToolSpeed * 50));
                 aList.add(tOffset + 0, EnumChatFormatting.WHITE + String.format(trans("001", "Durability: %s/%s"), "" + EnumChatFormatting.GREEN + (tMaxDamage - getToolDamage(aStack)) + " ", " " + tMaxDamage) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 1, EnumChatFormatting.WHITE + String.format(trans("002", "%s lvl %s"), tMaterial.mLocalizedName + EnumChatFormatting.YELLOW, "" + getHarvestLevel(aStack, "")) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 2, EnumChatFormatting.WHITE + String.format(trans("005", "Turbine Efficiency: %s"), "" + EnumChatFormatting.BLUE + (50.0F + (10.0F * getToolCombatDamage(aStack)))) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 3, EnumChatFormatting.WHITE + String.format(trans("006", "Optimal Steam flow: %sL/sec"), "" + EnumChatFormatting.GOLD + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed * 1000) + EnumChatFormatting.GRAY));
                 {
-                    int aBaseEff=(int)(5+getToolCombatDamage(aStack))*1000;
-                    int aOptFlowLoose=aOptFlow*4;
-                    if(aBaseEff>10000){
-                        aOptFlowLoose*=Math.pow(1.1f,((aBaseEff-7500)/10000F)*20f);
-                        aBaseEff=7500;
-                    }else if(aBaseEff>7500){
-                        aOptFlowLoose*=Math.pow(1.1f,((aBaseEff-7500)/10000F)*20f);
-                        aBaseEff*=0.75f;
-                    }else{
-                        aBaseEff*=0.75f;
+                    int aBaseEff = (int) (5 + getToolCombatDamage(aStack)) * 1000;
+                    int aOptFlowLoose = aOptFlow * 4;
+                    if (aBaseEff > 10000) {
+                        aOptFlowLoose *= Math.pow(1.1f, ((aBaseEff - 7500) / 10000F) * 20f);
+                        aBaseEff = 7500;
+                    } else if (aBaseEff > 7500) {
+                        aOptFlowLoose *= Math.pow(1.1f, ((aBaseEff - 7500) / 10000F) * 20f);
+                        aBaseEff *= 0.75f;
+                    } else {
+                        aBaseEff *= 0.75f;
                     }
-                    aList.add(tOffset + 4, EnumChatFormatting.GRAY + String.format(trans("500", "Turbine Efficiency (Loose): %s"), "" + EnumChatFormatting.BLUE + aBaseEff/100f) + EnumChatFormatting.DARK_GRAY);
+                    aList.add(tOffset + 4, EnumChatFormatting.GRAY + String.format(trans("500", "Turbine Efficiency (Loose): %s"), "" + EnumChatFormatting.BLUE + aBaseEff / 100f) + EnumChatFormatting.DARK_GRAY);
                     aList.add(tOffset + 5, EnumChatFormatting.GRAY + String.format(trans("501", "Optimal Steam flow (Loose): %s L/t"), "" + EnumChatFormatting.GOLD + aOptFlowLoose + EnumChatFormatting.DARK_GRAY));
                 }
                 aList.add(tOffset + 6, EnumChatFormatting.WHITE + String.format(trans("007", "Optimal Gas flow(EU burnvalue per tick): %sEU/t"), "" + EnumChatFormatting.GOLD + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed * 50) + EnumChatFormatting.GRAY));
                 aList.add(tOffset + 7, EnumChatFormatting.WHITE + String.format(trans("008", "Optimal Plasma flow(Plasma energyvalue per tick): %sEU/t"), "" + EnumChatFormatting.GOLD + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed * 2000) + EnumChatFormatting.GRAY));
 
             } else {
-            	aList.add(tOffset + 0, EnumChatFormatting.WHITE + String.format(trans("001", "Durability: %s/%s"), "" + EnumChatFormatting.GREEN + (tMaxDamage - getToolDamage(aStack)) + " ", " " + tMaxDamage) + EnumChatFormatting.GRAY);
+                aList.add(tOffset + 0, EnumChatFormatting.WHITE + String.format(trans("001", "Durability: %s/%s"), "" + EnumChatFormatting.GREEN + (tMaxDamage - getToolDamage(aStack)) + " ", " " + tMaxDamage) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 1, EnumChatFormatting.WHITE + String.format(trans("002", "%s lvl %s"), tMaterial.mLocalizedName + EnumChatFormatting.YELLOW, "" + getHarvestLevel(aStack, "")) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 2, EnumChatFormatting.WHITE + String.format(trans("003", "Attack Damage: %s"), "" + EnumChatFormatting.BLUE + getToolCombatDamage(aStack)) + EnumChatFormatting.GRAY);
                 aList.add(tOffset + 3, EnumChatFormatting.WHITE + String.format(trans("004", "Mining Speed: %s"), "" + EnumChatFormatting.GOLD + Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed)) + EnumChatFormatting.GRAY);
                 NBTTagCompound aNBT = aStack.getTagCompound();
                 if (aNBT != null) {
                     aNBT = aNBT.getCompoundTag("GT.ToolStats");
-                    if (aNBT != null && aNBT.hasKey("Heat")){
-                    	int tHeat = aNBT.getInteger("Heat");
-                    	long tWorldTime = aPlayer.getEntityWorld().getWorldTime();
-                    	if(aNBT.hasKey("HeatTime")){
-                    		long tHeatTime = aNBT.getLong("HeatTime");
-                    		if(tWorldTime>(tHeatTime+10)){
-                    			tHeat = (int) (tHeat - ((tWorldTime-tHeatTime)/10));
-                    			if(tHeat<300&&tHeat>-10000)tHeat=300;
-                    		}
-                    		aNBT.setLong("HeatTime", tWorldTime);
-                    		if(tHeat>-10000)aNBT.setInteger("Heat", tHeat);
-                    	}
-                    	
-                    	 aList.add(tOffset + 3, EnumChatFormatting.RED + "Heat: " + aNBT.getInteger("Heat")+" K" + EnumChatFormatting.GRAY);
+                    if (aNBT != null && aNBT.hasKey("Heat")) {
+                        int tHeat = aNBT.getInteger("Heat");
+                        long tWorldTime = aPlayer.getEntityWorld().getWorldTime();
+                        if (aNBT.hasKey("HeatTime")) {
+                            long tHeatTime = aNBT.getLong("HeatTime");
+                            if (tWorldTime > (tHeatTime + 10)) {
+                                tHeat = (int) (tHeat - ((tWorldTime - tHeatTime) / 10));
+                                if (tHeat < 300 && tHeat > -10000) tHeat = 300;
+                            }
+                            aNBT.setLong("HeatTime", tWorldTime);
+                            if (tHeat > -10000) aNBT.setInteger("Heat", tHeat);
+                        }
+
+                        aList.add(tOffset + 3, EnumChatFormatting.RED + "Heat: " + aNBT.getInteger("Heat") + " K" + EnumChatFormatting.GRAY);
                     }
                 }
             }
@@ -472,7 +472,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
             return 0.0F;
 
         if (aBlock.getHarvestLevel(aMetaData) == 0 && !tStats.isMinableBlock(aBlock, (byte) aMetaData))
-            return Math.min(Math.max(Float.MIN_NORMAL, ((tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) /2)),1.0F);
+            return Math.min(Math.max(Float.MIN_NORMAL, ((tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) / 2)), 1.0F);
 
         return tStats.isMinableBlock(aBlock, (byte) aMetaData) ? Math.max(Float.MIN_NORMAL, tStats.getSpeedMultiplier() * getPrimaryMaterial(aStack).mToolSpeed) : 0.0F;
     }
@@ -516,7 +516,7 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         doDamage(aStack, tStats.getToolDamagePerContainerCraft());
         aStack = aStack.stackSize > 0 ? aStack : null;
         if (playSound && GT_Mod.gregtechproxy.mTicksUntilNextCraftSound <= 0) {
-        	GT_Mod.gregtechproxy.mTicksUntilNextCraftSound = 10;
+            GT_Mod.gregtechproxy.mTicksUntilNextCraftSound = 10;
             String sound = (aStack == null) ? tStats.getBreakingSound() : tStats.getCraftingSound();
             GT_Utility.doSoundAtClient(sound, 1, 1.0F);
         }
@@ -550,43 +550,43 @@ public abstract class GT_MetaGenerated_Tool extends GT_MetaBase_Item implements 
         IToolStats tStats = getToolStats(aStack);
         if (tStats != null) doDamage(aStack, tStats.getToolDamagePerEntityAttack());
     }
-    
-	@Override
-	public boolean canWrench(EntityPlayer player, int x, int y, int z) {
-		if(player==null)return false;
-		if(player.getCurrentEquippedItem()==null)return false;
+
+    @Override
+    public boolean canWrench(EntityPlayer player, int x, int y, int z) {
+        if (player == null) return false;
+        if (player.getCurrentEquippedItem() == null) return false;
         if (!isItemStackUsable(player.getCurrentEquippedItem())) return false;
         IToolStats tStats = getToolStats(player.getCurrentEquippedItem());
         return tStats != null && tStats.isWrench();
-	}
+    }
 
-	@Override
-	public void wrenchUsed(EntityPlayer player, int x, int y, int z) {
-		if(player==null)return;
-		if(player.getCurrentEquippedItem()==null)return;
+    @Override
+    public void wrenchUsed(EntityPlayer player, int x, int y, int z) {
+        if (player == null) return;
+        if (player.getCurrentEquippedItem() == null) return;
         IToolStats tStats = getToolStats(player.getCurrentEquippedItem());
         if (tStats != null) doDamage(player.getCurrentEquippedItem(), tStats.getToolDamagePerEntityAttack());
-	}
-	
-	@Override
-	public boolean canUse(ItemStack stack, EntityPlayer player, int x, int y, int z){
-		 return canWrench(player, x, y, z);
-	}
+    }
 
-	@Override
-	public void used(ItemStack stack, EntityPlayer player, int x, int y, int z){
-		wrenchUsed(player, x, y, z);
-	}
-	
-	@Override
-	public boolean shouldHideFacades(ItemStack stack, EntityPlayer player) {
-		if(player==null)return false;
-		if(player.getCurrentEquippedItem()==null)return false;
+    @Override
+    public boolean canUse(ItemStack stack, EntityPlayer player, int x, int y, int z) {
+        return canWrench(player, x, y, z);
+    }
+
+    @Override
+    public void used(ItemStack stack, EntityPlayer player, int x, int y, int z) {
+        wrenchUsed(player, x, y, z);
+    }
+
+    @Override
+    public boolean shouldHideFacades(ItemStack stack, EntityPlayer player) {
+        if (player == null) return false;
+        if (player.getCurrentEquippedItem() == null) return false;
         if (!isItemStackUsable(player.getCurrentEquippedItem())) return false;
-		IToolStats tStats = getToolStats(player.getCurrentEquippedItem());
-		return tStats.isWrench();
-	}
-	
+        IToolStats tStats = getToolStats(player.getCurrentEquippedItem());
+        return tStats.isWrench();
+    }
+
 
     @Override
     public boolean canLink(EntityPlayer aPlayer, ItemStack aStack, EntityMinecart cart) {

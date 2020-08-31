@@ -104,19 +104,13 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 
     public GT_Recipe_Map getRecipeMap() {
         if (isCorrectMachinePart(mInventory[1])) {
-            GT_Recipe_Map aTemp = GT_ProcessingArray_Manager.getRecipeMapForMeta(mInventory[1].getItemDamage());
-            if (aTemp != null) {
-                return aTemp;
-            }
+            return GT_ProcessingArray_Manager.getRecipeMapForMeta(mInventory[1].getItemDamage());
         }
         return null;
     }
 
     public boolean isCorrectMachinePart(ItemStack aStack) {
-        if (aStack != null && aStack.getUnlocalizedName().startsWith("gt.blockmachines.basicmachine.")) {
-            return true;
-        }
-        return false;
+        return aStack != null && aStack.getUnlocalizedName().startsWith("gt.blockmachines.basicmachine.");
     }
 
     public boolean isFacingValid(byte aFacing) {
@@ -179,16 +173,16 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
         mMachine = mInventory[1].getUnlocalizedName();
 
         ArrayList<FluidStack> tFluidList = getStoredFluids();
-        FluidStack[] tFluids = (FluidStack[]) tFluidList.toArray(new FluidStack[tFluidList.size()]);
+        FluidStack[] tFluids = tFluidList.toArray(new FluidStack[0]);
         if (mSeparate) {
-        	ArrayList<ItemStack> tInputList = new ArrayList<ItemStack>();
+        	ArrayList<ItemStack> tInputList = new ArrayList<>();
         	for (GT_MetaTileEntity_Hatch_InputBus tHatch : mInputBusses) {
         		IGregTechTileEntity tInpuBus = tHatch.getBaseMetaTileEntity();
         		for (int i = tInpuBus.getSizeInventory() - 1; i >= 0; i--) {
 					if (tInpuBus.getStackInSlot(i) != null)
 						tInputList.add(tInpuBus.getStackInSlot(i));
 				}
-        		ItemStack[] tInputs = (ItemStack[]) tInputList.toArray(new ItemStack[tInputList.size()]);
+        		ItemStack[] tInputs = tInputList.toArray(new ItemStack[0]);
         		if (processRecipe(tInputs, tFluids, map))
         			return true;
         		else
@@ -196,7 +190,7 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
         	}
         } else {
         	ArrayList<ItemStack> tInputList = getStoredInputs();
-        	ItemStack[] tInputs = (ItemStack[]) tInputList.toArray(new ItemStack[tInputList.size()]);
+        	ItemStack[] tInputs = tInputList.toArray(new ItemStack[0]);
             return processRecipe(tInputs, tFluids, map);
         }
         return false;
@@ -261,15 +255,13 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
                 }
                 tOut = clean(tOut);
                 this.mMaxProgresstime = Math.max(1, this.mMaxProgresstime);
-                List<ItemStack> overStacks = new ArrayList<ItemStack>();
-                for (int f = 0; f < tOut.length; f++) {
-                    while (tOut[f].getMaxStackSize() < tOut[f].stackSize) {
-                        if (tOut[f] != null) {
-                            ItemStack tmp = tOut[f].copy();
-                            tmp.stackSize = tmp.getMaxStackSize();
-                            tOut[f].stackSize = tOut[f].stackSize - tOut[f].getMaxStackSize();
-                            overStacks.add(tmp);
-                        }
+                List<ItemStack> overStacks = new ArrayList<>();
+                for (ItemStack itemStack : tOut) {
+                    while (itemStack.getMaxStackSize() < itemStack.stackSize) {
+                        ItemStack tmp = itemStack.copy();
+                        tmp.stackSize = tmp.getMaxStackSize();
+                        itemStack.stackSize = itemStack.stackSize - itemStack.getMaxStackSize();
+                        overStacks.add(tmp);
                     }
                 }
                 if (overStacks.size() > 0) {
@@ -277,11 +269,11 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
                     tmp = overStacks.toArray(tmp);
                     tOut = ArrayUtils.addAll(tOut, tmp);
                 }
-                List<ItemStack> tSList = new ArrayList<ItemStack>();
+                List<ItemStack> tSList = new ArrayList<>();
                 for (ItemStack tS : tOut) {
                     if (tS.stackSize > 0) tSList.add(tS);
                 }
-                tOut = tSList.toArray(new ItemStack[tSList.size()]);
+                tOut = tSList.toArray(new ItemStack[0]);
                 this.mOutputItems = tOut;
                 this.mOutputFluids = new FluidStack[]{tFOut};
                 updateSlots();
@@ -294,9 +286,9 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
     }
 
     public static ItemStack[] clean(final ItemStack[] v) {
-        List<ItemStack> list = new ArrayList<ItemStack>(Arrays.asList(v));
+        List<ItemStack> list = new ArrayList<>(Arrays.asList(v));
         list.removeAll(Collections.singleton(null));
-        return list.toArray(new ItemStack[list.size()]);
+        return list.toArray(new ItemStack[0]);
     }
 
     public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
@@ -375,20 +367,20 @@ public class GT_MetaTileEntity_ProcessingArray extends GT_MetaTileEntity_MultiBl
 
         return new String[]{
         		StatCollector.translateToLocal("GT5U.multiblock.Progress")+": "+
-        				EnumChatFormatting.GREEN + Integer.toString(mProgresstime/20) + EnumChatFormatting.RESET +" s / "+
-                        EnumChatFormatting.YELLOW + Integer.toString(mMaxProgresstime/20) + EnumChatFormatting.RESET +" s",
+        				EnumChatFormatting.GREEN + mProgresstime / 20 + EnumChatFormatting.RESET +" s / "+
+                        EnumChatFormatting.YELLOW + mMaxProgresstime / 20 + EnumChatFormatting.RESET +" s",
                 StatCollector.translateToLocal("GT5U.multiblock.energy")+": "+
-                		EnumChatFormatting.GREEN + Long.toString(storedEnergy) + EnumChatFormatting.RESET +" EU / "+
-                        EnumChatFormatting.YELLOW + Long.toString(maxEnergy) + EnumChatFormatting.RESET +" EU",
+                		EnumChatFormatting.GREEN + storedEnergy + EnumChatFormatting.RESET +" EU / "+
+                        EnumChatFormatting.YELLOW + maxEnergy + EnumChatFormatting.RESET +" EU",
                 StatCollector.translateToLocal("GT5U.multiblock.usage")+": "+
-                        EnumChatFormatting.RED + Integer.toString(-mEUt) + EnumChatFormatting.RESET + " EU/t",
+                        EnumChatFormatting.RED + -mEUt + EnumChatFormatting.RESET + " EU/t",
                 StatCollector.translateToLocal("GT5U.multiblock.mei")+": "+
-                        EnumChatFormatting.YELLOW+Long.toString(getMaxInputVoltage())+EnumChatFormatting.RESET+ " EU/t(*2A) "+StatCollector.translateToLocal("GT5U.machines.tier")+": "+
+                        EnumChatFormatting.YELLOW+ getMaxInputVoltage() +EnumChatFormatting.RESET+ " EU/t(*2A) "+StatCollector.translateToLocal("GT5U.machines.tier")+": "+
                         EnumChatFormatting.YELLOW+VN[GT_Utility.getTier(getMaxInputVoltage())]+ EnumChatFormatting.RESET,
                 StatCollector.translateToLocal("GT5U.multiblock.problems")+": "+
                         EnumChatFormatting.RED+ (getIdealStatus() - getRepairStatus())+EnumChatFormatting.RESET+
                         " "+StatCollector.translateToLocal("GT5U.multiblock.efficiency")+": "+
-                        EnumChatFormatting.YELLOW+Float.toString(mEfficiency / 100.0F)+EnumChatFormatting.RESET + " %",
+                        EnumChatFormatting.YELLOW+ mEfficiency / 100.0F +EnumChatFormatting.RESET + " %",
                 StatCollector.translateToLocal("GT5U.PA.machinetier")+": "+
                         EnumChatFormatting.GREEN+tTier+EnumChatFormatting.RESET+
                         " "+StatCollector.translateToLocal("GT5U.PA.discount")+": "+

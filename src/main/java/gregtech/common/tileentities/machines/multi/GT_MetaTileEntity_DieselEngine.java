@@ -25,6 +25,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
 
+@SuppressWarnings("SameReturnValue")
 public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlockBase {
     protected int fuelConsumption = 0;
     protected int fuelValue = 0;
@@ -143,20 +144,18 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
                         }
 
                         if (((i == 0) || (j == 0)) && ((k == 1) || (k == 2))) {
-                            if (getBaseMetaTileEntity().getBlock(aX, aY, aZ) == getCasingBlock() && getBaseMetaTileEntity().getMetaID(aX, aY, aZ) == getCasingMeta()) {
-                                // Do nothing
-                            } else if (!addMufflerToMachineList(getBaseMetaTileEntity().getIGregTechTileEntity(tX + (tSide == 5 ? 2 : tSide == 4 ? -2 : 0), tY + 1, tZ + (tSide == 3 ? 2 : tSide == 2 ? -2 : 0)), getCasingTextureIndex())) {
-                                return false; //Fail if no muffler top middle back
-                            } else if (!addToMachineList(getBaseMetaTileEntity().getIGregTechTileEntity(aX, aY, aZ))) {
-                                return false;
+                            if (getBaseMetaTileEntity().getBlock(aX, aY, aZ) != getCasingBlock() || getBaseMetaTileEntity().getMetaID(aX, aY, aZ) != getCasingMeta()) {
+                                if (!addMufflerToMachineList(getBaseMetaTileEntity().getIGregTechTileEntity(tX + (tSide == 5 ? 2 : tSide == 4 ? -2 : 0), tY + 1, tZ + (tSide == 3 ? 2 : tSide == 2 ? -2 : 0)), getCasingTextureIndex())) {
+                                    return false; //Fail if no muffler top middle back
+                                } else if (!addToMachineList(getBaseMetaTileEntity().getIGregTechTileEntity(aX, aY, aZ))) {
+                                    return false;
+                                }
                             }
                         } else if (k == 0) {
                           if(!(getBaseMetaTileEntity().getBlock(aX, aY, aZ) == getIntakeBlock() && getBaseMetaTileEntity().getMetaID(aX, aY, aZ) == getIntakeMeta())) {
                               return false;
                           }
-                        } else if (getBaseMetaTileEntity().getBlock(aX, aY, aZ) == getCasingBlock() && getBaseMetaTileEntity().getMetaID(aX, aY, aZ) == getCasingMeta()) {
-                            // Do nothing
-                        } else {
+                        } else if (getBaseMetaTileEntity().getBlock(aX, aY, aZ) != getCasingBlock() || getBaseMetaTileEntity().getMetaID(aX, aY, aZ) != getCasingMeta()) {
                             return false;
                         }
                     }
@@ -264,8 +263,8 @@ public class GT_MetaTileEntity_DieselEngine extends GT_MetaTileEntity_MultiBlock
         return new String[]{
                 EnumChatFormatting.BLUE+"Diesel Engine"+EnumChatFormatting.RESET,
                 StatCollector.translateToLocal("GT5U.multiblock.energy")+": " +
-                EnumChatFormatting.GREEN + Long.toString(storedEnergy) + EnumChatFormatting.RESET +" EU / "+
-                EnumChatFormatting.YELLOW + Long.toString(maxEnergy) + EnumChatFormatting.RESET +" EU",
+                EnumChatFormatting.GREEN + storedEnergy + EnumChatFormatting.RESET +" EU / "+
+                EnumChatFormatting.YELLOW + maxEnergy + EnumChatFormatting.RESET +" EU",
                 getIdealStatus() == getRepairStatus() ?
                 EnumChatFormatting.GREEN+StatCollector.translateToLocal("GT5U.turbine.maintenance.false")+EnumChatFormatting.RESET :
                 EnumChatFormatting.RED+StatCollector.translateToLocal("GT5U.turbine.maintenance.true")+EnumChatFormatting.RESET,

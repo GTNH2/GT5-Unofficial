@@ -86,7 +86,7 @@ public class GT_MetaTileEntity_MultiFurnace
             int j = 0;
             this.mOutputItems = new ItemStack[8 * this.mLevel];
             for (int i = 0; (i < 256) && (j < this.mOutputItems.length); i++) {
-                if (null != (this.mOutputItems[j] = GT_ModHandler.getSmeltingOutput((ItemStack) tInputList.get(i % tInputList.size()), true, null))) {
+                if (null != (this.mOutputItems[j] = GT_ModHandler.getSmeltingOutput(tInputList.get(i % tInputList.size()), true, null))) {
                     j++;
                 }
             }
@@ -111,7 +111,7 @@ public class GT_MetaTileEntity_MultiFurnace
         return false;
     }
 
-    private boolean checkMachineFunction(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack) {
+    private boolean checkMachineFunction(IGregTechTileEntity aBaseMetaTileEntity) {
         int xDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetX;
         int zDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetZ;
 
@@ -199,7 +199,7 @@ public class GT_MetaTileEntity_MultiFurnace
         return true;
     }
         public boolean checkMachine(IGregTechTileEntity aBaseMetaTileEntity, ItemStack aStack){
-        boolean result= this.checkMachineFunction(aBaseMetaTileEntity,aStack);
+        boolean result= this.checkMachineFunction(aBaseMetaTileEntity);
               if (!result) this.mLevel=0;
               return result;
         }
@@ -224,7 +224,7 @@ public class GT_MetaTileEntity_MultiFurnace
         int xDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetX;
         int zDir = ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()).offsetZ;
         int tX = aBaseMetaTileEntity.getXCoord() + xDir;
-        int tY = (int) aBaseMetaTileEntity.getYCoord();
+        int tY = aBaseMetaTileEntity.getYCoord();
         int tZ = aBaseMetaTileEntity.getZCoord() + zDir;
         int tUsedMeta;
         for (int xPos = tX - 1; xPos <= tX + 1; xPos++) {
@@ -261,20 +261,20 @@ public class GT_MetaTileEntity_MultiFurnace
 
         return new String[]{
         		StatCollector.translateToLocal("GT5U.multiblock.Progress")+": "+
-                EnumChatFormatting.GREEN + Integer.toString(mProgresstime/20) + EnumChatFormatting.RESET +" s / "+
-                        EnumChatFormatting.YELLOW + Integer.toString(mMaxProgresstime/20) + EnumChatFormatting.RESET +" s",
+                EnumChatFormatting.GREEN + mProgresstime / 20 + EnumChatFormatting.RESET +" s / "+
+                        EnumChatFormatting.YELLOW + mMaxProgresstime / 20 + EnumChatFormatting.RESET +" s",
                 StatCollector.translateToLocal("GT5U.multiblock.energy")+": "+
-                EnumChatFormatting.GREEN + Long.toString(storedEnergy) + EnumChatFormatting.RESET +" EU / "+
-                        EnumChatFormatting.YELLOW + Long.toString(maxEnergy) + EnumChatFormatting.RESET +" EU",
+                EnumChatFormatting.GREEN + storedEnergy + EnumChatFormatting.RESET +" EU / "+
+                        EnumChatFormatting.YELLOW + maxEnergy + EnumChatFormatting.RESET +" EU",
                 StatCollector.translateToLocal("GT5U.multiblock.usage")+": "+
-                        EnumChatFormatting.RED + Integer.toString(-mEUt) + EnumChatFormatting.RESET + " EU/t",
+                        EnumChatFormatting.RED + -mEUt + EnumChatFormatting.RESET + " EU/t",
                 StatCollector.translateToLocal("GT5U.multiblock.mei")+": "+
-                        EnumChatFormatting.YELLOW+Long.toString(getMaxInputVoltage())+EnumChatFormatting.RESET+" EU/t(*2A) "+StatCollector.translateToLocal("GT5U.machines.tier")+": "+
+                        EnumChatFormatting.YELLOW+ getMaxInputVoltage() +EnumChatFormatting.RESET+" EU/t(*2A) "+StatCollector.translateToLocal("GT5U.machines.tier")+": "+
                         EnumChatFormatting.YELLOW+VN[GT_Utility.getTier(getMaxInputVoltage())]+ EnumChatFormatting.RESET,
                 StatCollector.translateToLocal("GT5U.multiblock.problems")+": "+
                         EnumChatFormatting.RED+ (getIdealStatus() - getRepairStatus())+EnumChatFormatting.RESET+
                         " "+StatCollector.translateToLocal("GT5U.multiblock.efficiency")+": "+
-                        EnumChatFormatting.YELLOW+Float.toString(mEfficiency / 100.0F)+EnumChatFormatting.RESET + " %",
+                        EnumChatFormatting.YELLOW+ mEfficiency / 100.0F +EnumChatFormatting.RESET + " %",
                 StatCollector.translateToLocal("GT5U.MS.multismelting")+": "+
                         EnumChatFormatting.GREEN+mLevel*8+EnumChatFormatting.RESET+" Discount: (EU/t) / "+EnumChatFormatting.GREEN+mCostDiscount+EnumChatFormatting.RESET,
                 StatCollector.translateToLocal("GT5U.multiblock.pollution")+": "+ EnumChatFormatting.GREEN + mPollutionReduction+ EnumChatFormatting.RESET+" %"
