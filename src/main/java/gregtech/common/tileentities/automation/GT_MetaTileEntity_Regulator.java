@@ -14,11 +14,11 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class GT_MetaTileEntity_Regulator
         extends GT_MetaTileEntity_Buffer {
-    public int[] mTargetSlots = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public final int[] mTargetSlots = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     private boolean charge = false, decharge = false;
 
     public GT_MetaTileEntity_Regulator(int aID, String aName, String aNameRegional, int aTier) {
@@ -89,16 +89,18 @@ public class GT_MetaTileEntity_Regulator
     }
 
     public void moveItems(IGregTechTileEntity aBaseMetaTileEntity, long aTimer) {
-        int i = 0;
-        for (int tCosts = 0; i < 9; i++) {
-            if (this.mInventory[(i + 9)] != null) {
-                tCosts = GT_Utility.moveOneItemStackIntoSlot(getBaseMetaTileEntity(), getBaseMetaTileEntity().getTileEntityAtSide(getBaseMetaTileEntity().getBackFacing()), getBaseMetaTileEntity().getBackFacing(), this.mTargetSlots[i], Arrays.asList(new ItemStack[]{this.mInventory[(i + 9)]}), false, (byte) this.mInventory[(i + 9)].stackSize, (byte) this.mInventory[(i + 9)].stackSize, (byte) 64, (byte) 1) * 3;
-                if (tCosts > 0) {
-                    this.mSuccess = 50;
-                    getBaseMetaTileEntity().decreaseStoredEnergyUnits(tCosts, true);
-                    break;
-                }
+        int tCosts;
+        for (int i = 0; i < 9; i++) {
+            if (this.mInventory[(i + 9)] == null) {
+                continue;
             }
+            tCosts = GT_Utility.moveOneItemStackIntoSlot(getBaseMetaTileEntity(), getBaseMetaTileEntity().getTileEntityAtSide(getBaseMetaTileEntity().getBackFacing()), getBaseMetaTileEntity().getBackFacing(), this.mTargetSlots[i], Collections.singletonList(this.mInventory[(i + 9)]), false, (byte) this.mInventory[(i + 9)].stackSize, (byte) this.mInventory[(i + 9)].stackSize, (byte) 64, (byte) 1) * 3;
+            if (tCosts <= 0) {
+                continue;
+            }
+            this.mSuccess = 50;
+            getBaseMetaTileEntity().decreaseStoredEnergyUnits(tCosts, true);
+            break;
         }
     }
 
