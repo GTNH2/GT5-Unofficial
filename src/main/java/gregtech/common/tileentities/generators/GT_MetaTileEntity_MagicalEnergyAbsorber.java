@@ -42,21 +42,22 @@ interface MagicalEnergyBBListener {
     void onMagicalEnergyBBUpdate();
 }
 
+@SuppressWarnings("UnstableApiUsage")
 public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_BasicGenerator implements MagicalEnergyBBListener {
 
     private static final boolean THAUMCRAFT_LOADED = Loader.isModLoaded(MOD_ID_TC);
     private static final ConcurrentHashMap<UUID, GT_MetaTileEntity_MagicalEnergyAbsorber> sSubscribedCrystals = new ConcurrentHashMap<>(4);
-    private static List<Aspect> sPrimalAspects = (THAUMCRAFT_LOADED) ? Aspect.getPrimalAspects() : new ArrayList<Aspect>();
+    private static final List<Aspect> sPrimalAspects = (THAUMCRAFT_LOADED) ? Aspect.getPrimalAspects() : new ArrayList<>();
     private static boolean sAllowMultipleEggs = false;
     private static GT_MetaTileEntity_MagicalEnergyAbsorber sActiveSiphon = null;
     private static int sEnergyPerEndercrystal = 512;
     private static int sEnergyFromVis = 20;
     private static int sEnergyPerEssentia = 320;
-    private static Map<Aspect, Integer> sAspectsEnergy = new HashMap<>();
+    private static final Map<Aspect, Integer> sAspectsEnergy = new HashMap<>();
     private static int sDragonEggEnergyPerTick = 2048;
     private int mEfficiency;
     private int mMaxVisPerDrain;
-    private MagicalEnergyBB mMagicalEnergyBB = new MagicalEnergyBB(this, mTier, mTier + 2);
+    private final MagicalEnergyBB mMagicalEnergyBB = new MagicalEnergyBB(this, mTier, mTier + 2);
     private long mNextGenerateTickRate = 1;
     private int mNoGenerationTicks = 0;
 
@@ -99,7 +100,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
     public void onConfigLoad(GT_Config aConfig) {
         sharedConfigLoad(aConfig);
         mEfficiency = aConfig.get(machineconfig, "MagicEnergyAbsorber.efficiency.tier." + mTier, 100 - mTier * 10);
-        mMaxVisPerDrain = (int) Math.round(Math.sqrt(V[mTier] * 10000 / (sEnergyFromVis * (getEfficiency() != 0 ? getEfficiency() : 100))));
+        mMaxVisPerDrain = (int) Math.round(Math.sqrt(V[mTier] * 10000D / ((double)(sEnergyFromVis * (getEfficiency() != 0 ? getEfficiency() : 100)))));
         if (Math.pow(mMaxVisPerDrain, 2) * sEnergyFromVis * (getEfficiency() != 0 ? getEfficiency() : 100) < V[mTier]) {
             mMaxVisPerDrain += 1;
         }
@@ -339,7 +340,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
             }
         }
         if (isDisenchantableItem(tStack)) {
-            EnchantmentHelper.setEnchantments(new HashMap(), tStack);
+            EnchantmentHelper.setEnchantments(new HashMap<Integer, Integer>(), tStack);
             tEU = tEU * getEfficiency() / 100;
         } else if (isEnchantedBook(tStack)) {
             tStack = new ItemStack(Items.book, 1);
@@ -470,12 +471,12 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
      * Handles Bounding Box ranged operations for Magic sources
      */
     static class MagicalEnergyBB {
-        private GT_MetaTileEntity_MagicalEnergyAbsorber mAbsorber;
-        private MagicalEnergyBBListener mListener;
-        private int mDefaultTier;
+        private final GT_MetaTileEntity_MagicalEnergyAbsorber mAbsorber;
+        private final MagicalEnergyBBListener mListener;
+        private final int mDefaultTier;
         private int mTier;
-        private int mMaxTier;
-        private List<UUID> mLivingCrystalIDs = new ArrayList<>();
+        private final int mMaxTier;
+        private final List<UUID> mLivingCrystalIDs = new ArrayList<>();
         private List<Aspect> mAvailableAspects;
 
         /**
@@ -486,7 +487,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
         MagicalEnergyBB(GT_MetaTileEntity_MagicalEnergyAbsorber aAbsorber, int aDefaultTier, int aMaxTier) {
             mAbsorber = aAbsorber;
             mListener = aAbsorber;
-            mMaxTier = Math.max(aMaxTier > 0 ? aMaxTier : 0, aDefaultTier > 0 ? aDefaultTier : 0);
+            mMaxTier = Math.max(Math.max(aMaxTier, 0), Math.max(aDefaultTier, 0));
             mDefaultTier = Math.min(aDefaultTier, mMaxTier);
             mTier = mDefaultTier;
             if (THAUMCRAFT_LOADED) mAvailableAspects = new ArrayList<>(Aspect.aspects.size());
@@ -504,11 +505,7 @@ public class GT_MetaTileEntity_MagicalEnergyAbsorber extends GT_MetaTileEntity_B
          */
         int setTier(int aTier) {
             if (aTier >= 0) {
-                if (aTier <= mMaxTier) {
-                    mTier = aTier;
-                } else {
-                    mTier = mMaxTier;
-                }
+                mTier = Math.min(aTier, mMaxTier);
             } else {
                 mTier = 0;
             }

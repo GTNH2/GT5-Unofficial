@@ -15,7 +15,7 @@ public class GT_MetaTileEntity_NaquadahReactor extends GT_MetaTileEntity_BasicGe
     private int mEfficiency;
 
     public GT_MetaTileEntity_NaquadahReactor(int aID, String aName, String[] aDescription, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, aDescription, new ITexture[0]);
+        super(aID, aName, aNameRegional, aTier, aDescription);
         if (aTier > 8 || aTier < 4) {
             new Exception("Tier without Recipe Map!").printStackTrace();
         }
