@@ -155,7 +155,7 @@ public abstract class GT_MetaTileEntity_Boiler
         if (this.mSteam != null) {
             try {
                 aNBT.setTag("mSteam", this.mSteam.writeToNBT(new NBTTagCompound()));
-            } catch (Throwable e) {
+            } catch (Throwable ignored) {
             }
         }
     }
@@ -194,7 +194,7 @@ public abstract class GT_MetaTileEntity_Boiler
             }
             if (aTick % 10L == 0L) {
                 if (this.mTemperature > 100) {
-                    if ((this.mFluid == null) || (!GT_ModHandler.isWater(this.mFluid)) || (this.mFluid.amount <= 0)) {
+                    if ((!GT_ModHandler.isWater(this.mFluid)) || (this.mFluid.amount <= 0)) {
                         this.mHadNoWater = true;
                     } else {
                         if (this.mHadNoWater) {
@@ -257,24 +257,18 @@ public abstract class GT_MetaTileEntity_Boiler
     }
 
     public boolean allowPullStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        if (GT_Mod.gregtechproxy.mAllowSmallBoilerAutomation)
-            return true;
-        else
-            return false;
+        return GT_Mod.gregtechproxy.mAllowSmallBoilerAutomation;
 
     }
 
     public boolean allowPutStack(IGregTechTileEntity aBaseMetaTileEntity, int aIndex, byte aSide, ItemStack aStack) {
-        if(GT_Mod.gregtechproxy.mAllowSmallBoilerAutomation)
-            return true;
-        else
-            return false;
+        return GT_Mod.gregtechproxy.mAllowSmallBoilerAutomation;
 
     }
 
     public void doSound(byte aIndex, double aX, double aY, double aZ) {
         if (aIndex == 1) {
-            GT_Utility.doSoundAtClient((String) GregTech_API.sSoundList.get(Integer.valueOf(4)), 2, 1.0F, aX, aY, aZ);
+            GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(4), 2, 1.0F, aX, aY, aZ);
             for (int l = 0; l < 8; l++) {
                 getBaseMetaTileEntity().getWorld().spawnParticle("largesmoke", aX - 0.5D + XSTR_INSTANCE.nextFloat(), aY, aZ - 0.5D + XSTR_INSTANCE.nextFloat(), 0.0D, 0.0D, 0.0D);
             }

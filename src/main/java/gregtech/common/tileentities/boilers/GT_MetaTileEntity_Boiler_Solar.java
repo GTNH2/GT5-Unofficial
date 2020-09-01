@@ -109,7 +109,7 @@ public class GT_MetaTileEntity_Boiler_Solar
 
     protected int basicOutput = 150;
     protected int basicMaxOuput = 50;
-    protected int basicTemperatureMod = 5;
+    protected final int basicTemperatureMod = 5;
     protected int basicLossTimerLimit = 45;
 
     // Calcification start time is 43200*25/20=54,000s or 15 hours of game time.
@@ -156,7 +156,7 @@ public class GT_MetaTileEntity_Boiler_Solar
             }
             if (aTick % 25L == 0L) { // Every 25 ticks since 1L of water = 150L of steam. So for 120L, have to use 25 instead of 20.
                 if (this.mTemperature > 100) {
-                    if ((this.mFluid == null) || (!GT_ModHandler.isWater(this.mFluid)) || (this.mFluid.amount <= 0)) {
+                    if ((!GT_ModHandler.isWater(this.mFluid)) || (this.mFluid.amount <= 0)) {
                         this.mHadNoWater = true;
                     } else {
                         if (this.mHadNoWater) {
