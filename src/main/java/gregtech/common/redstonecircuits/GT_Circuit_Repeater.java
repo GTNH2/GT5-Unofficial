@@ -59,9 +59,8 @@ public class GT_Circuit_Repeater
     }
 
     public String getDataDescription(int[] aCircuitData, int aCircuitDataIndex) {
-        switch (aCircuitDataIndex) {
-            case 0:
-                return "Delay";
+        if (aCircuitDataIndex == 0) {
+            return "Delay";
         }
         return "";
     }
