@@ -39,6 +39,7 @@ public class GT_MetaGenerated_Tool_Renderer
         return aType == IItemRenderer.ItemRenderType.ENTITY;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void renderItem(IItemRenderer.ItemRenderType aType, ItemStack aStack, Object... data) {
         if (GT_Utility.isStackInvalid(aStack)) {
             return;
@@ -49,10 +50,8 @@ public class GT_MetaGenerated_Tool_Renderer
             if (RenderItem.renderInFrame) {
                 GL11.glScalef(0.85F, 0.85F, 0.85F);
                 GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glTranslated(-0.5D, -0.42D, 0.0D);
-            } else {
-                GL11.glTranslated(-0.5D, -0.42D, 0.0D);
             }
+            GL11.glTranslated(-0.5D, -0.42D, 0.0D);
         }
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
@@ -143,14 +142,14 @@ public class GT_MetaGenerated_Tool_Renderer
                     }
                 }
                 Long[] tStats = aItem.getElectricStats(aStack);
-                if ((tStats != null) && (tStats[3].longValue() < 0L)) {
+                if ((tStats != null) && (tStats[3] < 0L)) {
                     long tCharge = aItem.getRealCharge(aStack);
                     if (tCharge <= 0L) {
                         aIcon = gregtech.api.enums.Textures.ItemIcons.ENERGY_BAR[0];
-                    } else if (tCharge >= tStats[0].longValue()) {
+                    } else if (tCharge >= tStats[0]) {
                         aIcon = gregtech.api.enums.Textures.ItemIcons.ENERGY_BAR[8];
                     } else {
-                        aIcon = gregtech.api.enums.Textures.ItemIcons.ENERGY_BAR[(7 - (int) java.lang.Math.max(0L, java.lang.Math.min(6L, (tStats[0].longValue() - tCharge) * 7L / tStats[0].longValue())))];
+                        aIcon = gregtech.api.enums.Textures.ItemIcons.ENERGY_BAR[(7 - (int) java.lang.Math.max(0L, java.lang.Math.min(6L, (tStats[0] - tCharge) * 7L / tStats[0])))];
                     }
                 } else {
                     aIcon = null;

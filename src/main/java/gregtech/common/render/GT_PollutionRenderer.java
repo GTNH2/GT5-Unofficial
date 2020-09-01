@@ -22,12 +22,13 @@ import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import org.lwjgl.opengl.GL11;
 
+@SuppressWarnings({"unused", "RedundantSuppression"})
 @SideOnly(Side.CLIENT)
 public class GT_PollutionRenderer {
     private static GT_ClientPollutionMap pollutionMap;
     private static int playerPollution = 0;
 
-    private static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     // PARTICLES_POLLUTION_START + PARTICLES_POLLUTION_END -> Max Particles
     private static final int PARTICLES_MAX_NUM = 100;

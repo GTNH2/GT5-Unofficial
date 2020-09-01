@@ -41,7 +41,7 @@ public class GT_CapeRenderer
         if (aPlayer.isInvisible()) {
             return;
         }
-        if (GT_Utility.getPotion(aPlayer, Integer.valueOf(Potion.invisibility.id).intValue())) {
+        if (GT_Utility.getPotion(aPlayer, Potion.invisibility.id)) {
             return;
         }
         try {
