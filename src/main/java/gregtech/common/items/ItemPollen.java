@@ -36,6 +36,7 @@ public class ItemPollen extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("unchecked")
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		for (PollenType type : PollenType.values()) {
 			if (type.showInList) {

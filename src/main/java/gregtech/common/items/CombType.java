@@ -162,12 +162,13 @@ public enum CombType {
     FIREESSENSE("fireessence", true, Materials._NULL, 30,0xFFA157, 0xD41238);
 
     public boolean showInList;
-    public Materials material;
-    public int chance;
+    public final Materials material;
+    public final int chance;
 
-    private String name;
-    private int[] color;
+    private final String name;
+    private final int[] color;
 
+    @SuppressWarnings("SameParameterValue")
     CombType(String pName, boolean show, Materials material, int chance, int... color) {
         this.name = pName;
         this.material = material;

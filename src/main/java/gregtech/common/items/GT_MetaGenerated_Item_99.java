@@ -25,7 +25,7 @@ public class GT_MetaGenerated_Item_99
         extends GT_MetaGenerated_Item {
     public static GT_MetaGenerated_Item_99 INSTANCE;
 
-    private BitSet enabled=new BitSet();
+    private final BitSet enabled=new BitSet();
 
     private void register(Materials tMaterial,int i){
         ItemStack tStack = new ItemStack(this, 1, i);
@@ -100,6 +100,7 @@ public class GT_MetaGenerated_Item_99
      * @param aDoShowAllItems this is the Configuration Setting of the User, if he wants to see all the Stuff like Tiny Dusts or Crushed Ores as well.
      * @return if this Item should be visible in NEI or Creative
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean doesShowInCreative(OrePrefixes aPrefix, Materials aMaterial, boolean aDoShowAllItems) {
         return true;
     }
@@ -126,6 +127,7 @@ public class GT_MetaGenerated_Item_99
 
     @Override
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unchecked")
     public final void getSubItems(Item var1, CreativeTabs aCreativeTab, List aList) {
         for (int i = 0; i < 1000; i++) {
             Materials aMaterial = GregTech_API.sGeneratedMaterials[i];

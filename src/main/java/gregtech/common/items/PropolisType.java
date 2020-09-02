@@ -15,7 +15,7 @@ public enum PropolisType {
     Endium("Endium", true),
     Fireessence("Fireessence",true);
 
-    private static int[] colours = new int[]{
+    private static final int[] colours = new int[]{
         0xCC00FA,
         0xDCB0E5,
         0x9010AD,
@@ -30,8 +30,10 @@ public enum PropolisType {
     public boolean showInList;
     public Materials material;
     public int chance;
-    private String name;
-    private PropolisType(String pName, boolean show) {
+    private final String name;
+
+    @SuppressWarnings("SameParameterValue")
+    PropolisType(String pName, boolean show) {
         this.name = pName;
         this.showInList = show;
     }

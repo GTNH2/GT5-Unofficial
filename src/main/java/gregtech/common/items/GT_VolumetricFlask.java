@@ -199,6 +199,7 @@ public class GT_VolumetricFlask extends GT_Generic_Item implements IFluidContain
     }
 
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack stack, EntityPlayer player, List info, boolean b) {
         super.addInformation(stack, player, info, b);
         FluidStack fs = getFluid(stack);
@@ -211,6 +212,7 @@ public class GT_VolumetricFlask extends GT_Generic_Item implements IFluidContain
     }
 
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unchecked")
     public void getSubItems(Item item, CreativeTabs creativeTabs, List itemList) {
         itemList.add(new ItemStack(this));
         for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
