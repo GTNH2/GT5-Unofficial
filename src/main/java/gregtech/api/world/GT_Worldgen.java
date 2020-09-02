@@ -13,12 +13,14 @@ public abstract class GT_Worldgen {
 
     public final String mWorldGenName;
     public final boolean mEnabled;
-    private final Map<String, Boolean> mDimensionMap = new ConcurrentHashMap<String, Boolean>();
+    private final Map<String, Boolean> mDimensionMap = new ConcurrentHashMap<>();
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public GT_Worldgen(String aName, List aList, boolean aDefault) {
         mWorldGenName = aName;
         mEnabled = GregTech_API.sWorldgenFile.get("worldgen", mWorldGenName, aDefault);
-        if (mEnabled) aList.add(this);
+        if (mEnabled)
+            aList.add(this);
     }
 
     /**
