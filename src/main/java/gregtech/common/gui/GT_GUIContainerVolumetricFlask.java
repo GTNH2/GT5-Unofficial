@@ -31,13 +31,14 @@ public final class GT_GUIContainerVolumetricFlask extends GuiContainer {
     private GuiButton minus10;
     private GuiButton minus100;
     private GuiButton minus1000;
-    private GT_ContainerVolumetricFlask container;
+    private final GT_ContainerVolumetricFlask container;
 
     public GT_GUIContainerVolumetricFlask(GT_ContainerVolumetricFlask container) {
         super(container);
         this.container = container;
     }
 
+    @SuppressWarnings("unchecked")
     public void initGui() {
         super.initGui();
 
@@ -104,7 +105,7 @@ public final class GT_GUIContainerVolumetricFlask extends GuiContainer {
                         amount.setText("1");
                     }
 
-                } catch (NumberFormatException localNumberFormatException) {
+                } catch (NumberFormatException ignored) {
                 }
             } else {
                 super.keyTyped(character, key);
@@ -159,7 +160,7 @@ public final class GT_GUIContainerVolumetricFlask extends GuiContainer {
             out = Long.toString(result);
             Integer.parseInt(out);
             amount.setText(out);
-        } catch (NumberFormatException localNumberFormatException) {
+        } catch (NumberFormatException ignored) {
         }
     }
 
@@ -168,13 +169,13 @@ public final class GT_GUIContainerVolumetricFlask extends GuiContainer {
         try {
             DecimalFormat df = new DecimalFormat("+#;-#");
             return df.parse(btn.displayString).intValue();
-        } catch (ParseException e) {
+        } catch (ParseException ignored) {
         }
 
         return 0;
     }
 
-    public class GuiIntegerBox extends GuiTextField {
+    public static class GuiIntegerBox extends GuiTextField {
         private final int maxValue;
 
         public GuiIntegerBox(FontRenderer fontRenderer, int x, int y, int width, int height) {

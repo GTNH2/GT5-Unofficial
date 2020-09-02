@@ -7,7 +7,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 public final class GT_ContainerVolumetricFlask extends Container {
-    ItemStack flask;
+    final ItemStack flask;
 
     public GT_ContainerVolumetricFlask(InventoryPlayer inventoryPlayer) {
         flask = inventoryPlayer.getCurrentItem();
