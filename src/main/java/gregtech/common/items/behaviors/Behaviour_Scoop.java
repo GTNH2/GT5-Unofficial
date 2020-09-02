@@ -28,9 +28,9 @@ public class Behaviour_Scoop
                 return true;
             }
             if ((aPlayer.capabilities.isCreativeMode) || (((GT_MetaGenerated_Tool) aItem).doDamage(aStack, this.mCosts))) {
-                Object tButterfly = ((IEntityButterfly) aEntity).getButterfly();
-                ((IButterfly) tButterfly).getGenome().getPrimary().getRoot().getBreedingTracker(aEntity.worldObj, aPlayer.getGameProfile()).registerCatch((IButterfly) tButterfly);
-                aPlayer.worldObj.spawnEntityInWorld(new EntityItem(aPlayer.worldObj, aEntity.posX, aEntity.posY, aEntity.posZ, ((IButterfly) tButterfly).getGenome().getPrimary().getRoot().getMemberStack(((IButterfly) tButterfly).copy(), EnumFlutterType.BUTTERFLY.ordinal())));
+                IButterfly tButterfly = ((IEntityButterfly) aEntity).getButterfly();
+                tButterfly.getGenome().getPrimary().getRoot().getBreedingTracker(aEntity.worldObj, aPlayer.getGameProfile()).registerCatch(tButterfly);
+                aPlayer.worldObj.spawnEntityInWorld(new EntityItem(aPlayer.worldObj, aEntity.posX, aEntity.posY, aEntity.posZ, tButterfly.getGenome().getPrimary().getRoot().getMemberStack(tButterfly.copy(), EnumFlutterType.BUTTERFLY.ordinal())));
                 aEntity.setDead();
             }
             return true;
