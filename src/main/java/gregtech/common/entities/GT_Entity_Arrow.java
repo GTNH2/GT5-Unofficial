@@ -109,10 +109,10 @@ public class GT_Entity_Arrow
                 vec3 = Vec3.createVectorHelper(tVector.hitVec.xCoord, tVector.hitVec.yCoord, tVector.hitVec.zCoord);
             }
             Entity tHitEntity = null;
-            List tAllPotentiallyHitEntities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            @SuppressWarnings("unchecked")
+            List<Entity> tAllPotentiallyHitEntities = (List<Entity>)this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double tLargestDistance = 1.7976931348623157E+308D;
-            for (int i = 0; i < tAllPotentiallyHitEntities.size(); i++) {
-                Entity entity1 = (Entity) tAllPotentiallyHitEntities.get(i);
+            for (Entity entity1 : tAllPotentiallyHitEntities) {
                 if ((entity1.canBeCollidedWith()) && ((entity1 != tShootingEntity) || (this.ticksInAir >= 5))) {
                     AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(0.3D, 0.3D, 0.3D);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
@@ -161,7 +161,7 @@ public class GT_Entity_Arrow
                         if ((!(tHitEntity instanceof EntityPlayer)) && (EnchantmentHelper.getEnchantmentLevel(Enchantment.looting.effectId, this.mArrow) > 0)) {
                             EntityPlayer tPlayer = null;
                             if ((this.worldObj instanceof WorldServer)) {
-                                tPlayer = FakePlayerFactory.get((WorldServer) this.worldObj, new GameProfile(new UUID(0L, 0L), (tShootingEntity instanceof EntityLivingBase) ? ((EntityLivingBase) tShootingEntity).getCommandSenderName() : "Arrow"));
+                                tPlayer = FakePlayerFactory.get((WorldServer) this.worldObj, new GameProfile(new UUID(0L, 0L), (tShootingEntity instanceof EntityLivingBase) ? tShootingEntity.getCommandSenderName() : "Arrow"));
                             }
                             if (tPlayer != null) {
                                 tPlayer.inventory.currentItem = 0;
@@ -191,7 +191,7 @@ public class GT_Entity_Arrow
                                 }
                                 GT_Utility.GT_EnchantmentHelper.applyBullshitA(tHitLivingEntity, tShootingEntity == null ? this : tShootingEntity, this.mArrow);
                                 GT_Utility.GT_EnchantmentHelper.applyBullshitB((tShootingEntity instanceof EntityLivingBase) ? (EntityLivingBase) tShootingEntity : null, tHitLivingEntity, this.mArrow);
-                                if ((tShootingEntity != null) && (tHitLivingEntity != tShootingEntity) && ((tHitLivingEntity instanceof EntityPlayer)) && ((tShootingEntity instanceof EntityPlayerMP))) {
+                                if ((tHitLivingEntity != tShootingEntity) && ((tHitLivingEntity instanceof EntityPlayer)) && ((tShootingEntity instanceof EntityPlayerMP))) {
                                     ((EntityPlayerMP) tShootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
                                 }
                             }
@@ -252,7 +252,11 @@ public class GT_Entity_Arrow
             this.posZ += this.motionZ;
 
             this.rotationYaw = ((float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / 3.141592653589793D));
-            for (this.rotationPitch = ((float) (Math.atan2(this.motionY, MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ)) * 180.0D / 3.141592653589793D)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+//            for (this.rotationPitch = ((float) (Math.atan2(this.motionY, MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ)) * 180.0D / 3.141592653589793D)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+//            }
+            this.rotationPitch = ((float) (Math.atan2(this.motionY, MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ)) * 180.0D / 3.141592653589793D));
+            while (this.rotationPitch - this.prevRotationPitch < -180.0F) {
+                this.prevRotationPitch -= 360.0F;
             }
             while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
                 this.prevRotationPitch += 360.0F;
@@ -327,11 +331,11 @@ public class GT_Entity_Arrow
     }
 
     public ItemStack getArrowItem() {
-        return GT_Utility.copy(new Object[]{this.mArrow});
+        return GT_Utility.copy(this.mArrow);
     }
 
     public void setArrowItem(ItemStack aStack) {
-        this.mArrow = GT_Utility.updateItemStack(GT_Utility.copyAmount(1L, new Object[]{aStack}));
+        this.mArrow = GT_Utility.updateItemStack(GT_Utility.copyAmount(1L, aStack));
     }
 
     public boolean breaksOnImpact() {
