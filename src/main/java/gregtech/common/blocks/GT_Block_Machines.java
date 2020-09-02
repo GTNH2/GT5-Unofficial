@@ -47,7 +47,7 @@ import static gregtech.api.objects.XSTR.XSTR_INSTANCE;
 public class GT_Block_Machines
         extends GT_Generic_Block
         implements IDebugableBlock, ITileEntityProvider {
-    public static ThreadLocal<IGregTechTileEntity> mTemporaryTileEntity = new ThreadLocal();
+    public static final ThreadLocal<IGregTechTileEntity> mTemporaryTileEntity = new ThreadLocal<>();
 
     public GT_Block_Machines() {
         super(GT_Item_Machines.class, "gt.blockmachines", new GT_Material_Machines());
@@ -177,9 +177,10 @@ public class GT_Block_Machines
     public boolean onBlockEventReceived(World aWorld, int aX, int aY, int aZ, int aData1, int aData2) {
         super.onBlockEventReceived(aWorld, aX, aY, aZ, aData1, aData2);
         TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
-        return tTileEntity != null ? tTileEntity.receiveClientEvent(aData1, aData2) : false;
+        return tTileEntity != null && tTileEntity.receiveClientEvent(aData1, aData2);
     }
 
+    @SuppressWarnings("unchecked")
     public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List outputAABB, Entity collider) {
         TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
         if (((tTileEntity instanceof IGregTechTileEntity)) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() != null)) {
@@ -364,7 +365,7 @@ public class GT_Block_Machines
         if ((tTileEntity instanceof IGregTechTileEntity)) {
             return ((IGregTechTileEntity) tTileEntity).getDrops();
         }
-        return mTemporaryTileEntity.get() == null ? new ArrayList() : ((IGregTechTileEntity) mTemporaryTileEntity.get()).getDrops();
+        return mTemporaryTileEntity.get() == null ? new ArrayList<>() : mTemporaryTileEntity.get().getDrops();
     }
     @Override
     public boolean removedByPlayer(World aWorld, EntityPlayer aPlayer, int aX, int aY, int aZ, boolean aWillHarvest) {
@@ -438,9 +439,7 @@ public class GT_Block_Machines
             if (((tTileEntity instanceof BaseMetaPipeEntity)) && ((((BaseMetaPipeEntity) tTileEntity).mConnections & 0xFFFFFFC0) != 0)) {
                 return true;
             }
-            if (((tTileEntity instanceof ICoverable)) && (((ICoverable) tTileEntity).getCoverIDAtSide((byte) aSide.ordinal()) != 0)) {
-                return true;
-            }
+            return ((tTileEntity instanceof ICoverable)) && (((ICoverable) tTileEntity).getCoverIDAtSide((byte) aSide.ordinal()) != 0);
         }
         return false;
     }
@@ -480,6 +479,7 @@ public class GT_Block_Machines
     }
 
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unchecked")
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 1; i < GregTech_API.METATILEENTITIES.length; i++) {
             if (GregTech_API.METATILEENTITIES[i] != null) {
@@ -537,10 +537,10 @@ public class GT_Block_Machines
     public boolean recolourBlock(World aWorld, int aX, int aY, int aZ, ForgeDirection aSide, int aColor) {
         TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
         if ((tTileEntity instanceof IGregTechTileEntity)) {
-            if (((IGregTechTileEntity) tTileEntity).getColorization() == (byte) ((aColor ^ 0xFFFFFFFF) & 0xF)) {
+            if (((IGregTechTileEntity) tTileEntity).getColorization() == (byte) ((~aColor) & 0xF)) {
                 return false;
             }
-            ((IGregTechTileEntity) tTileEntity).setColorization((byte) ((aColor ^ 0xFFFFFFFF) & 0xF));
+            ((IGregTechTileEntity) tTileEntity).setColorization((byte) ((~aColor) & 0xF));
             return true;
         }
         return false;

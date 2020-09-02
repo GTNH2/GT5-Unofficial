@@ -40,6 +40,7 @@ public abstract class GT_Item_Casings_Abstract
         return this.field_150939_a.getUnlocalizedName() + "." + getDamage(aStack);
     }
 
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
         super.addInformation(aStack, aPlayer, aList, aF3_H);
         aList.add(this.mNoMobsToolTip);

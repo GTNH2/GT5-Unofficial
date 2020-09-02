@@ -22,6 +22,7 @@ import java.util.Random;
 
 public class GT_Block_Storage extends GT_Generic_Block {
 
+    @SuppressWarnings("SameParameterValue")
     protected GT_Block_Storage(Class<? extends ItemBlock> aItemClass, String aName, Material aMaterial) {
         super(aItemClass, aName, aMaterial);
         setStepSound(soundTypeMetal);
@@ -93,6 +94,7 @@ public class GT_Block_Storage extends GT_Generic_Block {
     }
 
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unchecked")
     public void getSubBlocks(Item aItem, CreativeTabs par2CreativeTabs, List aList) {
         for (int i = 0; i < 16; i++) {
             if (!(new ItemStack(aItem, 1, i).getDisplayName().contains(".name"))) aList.add(new ItemStack(aItem, 1, i));

@@ -27,6 +27,7 @@ public class GT_Packet_Ores
         this.mMetaData = aMetaData;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public byte[] encode() {
         ByteArrayDataOutput tOut = ByteStreams.newDataOutput(12);
 

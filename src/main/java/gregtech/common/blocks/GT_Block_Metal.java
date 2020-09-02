@@ -11,10 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class GT_Block_Metal extends GT_Block_Storage {
-    public Materials[] mMats;
-    public OrePrefixes mPrefix;
-    public IIconContainer[] mBlockIcons;
-    public boolean mHideBlocks;
+    public final Materials[] mMats;
+    public final OrePrefixes mPrefix;
+    public final IIconContainer[] mBlockIcons;
+    public final boolean mHideBlocks;
 
     public GT_Block_Metal(String aName, Materials[] aMats, OrePrefixes aPrefix, IIconContainer[] aBlockIcons) {
         super(GT_Item_Storage.class, aName, Material.iron);

@@ -35,6 +35,7 @@ public class GT_Item_Machines
         setCreativeTab(GregTech_API.TAB_GREGTECH);
     }
 
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean par4) {
         try {
             int tDamage = getDamage(aStack);
@@ -51,8 +52,8 @@ public class GT_Item_Machines
                         	if(tDescription.contains("%%%")){
                         		String[] tString = tDescription.split("%%%");
                         		if(tString.length>=2){
-                                                StringBuffer tBuffer = new StringBuffer();
-                        			Object tRep[] = new String[tString.length / 2];
+                                                StringBuilder tBuffer = new StringBuilder();
+                        			Object[] tRep = new String[tString.length / 2];
                         			for (int j = 0; j < tString.length; j++)
                         				if (j % 2 == 0) tBuffer.append(tString[j]);
                         				else {tBuffer.append(" %s"); tRep[j / 2] = tString[j];}
@@ -84,8 +85,8 @@ public class GT_Item_Machines
                 if (aNBT.getBoolean("mSteamConverter")) {
                     aList.add(GT_LanguageManager.addStringLocalization("GT_TileEntity_STEAMCONVERTER", "has Steam Upgrade", !GregTech_API.sPostloadFinished ));
                 }
-                int tAmount = 0;
-                if ((tAmount = aNBT.getByte("mSteamTanks")) > 0) {
+                int tAmount = aNBT.getByte("mSteamTanks");
+                if (tAmount > 0) {
                     aList.add(tAmount + " " + GT_LanguageManager.addStringLocalization("GT_TileEntity_STEAMTANKS", "Steam Tank Upgrades", !GregTech_API.sPostloadFinished ));
                 }
 
