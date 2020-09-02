@@ -15,13 +15,13 @@ import net.minecraftforge.fluids.Fluid;
 public abstract class GT_Cover_RedstoneWirelessBase
         extends GT_CoverBehavior {
     public boolean onCoverRemoval(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, boolean aForced) {
-        GregTech_API.sWirelessRedstone.put(Integer.valueOf(aCoverVariable), Byte.valueOf((byte) 0));
+        GregTech_API.sWirelessRedstone.put(aCoverVariable, (byte) 0);
         return true;
     }
 
     public boolean onCoverRightclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
         if (((aX > 0.375D) && (aX < 0.625D)) || ((aSide > 3) && ((aY > 0.375D) && (aY < 0.625D)))) {
-            GregTech_API.sWirelessRedstone.put(Integer.valueOf(aCoverVariable), Byte.valueOf((byte) 0));
+            GregTech_API.sWirelessRedstone.put(aCoverVariable, (byte) 0);
             aCoverVariable = GT_Utility.stackToInt(aPlayer.inventory.getCurrentItem());
             aTileEntity.setCoverDataAtSide(aSide, aCoverVariable);
             GT_Utility.sendChatToPlayer(aPlayer, trans("081", "Frequency: ") + aCoverVariable);
@@ -32,7 +32,7 @@ public abstract class GT_Cover_RedstoneWirelessBase
 
     public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
         if (((aX > 0.375D) && (aX < 0.625D)) || ((aSide <= 3) || (((aY > 0.375D) && (aY < 0.625D)) || ((((aZ <= 0.375D) || (aZ >= 0.625D))))))) {
-            GregTech_API.sWirelessRedstone.put(Integer.valueOf(aCoverVariable), Byte.valueOf((byte) 0));
+            GregTech_API.sWirelessRedstone.put(aCoverVariable, (byte) 0);
             float[] tCoords = GT_Utility.getClickedFacingCoords(aSide, aX, aY, aZ);
             switch ((byte) ((byte) (int) (tCoords[0] * 2.0F) + 2 * (byte) (int) (tCoords[1] * 2.0F))) {
                 case 0:
@@ -100,7 +100,7 @@ public abstract class GT_Cover_RedstoneWirelessBase
     private class GUI extends GT_GUICover {
         private final byte side;
         private final int coverID;
-        private GT_GuiIntegerTextBox fBox;
+        private final GT_GuiIntegerTextBox fBox;
         private int coverVariable;
 
         private final static int startX = 10;
@@ -115,7 +115,7 @@ public abstract class GT_Cover_RedstoneWirelessBase
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            fBox = new GT_GuiIntegerTextBoxWithMinus(this, 2,startX + spaceX*0,startY+spaceY*0 + 2, spaceX*4-3,12);
+            fBox = new GT_GuiIntegerTextBoxWithMinus(this, 2, startX, startY + 2, spaceX*4-3,12);
             fBox.setText(String.valueOf(coverVariable));
             fBox.setMaxStringLength(12);
 
@@ -124,7 +124,7 @@ public abstract class GT_Cover_RedstoneWirelessBase
         @Override
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
-            this.getFontRenderer().drawString(trans("246","Frequency" ),  startX + spaceX*4, 4+startY+spaceY*0, 0xFF555555);
+            this.getFontRenderer().drawString(trans("246","Frequency" ),  startX + spaceX*4, 4 + startY, 0xFF555555);
         }
 
         @Override

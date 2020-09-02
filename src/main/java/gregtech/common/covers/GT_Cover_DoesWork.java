@@ -108,10 +108,9 @@ public class GT_Cover_DoesWork
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            GuiButton b;
-            b = new GT_GuiIconButton(this, 0, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.PROGRESS);
-            b = new GT_GuiIconButton(this, 1, startX + spaceX*1, startY+spaceY*0, GT_GuiIcon.CHECKMARK);
-            b = new GT_GuiIconCheckButton(this, 2, startX + spaceX*0, startY+spaceY*1, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
+            new GT_GuiIconButton(this, 0, startX, startY, GT_GuiIcon.PROGRESS);
+            new GT_GuiIconButton(this, 1, startX + spaceX, startY, GT_GuiIcon.CHECKMARK);
+            new GT_GuiIconCheckButton(this, 2, startX, startY+ spaceY, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
         }
 
         @Override
@@ -126,8 +125,8 @@ public class GT_Cover_DoesWork
                 s2 = trans("INVERTED","Inverted");
             else
                 s2 = trans("NORMAL","Normal");
-            this.fontRendererObj.drawString(s1,  startX + spaceX*3, 4+startY+spaceY*0, 0xFF555555);
-            this.fontRendererObj.drawString(s2,  startX + spaceX*3, 4+startY+spaceY*1, 0xFF555555);
+            this.fontRendererObj.drawString(s1,  startX + spaceX*3, 4 + startY, 0xFF555555);
+            this.fontRendererObj.drawString(s2,  startX + spaceX*3, 4+startY+ spaceY, 0xFF555555);
         }
 
         @Override

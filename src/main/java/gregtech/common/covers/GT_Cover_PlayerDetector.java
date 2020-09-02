@@ -130,11 +130,11 @@ public class GT_Cover_PlayerDetector extends GT_CoverBehavior {
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            new GT_GuiIconCheckButton(this, 0, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.CHECKMARK, null)
+            new GT_GuiIconCheckButton(this, 0, startX, startY, GT_GuiIcon.CHECKMARK, null)
                     .setTooltipText(trans("068", "Emit if any Player is close"));
-            new GT_GuiIconCheckButton(this, 1, startX + spaceX*0, startY+spaceY*1, GT_GuiIcon.CHECKMARK, null)
+            new GT_GuiIconCheckButton(this, 1, startX, startY+ spaceY, GT_GuiIcon.CHECKMARK, null)
                     .setTooltipText(trans("069", "Emit if other Player is close"));
-            new GT_GuiIconCheckButton(this, 2, startX + spaceX*0, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null)
+            new GT_GuiIconCheckButton(this, 2, startX, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null)
                     .setTooltipText(trans("070", "Emit if you are close"));
         }
 
@@ -142,11 +142,11 @@ public class GT_Cover_PlayerDetector extends GT_CoverBehavior {
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
             this.fontRendererObj.drawString("Any player",
-                    startX + spaceX*1, 4+startY+spaceY*0, 0xFF555555);
+                    startX + spaceX, 4 + startY, 0xFF555555);
             this.fontRendererObj.drawString("Other players",
-                    startX + spaceX*1, 4+startY+spaceY*1, 0xFF555555);
+                    startX + spaceX, 4+startY+ spaceY, 0xFF555555);
             this.fontRendererObj.drawString("Only owner",
-                    startX + spaceX*1, 4+startY+spaceY*2, 0xFF555555);
+                    startX + spaceX, 4+startY+spaceY*2, 0xFF555555);
         }
 
         @Override

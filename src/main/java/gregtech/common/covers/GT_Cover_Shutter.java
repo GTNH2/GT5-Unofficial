@@ -21,7 +21,9 @@ public class GT_Cover_Shutter
 
     public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
         aCoverVariable = (aCoverVariable + (aPlayer.isSneaking()? -1 : 1)) % 4;
-        if(aCoverVariable <0){aCoverVariable = 3;}
+        if(aCoverVariable <0) {
+            aCoverVariable = 3;
+        }
         switch(aCoverVariable) {
             case 0: GT_Utility.sendChatToPlayer(aPlayer, trans("082", "Open if work enabled")); break;
             case 1: GT_Utility.sendChatToPlayer(aPlayer, trans("083", "Open if work disabled")); break;
@@ -32,35 +34,35 @@ public class GT_Cover_Shutter
     }
 
     public boolean letsRedstoneGoIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 3 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 3 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean letsRedstoneGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 2 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 2 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean letsEnergyIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 3 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 3 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean letsEnergyOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 2 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 2 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean letsFluidIn(byte aSide, int aCoverID, int aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 3 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 3 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean letsFluidOut(byte aSide, int aCoverID, int aCoverVariable, Fluid aFluid, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 2 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 2 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean letsItemsIn(byte aSide, int aCoverID, int aCoverVariable, int aSlot, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 3 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 3 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean letsItemsOut(byte aSide, int aCoverID, int aCoverVariable, int aSlot, ICoverable aTileEntity) {
-        return aCoverVariable >= 2 ? aCoverVariable == 2 : (aTileEntity instanceof IMachineProgress) ? ((IMachineProgress) aTileEntity).isAllowedToWork() ? aCoverVariable % 2 == 0 : aCoverVariable % 2 != 0 : true;
+        return aCoverVariable >= 2 ? aCoverVariable == 2 : !(aTileEntity instanceof IMachineProgress) || ((IMachineProgress) aTileEntity).isAllowedToWork() == (aCoverVariable % 2 == 0);
     }
 
     public boolean alwaysLookConnected(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
@@ -101,23 +103,23 @@ public class GT_Cover_Shutter
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            new GT_GuiIconCheckButton(this, 0, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.CHECKMARK, null);
-            new GT_GuiIconCheckButton(this, 1, startX + spaceX*0, startY+spaceY*1, GT_GuiIcon.CHECKMARK, null);
-            new GT_GuiIconCheckButton(this, 2, startX + spaceX*0, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null);
-            new GT_GuiIconCheckButton(this, 3, startX + spaceX*0, startY+spaceY*3, GT_GuiIcon.CHECKMARK, null);
+            new GT_GuiIconCheckButton(this, 0, startX, startY, GT_GuiIcon.CHECKMARK, null);
+            new GT_GuiIconCheckButton(this, 1, startX, startY+spaceY, GT_GuiIcon.CHECKMARK, null);
+            new GT_GuiIconCheckButton(this, 2, startX, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null);
+            new GT_GuiIconCheckButton(this, 3, startX, startY+spaceY*3, GT_GuiIcon.CHECKMARK, null);
         }
 
         @Override
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
             this.fontRendererObj.drawString(trans("082", "Open if work enabled"),
-                    3+startX + spaceX*1, 4+startY+spaceY*0, 0xFF555555);
+                    3+startX + spaceX, 4 + startY, 0xFF555555);
             this.fontRendererObj.drawString(trans("083", "Open if work disabled"),
-                    3+startX + spaceX*1, 4+startY+spaceY*1, 0xFF555555);
+                    3+startX + spaceX, 4+startY+ spaceY, 0xFF555555);
             this.fontRendererObj.drawString(trans("084", "Only Output allowed"),
-                    3+startX + spaceX*1, 4+startY+spaceY*2, 0xFF555555);
+                    3+startX + spaceX, 4+startY+spaceY*2, 0xFF555555);
             this.fontRendererObj.drawString(trans("085", "Only Input allowed"),
-                    3+startX + spaceX*1, 4+startY+spaceY*3, 0xFF555555);
+                    3+startX + spaceX, 4+startY+spaceY*3, 0xFF555555);
         }
 
         @Override

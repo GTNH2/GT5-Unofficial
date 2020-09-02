@@ -107,18 +107,17 @@ public class GT_Cover_ControlsWork
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            GuiButton b;
-            b = new GT_GuiIconButton(this, 0, startX + spaceX * 0, startY + spaceY * 0, GT_GuiIcon.REDSTONE_ON);
-            b = new GT_GuiIconButton(this, 1, startX + spaceX * 0, startY + spaceY * 1, GT_GuiIcon.REDSTONE_OFF);
-            b = new GT_GuiIconButton(this, 2, startX + spaceX * 0, startY + spaceY * 2, GT_GuiIcon.CROSS);
+            new GT_GuiIconButton(this, 0, startX, startY, GT_GuiIcon.REDSTONE_ON);
+            new GT_GuiIconButton(this, 1, startX, startY + spaceY, GT_GuiIcon.REDSTONE_OFF);
+            new GT_GuiIconButton(this, 2, startX, startY + spaceY * 2, GT_GuiIcon.CROSS);
         }
 
         @Override
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
-            this.fontRendererObj.drawString(trans("243", "Enable with Redstone"), 3+startX + spaceX*1, 4+startY+spaceY*0, 0xFF555555);
-            this.fontRendererObj.drawString(trans("244", "Disable with Redstone"),3+startX + spaceX*1, 4+startY+spaceY*1, 0xFF555555);
-            this.fontRendererObj.drawString(trans("245", "Disable machine"),              3+startX + spaceX*1, 4+startY+spaceY*2, 0xFF555555);
+            this.fontRendererObj.drawString(trans("243", "Enable with Redstone"), 3+startX + spaceX, 4 + startY, 0xFF555555);
+            this.fontRendererObj.drawString(trans("244", "Disable with Redstone"),3+startX + spaceX, 4+startY+ spaceY, 0xFF555555);
+            this.fontRendererObj.drawString(trans("245", "Disable machine"),              3+startX + spaceX, 4+startY+spaceY*2, 0xFF555555);
         }
 
         @Override

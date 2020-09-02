@@ -115,7 +115,7 @@ public class GT_Cover_LiquidMeter
             this.side = aSide;
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
-            new GT_GuiIconCheckButton(this, 0, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
+            new GT_GuiIconCheckButton(this, 0, startX, startY, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
         }
 
         @Override
@@ -127,7 +127,7 @@ public class GT_Cover_LiquidMeter
             else
                 s2 = trans("NORMAL","Normal");
 
-            this.fontRendererObj.drawString(s2,  startX + spaceX*1, 4+startY+spaceY*0, 0xFF555555);
+            this.fontRendererObj.drawString(s2,  startX + spaceX, 4 + startY, 0xFF555555);
         }
 
         @Override

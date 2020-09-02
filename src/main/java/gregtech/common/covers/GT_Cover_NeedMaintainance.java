@@ -44,7 +44,7 @@ public class GT_Cover_NeedMaintainance extends GT_CoverBehavior {
                         if (coverVar == 5) {
                             needsRepair = (tCur >= tMax * 8 / 10);
                         } else {
-                            long mExpectedDamage = Math.round(Math.min(multi.mEUt / multi.damageFactorLow, Math.pow(multi.mEUt, multi.damageFactorHigh)));
+                            long mExpectedDamage = Math.round(Math.min((double)multi.mEUt / multi.damageFactorLow, Math.pow(multi.mEUt, multi.damageFactorHigh)));
                             needsRepair = tCur + mExpectedDamage * 2 >= tMax;
                         }
                     } else {
@@ -164,6 +164,7 @@ public class GT_Cover_NeedMaintainance extends GT_CoverBehavior {
         private final int coverID;
         private int coverVariable;
 
+        @SuppressWarnings("FieldCanBeLocal")
         private final String[] tooltiptext = {
                 trans("056", "Emit if 1 Maintenance Needed"),
                 trans("058", "Emit if 2 Maintenance Needed"),
@@ -198,15 +199,14 @@ public class GT_Cover_NeedMaintainance extends GT_CoverBehavior {
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            GuiButton b;
-            b = new GT_GuiIconCheckButton(this, 0, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[0]);
-            b = new GT_GuiIconCheckButton(this, 1, startX + spaceX*0, startY+spaceY*1, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[1]);
-            b = new GT_GuiIconCheckButton(this, 2, startX + spaceX*0, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[2]);
-            b = new GT_GuiIconCheckButton(this, 3, startX + spaceX*0, startY+spaceY*3, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[3]);
-            b = new GT_GuiIconCheckButton(this, 4, startX + spaceX*4 + 4, startY+spaceY*0, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[4]);
-            b = new GT_GuiIconCheckButton(this, 5, startX + spaceX*4 + 4, startY+spaceY*1, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[5]);
-            b = new GT_GuiIconCheckButton(this, 6, startX + spaceX*4 + 4, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[6]);
-            b = new GT_GuiIconCheckButton(this, 7, startX + spaceX*4 + 4, startY+spaceY*3, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
+            new GT_GuiIconCheckButton(this, 0, startX, startY, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[0]);
+            new GT_GuiIconCheckButton(this, 1, startX, startY+ spaceY, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[1]);
+            new GT_GuiIconCheckButton(this, 2, startX, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[2]);
+            new GT_GuiIconCheckButton(this, 3, startX, startY+spaceY*3, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[3]);
+            new GT_GuiIconCheckButton(this, 4, startX + spaceX*4 + 4, startY, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[4]);
+            new GT_GuiIconCheckButton(this, 5, startX + spaceX*4 + 4, startY+ spaceY, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[5]);
+            new GT_GuiIconCheckButton(this, 6, startX + spaceX*4 + 4, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null).setTooltipText(tooltiptext[6]);
+            new GT_GuiIconCheckButton(this, 7, startX + spaceX*4 + 4, startY+spaceY*3, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
         }
 
 
@@ -214,12 +214,12 @@ public class GT_Cover_NeedMaintainance extends GT_CoverBehavior {
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
 
-            this.fontRendererObj.drawString(buttontext[0],startX + spaceX*1, 4+startY+spaceY*0, 0xFF555555);
-            this.fontRendererObj.drawString(buttontext[1],startX + spaceX*1, 4+startY+spaceY*1, 0xFF555555);
-            this.fontRendererObj.drawString(buttontext[2],startX + spaceX*1, 4+startY+spaceY*2, 0xFF555555);
-            this.fontRendererObj.drawString(buttontext[3],startX + spaceX*1, 4+startY+spaceY*3, 0xFF555555);
-            this.fontRendererObj.drawString(buttontext[4],startX + spaceX*5 + 4, 4+startY+spaceY*0, 0xFF555555);
-            this.fontRendererObj.drawString(buttontext[5],startX + spaceX*5 + 4, 4+startY+spaceY*1, 0xFF555555);
+            this.fontRendererObj.drawString(buttontext[0],startX + spaceX, 4 + startY, 0xFF555555);
+            this.fontRendererObj.drawString(buttontext[1],startX + spaceX, 4+startY+ spaceY, 0xFF555555);
+            this.fontRendererObj.drawString(buttontext[2],startX + spaceX, 4+startY+spaceY*2, 0xFF555555);
+            this.fontRendererObj.drawString(buttontext[3],startX + spaceX, 4+startY+spaceY*3, 0xFF555555);
+            this.fontRendererObj.drawString(buttontext[4],startX + spaceX*5 + 4, 4 + startY, 0xFF555555);
+            this.fontRendererObj.drawString(buttontext[5],startX + spaceX*5 + 4, 4+startY+ spaceY, 0xFF555555);
             this.fontRendererObj.drawString(buttontext[6],startX + spaceX*5 + 4, 4+startY+spaceY*2, 0xFF555555);
             //                                          inverted        normal
             String s2 = ((coverVariable & 0x1) > 0) ? buttontext[7] : buttontext[8];
