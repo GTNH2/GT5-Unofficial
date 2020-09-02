@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GT_Bee_Mutation extends BeeMutation {
 
-    private float split = 1;
+    private float split;
 
     public GT_Bee_Mutation(IAlleleBeeSpecies bee0, IAlleleBeeSpecies bee1, IAllele[] result, int chance, float split) {
         super(bee0, bee1, result, chance);
@@ -52,6 +52,7 @@ public class GT_Bee_Mutation extends BeeMutation {
         return processedChance;
     }
 
+    @SuppressWarnings("ALL")
     private float getBasicChance(World world, int x, int y, int z, IAllele allele0, IAllele allele1, IGenome genome0, IGenome genome1) {
         float mutationChance = this.getBaseChance();
         List<IMutationCondition> mutationConditions = null;
