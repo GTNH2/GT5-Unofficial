@@ -58,9 +58,9 @@ public interface IEnergyConnected extends IColoredTileEntity, IHasWorldObjectAnd
          *
          * @return the used Amperage.
          */
-        public static final long emitEnergyToNetwork(long aVoltage, long aAmperage, IEnergyConnected aEmitter) {
+        public static long emitEnergyToNetwork(long aVoltage, long aAmperage, IEnergyConnected aEmitter) {
             long rUsedAmperes = 0;
-            for (byte i = 0, j = 0; i < 6 && aAmperage > rUsedAmperes; i++)
+            for (byte i = 0, j; i < 6 && aAmperage > rUsedAmperes; i++)
                 if (aEmitter.outputsEnergyTo(i)) {
                     j = GT_Utility.getOppositeSide(i);
                     TileEntity tTileEntity = aEmitter.getTileEntityAtSide(i);
@@ -84,27 +84,26 @@ public interface IEnergyConnected extends IColoredTileEntity, IHasWorldObjectAnd
                         }
                         if (GregTech_API.mRFExplosions && GregTech_API.sMachineExplosions && ((IEnergyReceiver) tTileEntity).getMaxEnergyStored(tDirection) < rfOut * 600L) {
                             if (rfOut > 32L * GregTech_API.mEUtoRF / 100L) {
-                                int aExplosionPower = rfOut;
                                 float tStrength =
-                                        aExplosionPower < V[0] ? 1.0F :
-                                                aExplosionPower < V[1] ? 2.0F :
-                                                        aExplosionPower < V[2] ? 3.0F :
-                                                                aExplosionPower < V[3] ? 4.0F :
-                                                                        aExplosionPower < V[4] ? 5.0F :
-                                                                                aExplosionPower < V[4] * 2 ? 6.0F :
-                                                                                        aExplosionPower < V[5] ? 7.0F :
-                                                                                                aExplosionPower < V[6] ? 8.0F :
-                                                                                                        aExplosionPower < V[7] ? 9.0F :
-                                                                                                                aExplosionPower < V[8] ? 10.0F :
-                                                                                                                        aExplosionPower < V[8] * 2 ? 11.0F :
-                                                                                                                                aExplosionPower < V[9] ? 12.0F :
-                                                                                                                                        aExplosionPower < V[10] ? 13.0F :
-                                                                                                                                                aExplosionPower < V[11] ? 14.0F :
-                                                                                                                                                        aExplosionPower < V[12] ? 15.0F :
-                                                                                                                                                                aExplosionPower < V[12] * 2 ? 16.0F :
-                                                                                                                                                                        aExplosionPower < V[13] ? 17.0F :
-                                                                                                                                                                                aExplosionPower < V[14] ? 18.0F :
-                                                                                                                                                                                        aExplosionPower < V[15] ? 19.0F : 20.0F;
+                                        rfOut < V[0] ? 1.0F :
+                                                rfOut < V[1] ? 2.0F :
+                                                        rfOut < V[2] ? 3.0F :
+                                                                rfOut < V[3] ? 4.0F :
+                                                                        rfOut < V[4] ? 5.0F :
+                                                                                rfOut < V[4] * 2 ? 6.0F :
+                                                                                        rfOut < V[5] ? 7.0F :
+                                                                                                rfOut < V[6] ? 8.0F :
+                                                                                                        rfOut < V[7] ? 9.0F :
+                                                                                                                rfOut < V[8] ? 10.0F :
+                                                                                                                        rfOut < V[8] * 2 ? 11.0F :
+                                                                                                                                rfOut < V[9] ? 12.0F :
+                                                                                                                                        rfOut < V[10] ? 13.0F :
+                                                                                                                                                rfOut < V[11] ? 14.0F :
+                                                                                                                                                        rfOut < V[12] ? 15.0F :
+                                                                                                                                                                rfOut < V[12] * 2 ? 16.0F :
+                                                                                                                                                                        rfOut < V[13] ? 17.0F :
+                                                                                                                                                                                rfOut < V[14] ? 18.0F :
+                                                                                                                                                                                        rfOut < V[15] ? 19.0F : 20.0F;
                                 int tX = tTileEntity.xCoord, tY = tTileEntity.yCoord, tZ = tTileEntity.zCoord;
                                 World tWorld = tTileEntity.getWorldObj();
                                 GT_Utility.sendSoundToPlayers(tWorld, GregTech_API.sSoundList.get(209), 1.0F, -1, tX, tY, tZ);

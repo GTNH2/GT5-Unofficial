@@ -124,6 +124,7 @@ public interface IHasWorldObjectAndCoords {
     /**
      * Checks if the TileEntity is Invalid or Unloaded. Stupid Minecraft cannot do that btw.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     boolean isDead();
 
     /**

@@ -48,13 +48,14 @@ public interface IMetaTileEntityItemPipe extends IMetaTileEntity {
         /**
          * @return a List of connected Item Pipes
          */
+        @SuppressWarnings("ConstantConditions")
         public static Map<IMetaTileEntityItemPipe, Long> scanPipes(IMetaTileEntityItemPipe aMetaTileEntity, Map<IMetaTileEntityItemPipe, Long> aMap, long aStep, boolean aSuckItems, boolean aIgnoreCapacity) {
             aStep += aMetaTileEntity.getStepSize();
             if (aIgnoreCapacity || aMetaTileEntity.pipeCapacityCheck())
                 if (aMap.get(aMetaTileEntity) == null || aMap.get(aMetaTileEntity) > aStep) {
                     IGregTechTileEntity aBaseMetaTileEntity = aMetaTileEntity.getBaseMetaTileEntity();
                     aMap.put(aMetaTileEntity, aStep);
-                    for (byte i = 0, j = 0; i < 6; i++) {
+                    for (byte i = 0, j; i < 6; i++) {
                         if (aMetaTileEntity instanceof IConnectable && !((IConnectable) aMetaTileEntity).isConnectedAtSide(i))
                             continue;
                         j = GT_Utility.getOppositeSide(i);
