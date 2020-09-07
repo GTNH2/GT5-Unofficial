@@ -62,14 +62,14 @@ public enum TC_Aspects {
      * The Thaumcraft Aspect Object of the Mod itself.
      */
     public Object mAspect;
-    public int mValue;
+    public final int mValue;
 
     TC_Aspects(int aValue) {
         mValue = aValue;
     }
 
     public static class TC_AspectStack {
-        public TC_Aspects mAspect;
+        public final TC_Aspects mAspect;
         public long mAmount;
 
 

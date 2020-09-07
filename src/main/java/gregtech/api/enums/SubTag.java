@@ -259,6 +259,7 @@ public final class SubTag implements ICondition<ISubTagContainer> {
         return mName;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public SubTag addContainerToList(ISubTagContainer... aContainers) {
         if (aContainers != null)
             for (ISubTagContainer aContainer : aContainers)
@@ -267,6 +268,7 @@ public final class SubTag implements ICondition<ISubTagContainer> {
         return this;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public SubTag addTo(ISubTagContainer... aContainers) {
         if (aContainers != null)
             for (ISubTagContainer aContainer : aContainers)

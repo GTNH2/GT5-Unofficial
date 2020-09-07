@@ -604,7 +604,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 
     public void onServerStarted() {
         GregTech_API.sWirelessRedstone.clear();
-        GT_FluidStack.fixAllThoseFuckingFluidIDs();
+//        GT_FluidStack.fixAllThoseFuckingFluidIDs();
 
         GT_Log.out.println("GT_Mod: Cleaning up all OreDict Crafting Recipes, which have an empty List in them, since they are never meeting any Condition.");
         List tList = CraftingManager.getInstance().getRecipeList();
