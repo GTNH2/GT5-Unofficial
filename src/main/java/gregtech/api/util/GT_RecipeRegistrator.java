@@ -13,11 +13,13 @@ import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static gregtech.api.enums.GT_Values.*;
 import static gregtech.api.enums.Materials.Void;
 import static gregtech.api.enums.Materials.*;
+
 /**
  * Class for Automatic Recipe registering.
  */
@@ -25,7 +27,7 @@ public class GT_RecipeRegistrator {
     /**
      * List of Materials, which are used in the Creation of Sticks. All Rod Materials are automatically added to this List.
      */
-    public static final List<Materials> sRodMaterialList = new ArrayList<Materials>();
+    public static final List<Materials> sRodMaterialList = new ArrayList<>();
     private static final ItemStack sMt1 = new ItemStack(Blocks.dirt, 1, 0), sMt2 = new ItemStack(Blocks.dirt, 1, 0);
     private static final String s_H = "h", s_F = "f", s_I = "I", s_P = "P", s_R = "R";
     private static final ItemStack[][]
@@ -124,7 +126,8 @@ public class GT_RecipeRegistrator {
     public static volatile int VERSION = 509;
 
     public static void registerMaterialRecycling(ItemStack aStack, Materials aMaterial, long aMaterialAmount, MaterialStack aByproduct) {
-        if (GT_Utility.isStackInvalid(aStack)) return;
+        if (GT_Utility.isStackInvalid(aStack))
+            return;
         if (aByproduct != null) {
             aByproduct = aByproduct.clone();
             aByproduct.mAmount /= aStack.stackSize;
@@ -150,8 +153,10 @@ public class GT_RecipeRegistrator {
         if (aStack == null || aMaterial == null || aMaterial.mSmeltInto.mStandardMoltenFluid == null || !aMaterial.contains(SubTag.SMELTING_TO_FLUID) || (L * aMaterialAmount) / (M * aStack.stackSize) <= 0)
             return;
         ItemData tData = GT_OreDictUnificator.getItemData(aStack);
-        boolean tHide = aStack.getUnlocalizedName().startsWith("gt.blockmachines")&&(GT_Mod.gregtechproxy.mHideRecyclingRecipes);
-        if(GT_Mod.gregtechproxy.mHideRecyclingRecipes&&tData!=null&&tData.hasValidPrefixData()&&!(tData.mPrefix==OrePrefixes.dust||tData.mPrefix==OrePrefixes.ingot||tData.mPrefix==OrePrefixes.block|tData.mPrefix==OrePrefixes.plate)){tHide=true;}
+        boolean tHide = aStack.getUnlocalizedName().startsWith("gt.blockmachines") && (GT_Mod.gregtechproxy.mHideRecyclingRecipes);
+        if (GT_Mod.gregtechproxy.mHideRecyclingRecipes && tData != null && tData.hasValidPrefixData() && !(tData.mPrefix == OrePrefixes.dust || tData.mPrefix == OrePrefixes.ingot || tData.mPrefix == OrePrefixes.block | tData.mPrefix == OrePrefixes.plate)) {
+            tHide = true;
+        }
 //        boolean tHide = (aMaterial != Materials.Iron && aMaterial!= Materials.Redstone)&&(GT_Mod.gregtechproxy.mHideRecyclingRecipes);
 //        if(tHide && tData!=null&&tData.hasValidPrefixData()&&tData.mPrefix==OrePrefixes.ingot){
 //            tHide=false;
@@ -169,30 +174,36 @@ public class GT_RecipeRegistrator {
         if (aStack == null || aMaterial == null || aMaterialAmount <= 0 || aMaterial.contains(SubTag.NO_SMELTING) || (aMaterialAmount > M && aMaterial.contains(SubTag.METAL)))
             return;
         aMaterialAmount /= aStack.stackSize;
-        if(aMaterial==Materials.Naquadah||aMaterial==Materials.NaquadahEnriched)return;
+        if (aMaterial == Materials.Naquadah || aMaterial == Materials.NaquadahEnriched)
+            return;
 
-        boolean tHide = (aMaterial != Materials.Iron)&&(GT_Mod.gregtechproxy.mHideRecyclingRecipes);
+        boolean tHide = (aMaterial != Materials.Iron) && (GT_Mod.gregtechproxy.mHideRecyclingRecipes);
         if (aAllowAlloySmelter)
-            GT_ModHandler.addSmeltingAndAlloySmeltingRecipe(GT_Utility.copyAmount(1, aStack), GT_OreDictUnificator.getIngot(aMaterial.mSmeltInto, aMaterialAmount),tHide);
+            GT_ModHandler.addSmeltingAndAlloySmeltingRecipe(GT_Utility.copyAmount(1, aStack), GT_OreDictUnificator.getIngot(aMaterial.mSmeltInto, aMaterialAmount), tHide);
         else
             GT_ModHandler.addSmeltingRecipe(GT_Utility.copyAmount(1, aStack), GT_OreDictUnificator.getIngot(aMaterial.mSmeltInto, aMaterialAmount));
     }
 
+    //TODO: itemdata should not be nullable?
+    @SuppressWarnings("ConstantConditions")
     public static void registerReverseArcSmelting(ItemStack aStack, Materials aMaterial, long aMaterialAmount, MaterialStack aByProduct01, MaterialStack aByProduct02, MaterialStack aByProduct03) {
         registerReverseArcSmelting(aStack, new ItemData(aMaterial == null ? null : new MaterialStack(aMaterial, aMaterialAmount), aByProduct01, aByProduct02, aByProduct03));
     }
 
     public static void registerReverseArcSmelting(ItemStack aStack, ItemData aData) {
-        if (aStack == null || aData == null) return;
+        if (aStack == null || aData == null)
+            return;
         aData = new ItemData(aData);
 
-        if (!aData.hasValidMaterialData()) return;
+        if (!aData.hasValidMaterialData())
+            return;
         boolean tIron = false;
 
 
         for (MaterialStack tMaterial : aData.getAllMaterialStacks()) {
-            if (tMaterial.mMaterial == Materials.Iron||tMaterial.mMaterial == Materials.Copper ||
-                    tMaterial.mMaterial == Materials.WroughtIron||tMaterial.mMaterial == Materials.AnnealedCopper) tIron = true;
+            if (tMaterial.mMaterial == Materials.Iron || tMaterial.mMaterial == Materials.Copper ||
+                    tMaterial.mMaterial == Materials.WroughtIron || tMaterial.mMaterial == Materials.AnnealedCopper)
+                tIron = true;
 
             if (tMaterial.mMaterial.contains(SubTag.UNBURNABLE)) {
                 tMaterial.mMaterial = tMaterial.mMaterial.mSmeltInto.mArcSmeltInto;
@@ -213,24 +224,27 @@ public class GT_RecipeRegistrator {
                 continue;
             }
             if (tMaterial.mMaterial.contains(SubTag.METAL)) {
-            	if(GT_Mod.gregtechproxy.mArcSmeltIntoAnnealed){
-                tMaterial.mMaterial = tMaterial.mMaterial.mSmeltInto.mArcSmeltInto;
-            	}else{
-            		tMaterial.mMaterial = tMaterial.mMaterial.mSmeltInto.mSmeltInto;	
-            	}
+                if (GT_Mod.gregtechproxy.mArcSmeltIntoAnnealed) {
+                    tMaterial.mMaterial = tMaterial.mMaterial.mSmeltInto.mArcSmeltInto;
+                } else {
+                    tMaterial.mMaterial = tMaterial.mMaterial.mSmeltInto.mSmeltInto;
+                }
                 continue;
             }
             tMaterial.mAmount = 0;
         }
 
         aData = new ItemData(aData);
-        if (aData.mByProducts.length > 3) for (MaterialStack tMaterial : aData.getAllMaterialStacks()){
-            if (tMaterial.mMaterial == Materials.Ash) tMaterial.mAmount = 0;
-        }
+        if (aData.mByProducts.length > 3)
+            for (MaterialStack tMaterial : aData.getAllMaterialStacks()) {
+                if (tMaterial.mMaterial == Materials.Ash)
+                    tMaterial.mAmount = 0;
+            }
 
         aData = new ItemData(aData);
 
-        if (!aData.hasValidMaterialData()) return;
+        if (!aData.hasValidMaterialData())
+            return;
 
         long tAmount = 0;
         for (MaterialStack tMaterial : aData.getAllMaterialStacks())
@@ -240,38 +254,43 @@ public class GT_RecipeRegistrator {
         RA.addArcFurnaceRecipe(aStack, new ItemStack[]{GT_OreDictUnificator.getIngotOrDust(aData.mMaterial), GT_OreDictUnificator.getIngotOrDust(aData.getByProduct(0)), GT_OreDictUnificator.getIngotOrDust(aData.getByProduct(1)), GT_OreDictUnificator.getIngotOrDust(aData.getByProduct(2))}, null, (int) Math.max(16, tAmount / M), 90, tHide);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static void registerReverseMacerating(ItemStack aStack, Materials aMaterial, long aMaterialAmount, MaterialStack aByProduct01, MaterialStack aByProduct02, MaterialStack aByProduct03, boolean aAllowHammer) {
         registerReverseMacerating(aStack, new ItemData(aMaterial == null ? null : new MaterialStack(aMaterial, aMaterialAmount), aByProduct01, aByProduct02, aByProduct03), aAllowHammer);
     }
 
     public static void registerReverseMacerating(ItemStack aStack, ItemData aData, boolean aAllowHammer) {
-        if (aStack == null || aData == null) return;
+        if (aStack == null || aData == null)
+            return;
         aData = new ItemData(aData);
 
-        if (!aData.hasValidMaterialData()) return;
+        if (!aData.hasValidMaterialData())
+            return;
 
         for (MaterialStack tMaterial : aData.getAllMaterialStacks())
             tMaterial.mMaterial = tMaterial.mMaterial.mMacerateInto;
 
         aData = new ItemData(aData);
 
-        if (!aData.hasValidMaterialData()) return;
+        if (!aData.hasValidMaterialData())
+            return;
 
         long tAmount = 0;
         for (MaterialStack tMaterial : aData.getAllMaterialStacks())
             tAmount += tMaterial.mAmount * tMaterial.mMaterial.getMass();
-        boolean tHide = (aData.mMaterial.mMaterial != Materials.Iron)&&(GT_Mod.gregtechproxy.mHideRecyclingRecipes);
-        RA.addPulveriserRecipe(aStack, new ItemStack[]{GT_OreDictUnificator.getDust(aData.mMaterial), GT_OreDictUnificator.getDust(aData.getByProduct(0)), GT_OreDictUnificator.getDust(aData.getByProduct(1)), GT_OreDictUnificator.getDust(aData.getByProduct(2))}, null, aData.mMaterial.mMaterial==Materials.Marble ? 1 : (int) Math.max(16, tAmount / M), 4, tHide);
+        boolean tHide = (aData.mMaterial.mMaterial != Materials.Iron) && (GT_Mod.gregtechproxy.mHideRecyclingRecipes);
+        RA.addPulveriserRecipe(aStack, new ItemStack[]{GT_OreDictUnificator.getDust(aData.mMaterial), GT_OreDictUnificator.getDust(aData.getByProduct(0)), GT_OreDictUnificator.getDust(aData.getByProduct(1)), GT_OreDictUnificator.getDust(aData.getByProduct(2))}, null, aData.mMaterial.mMaterial == Materials.Marble ? 1 : (int) Math.max(16, tAmount / M), 4, tHide);
 
-        if (aAllowHammer) for (MaterialStack tMaterial : aData.getAllMaterialStacks())
-            if (tMaterial.mMaterial.contains(SubTag.CRYSTAL) && !tMaterial.mMaterial.contains(SubTag.METAL) && tMaterial.mMaterial != Materials.Glass) {
-                if (RA.addForgeHammerRecipe(GT_Utility.copyAmount(1, aStack), GT_OreDictUnificator.getDust(aData.mMaterial), 200, 30))
-                    break;
-            }
+        if (aAllowHammer)
+            for (MaterialStack tMaterial : aData.getAllMaterialStacks())
+                if (tMaterial.mMaterial.contains(SubTag.CRYSTAL) && !tMaterial.mMaterial.contains(SubTag.METAL) && tMaterial.mMaterial != Materials.Glass) {
+                    if (RA.addForgeHammerRecipe(GT_Utility.copyAmount(1, aStack), GT_OreDictUnificator.getDust(aData.mMaterial), 200, 30))
+                        break;
+                }
         ItemStack tDust = GT_OreDictUnificator.getDust(aData.mMaterial);
         if (tDust != null && GT_ModHandler.addPulverisationRecipe(GT_Utility.copyAmount(1, aStack), tDust, GT_OreDictUnificator.getDust(aData.getByProduct(0)), 100, GT_OreDictUnificator.getDust(aData.getByProduct(1)), 100, true)) {
             if (GregTech_API.sThaumcraftCompat != null)
-                GregTech_API.sThaumcraftCompat.addCrucibleRecipe(IThaumcraftCompat.ADVANCEDENTROPICPROCESSING, aStack, tDust, Arrays.asList(new TC_AspectStack(TC_Aspects.PERDITIO, Math.max(1, (aData.mMaterial.mAmount * 2) / M))));
+                GregTech_API.sThaumcraftCompat.addCrucibleRecipe(IThaumcraftCompat.ADVANCEDENTROPICPROCESSING, aStack, tDust, Collections.singletonList(new TC_AspectStack(TC_Aspects.PERDITIO, Math.max(1, (aData.mMaterial.mAmount * 2) / M))));
         }
     }
 
@@ -315,8 +334,10 @@ public class GT_RecipeRegistrator {
                 continue;
 
             ItemData aItemData = GT_OreDictUnificator.getItemData(aMat);
-            if (aItemData == null || aItemData.mPrefix != OrePrefixes.ingot) aPlate = null;
-            if (aPlate != null && GT_OreDictUnificator.getFirstOre(aPlate, 1) == null) aPlate = null;
+            if (aItemData == null || aItemData.mPrefix != OrePrefixes.ingot)
+                aPlate = null;
+            if (aPlate != null && GT_OreDictUnificator.getFirstOre(aPlate, 1) == null)
+                aPlate = null;
 
             sMt1.func_150996_a(aMat.getItem());
             sMt1.stackSize = 1;
@@ -329,7 +350,8 @@ public class GT_RecipeRegistrator {
             for (ItemStack[] tRecipe : sShapes1) {
                 int tAmount1 = 0;
                 for (ItemStack tMat : tRecipe) {
-                    if (tMat == sMt1) tAmount1++;
+                    if (tMat == sMt1)
+                        tAmount1++;
                 }
                 if (aItemData != null && aItemData.hasValidPrefixMaterialData())
                     for (ItemStack tCrafted : GT_ModHandler.getRecipeOutputsBuffered(tRecipe)) {
@@ -345,6 +367,7 @@ public class GT_RecipeRegistrator {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static synchronized void registerStickStuff(String aPlate, ItemData aItemData, boolean aRecipeReplacing) {
         ItemStack tStack;
         for (Materials tMaterial : sRodMaterialList) {
@@ -359,30 +382,34 @@ public class GT_RecipeRegistrator {
 
                     int tAmount1 = 0, tAmount2 = 0;
                     for (ItemStack tMat : tRecipe) {
-                        if (tMat == sMt1) tAmount1++;
-                        if (tMat == sMt2) tAmount2++;
+                        if (tMat == sMt1)
+                            tAmount1++;
+                        if (tMat == sMt2)
+                            tAmount2++;
                     }
-                    for (ItemStack tCrafted : GT_ModHandler.getVanillyToolRecipeOutputs(tRecipe)) {
+                    for (ItemStack tCrafted : GT_ModHandler.getVanillaToolRecipeOutputs(tRecipe)) {
                         if (aItemData != null && aItemData.hasValidPrefixMaterialData())
                             GT_OreDictUnificator.addItemData(tCrafted, new ItemData(aItemData.mMaterial.mMaterial, aItemData.mMaterial.mAmount * tAmount1, new MaterialStack(tMaterial, OrePrefixes.stick.mMaterialAmount * tAmount2)));
 
-                        if (aRecipeReplacing && aPlate != null && sShapesA[i] != null && sShapesA[i].length > 1) {
-                            assert aItemData != null;
-                            if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.recipereplacements, aItemData.mMaterial.mMaterial + "." + sShapesA[i][0], true)) {
-                                if (null != (tStack = GT_ModHandler.removeRecipe(tRecipe))) {
-//                                    GT_Log.out.println("###################################################################################");
-//                                    GT_Log.out.println("registerStickStuff used aPlate: "+aPlate);
-//                                    GT_Log.out.println("###################################################################################");
-                                    switch (sShapesA[i].length) {
-                                        case 2:
-                                            GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.BUFFERED, new Object[]{sShapesA[i][1], s_P.charAt(0), aPlate, s_R.charAt(0), OrePrefixes.stick.get(tMaterial), s_I.charAt(0), aItemData});
-                                            break;
-                                        case 3:
-                                            GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.BUFFERED, new Object[]{sShapesA[i][1], sShapesA[i][2], s_P.charAt(0), aPlate, s_R.charAt(0), OrePrefixes.stick.get(tMaterial), s_I.charAt(0), aItemData});
-                                            break;
-                                        default:
-                                            GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.BUFFERED, new Object[]{sShapesA[i][1], sShapesA[i][2], sShapesA[i][3], s_P.charAt(0), aPlate, s_R.charAt(0), OrePrefixes.stick.get(tMaterial), s_I.charAt(0), aItemData});
-                                            break;
+                        if (aRecipeReplacing && aPlate != null && sShapesA[i] != null) {
+                            if (sShapesA[i].length > 1) {
+                                assert aItemData != null;
+                                if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.recipereplacements, aItemData.mMaterial.mMaterial + "." + sShapesA[i][0], true)) {
+                                    if (null != (tStack = GT_ModHandler.removeRecipe(tRecipe))) {
+    //                                    GT_Log.out.println("###################################################################################");
+    //                                    GT_Log.out.println("registerStickStuff used aPlate: "+aPlate);
+    //                                    GT_Log.out.println("###################################################################################");
+                                        switch (sShapesA[i].length) {
+                                            case 2:
+                                                GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.BUFFERED, new Object[]{sShapesA[i][1], s_P.charAt(0), aPlate, s_R.charAt(0), OrePrefixes.stick.get(tMaterial), s_I.charAt(0), aItemData});
+                                                break;
+                                            case 3:
+                                                GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.BUFFERED, new Object[]{sShapesA[i][1], sShapesA[i][2], s_P.charAt(0), aPlate, s_R.charAt(0), OrePrefixes.stick.get(tMaterial), s_I.charAt(0), aItemData});
+                                                break;
+                                            default:
+                                                GT_ModHandler.addCraftingRecipe(tStack, GT_ModHandler.RecipeBits.BUFFERED, new Object[]{sShapesA[i][1], sShapesA[i][2], sShapesA[i][3], s_P.charAt(0), aPlate, s_R.charAt(0), OrePrefixes.stick.get(tMaterial), s_I.charAt(0), aItemData});
+                                                break;
+                                        }
                                     }
                                 }
                             }

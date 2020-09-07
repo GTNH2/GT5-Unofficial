@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 public class GT_ProcessingArray_Manager {
 
-    private static final HashMap<Integer, String> mMetaKeyMap = new HashMap<Integer, String>();
-    private static final HashMap<String, GT_Recipe_Map> mRecipeCache = new HashMap<String, GT_Recipe_Map>();
+    private static final HashMap<Integer, String> mMetaKeyMap = new HashMap<>();
+    private static final HashMap<String, GT_Recipe_Map> mRecipeCache = new HashMap<>();
 
     public static boolean registerRecipeMapForMeta(int aMeta, GT_Recipe_Map aMap) {
         if (aMeta < 0 || aMeta > Short.MAX_VALUE || aMap == null) {

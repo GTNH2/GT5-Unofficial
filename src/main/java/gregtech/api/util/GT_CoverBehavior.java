@@ -36,6 +36,7 @@ public abstract class GT_CoverBehavior {
      * <p/>
      * return true, if something actually happens.
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean onCoverRightclickClient(byte aSide, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
         return false;
     }
@@ -45,6 +46,7 @@ public abstract class GT_CoverBehavior {
      * <p/>
      * return the new Value of the Cover Variable
      */
+    @SuppressWarnings("SameReturnValue")
     public int onCoverScrewdriverclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer, float aX, float aY, float aZ) {
         return aCoverVariable;
     }
@@ -52,8 +54,9 @@ public abstract class GT_CoverBehavior {
     /**
      * Called when someone shift-rightclicks this Cover with no tool. Doesn't call @onCoverRightclick in this Case.
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean onCoverShiftRightclick(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity, EntityPlayer aPlayer) {
-        if(hasCoverGUI() && aPlayer instanceof EntityPlayerMP) {
+        if (hasCoverGUI() && aPlayer instanceof EntityPlayerMP) {
             GT_Values.NW.sendToPlayer(new GT_Packet_TileEntityCoverGUI(aSide, aCoverID, aCoverVariable, aTileEntity, (EntityPlayerMP) aPlayer), (EntityPlayerMP) aPlayer);
             return true;
         }
@@ -71,6 +74,7 @@ public abstract class GT_CoverBehavior {
     /**
      * Checks if the Cover can be placed on this.
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean isCoverPlaceable(byte aSide, GT_ItemStack aStack, ICoverable aTileEntity) {
         return true;
     }
@@ -118,6 +122,7 @@ public abstract class GT_CoverBehavior {
      * <p/>
      * This is just Informative so that Machines know if their Redstone Input is blocked or not
      */
+    @SuppressWarnings("ALL")
     public boolean letsFibreGoIn(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return false;
     }
@@ -125,6 +130,7 @@ public abstract class GT_CoverBehavior {
     /**
      * If it lets Fibre-Signals out of the Block
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean letsFibreGoOut(byte aSide, int aCoverID, int aCoverVariable, ICoverable aTileEntity) {
         return false;
     }
@@ -232,13 +238,13 @@ public abstract class GT_CoverBehavior {
     }
 
     /**
-     * @return sets the Cover upon placement.
+     * sets the Cover upon placement.
      */
     public void placeCover(byte aSide, ItemStack aCover, ICoverable aTileEntity) {
         aTileEntity.setCoverIDAtSide(aSide, GT_Utility.stackToInt(aCover));
     }
-    
-    public String trans(String aNr, String aEnglish){
-    	return GT_LanguageManager.addStringLocalization("Interaction_DESCRIPTION_Index_"+aNr, aEnglish, false);
+
+    public String trans(String aNr, String aEnglish) {
+        return GT_LanguageManager.addStringLocalization("Interaction_DESCRIPTION_Index_" + aNr, aEnglish, false);
     }
 }

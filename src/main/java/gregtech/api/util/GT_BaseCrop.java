@@ -19,16 +19,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import speiger.src.crops.api.ICropCardInfo;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static gregtech.api.enums.GT_Values.E;
 
+@SuppressWarnings("FieldCanBeFinal")
 public class GT_BaseCrop extends CropCard implements ICropCardInfo {
-    public static ArrayList<GT_BaseCrop> sCropList = new ArrayList<GT_BaseCrop>();
-    private String mName = E, mDiscoveredBy = "Gregorius Techneticies", mAttributes[];
-    private int mTier = 0, mMaxSize = 0, mAfterHarvestSize = 0, mHarvestSize = 0, mStats[] = new int[5], mGrowthSpeed = 0;
-    private ItemStack mDrop = null, mSpecialDrops[] = null;
+    public static final ArrayList<GT_BaseCrop> sCropList = new ArrayList<>();
+    private String mName = E;
+    private String mDiscoveredBy = "Gregorius Techneticies";
+    private String[] mAttributes;
+    private int mTier = 0;
+    private int mMaxSize = 0;
+    private int mAfterHarvestSize = 0;
+    private int mHarvestSize = 0;
+    private final int[] mStats = new int[5];
+    private int mGrowthSpeed = 0;
+    private ItemStack mDrop = null;
+    private ItemStack[] mSpecialDrops = null;
     private Materials mBlock = null;
     private static boolean bIc2NeiLoaded = Loader.isModLoaded("Ic2Nei");
 
@@ -66,7 +76,8 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
     public GT_BaseCrop(int aID, String aCropName, String aDiscoveredBy, ItemStack aBaseSeed, int aTier, int aMaxSize, int aGrowthSpeed, int aAfterHarvestSize, int aHarvestSize, int aStatChemical, int aStatFood, int aStatDefensive, int aStatColor, int aStatWeed, String[] aAttributes, Materials aBlock, ItemStack aDrop, ItemStack[] aSpecialDrops) {
         mName = aCropName;
         aID = GT_Config.addIDConfig(ConfigCategories.IDs.crops, mName.replaceAll(" ", "_"), aID);
-        if (aDiscoveredBy != null && !aDiscoveredBy.equals(E)) mDiscoveredBy = aDiscoveredBy;
+        if (aDiscoveredBy != null && !aDiscoveredBy.equals(E))
+            mDiscoveredBy = aDiscoveredBy;
         if (aDrop != null && aID > 0 && aID < 256) {
             mDrop = GT_Utility.copy(aDrop);
             mSpecialDrops = aSpecialDrops;
@@ -81,28 +92,19 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
             mStats[4] = aStatWeed;
             mAttributes = aAttributes;
             mBlock = aBlock;
-            if(GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.crops, aCropName, true)){
-            if (!Crops.instance.registerCrop(this, aID))
-                throw new GT_ItsNotMyFaultException("Make sure the Crop ID is valid!");
-            if (aBaseSeed != null) Crops.instance.registerBaseSeed(aBaseSeed, this, 1, 1, 1, 1);
-            sCropList.add(this);}
+            mGrowthSpeed = aGrowthSpeed;
+            if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.crops, aCropName, true)) {
+                if (!Crops.instance.registerCrop(this, aID))
+                    throw new GT_ItsNotMyFaultException("Make sure the Crop ID is valid!");
+                if (aBaseSeed != null)
+                    Crops.instance.registerBaseSeed(aBaseSeed, this, 1, 1, 1, 1);
+                sCropList.add(this);
+            }
         }
         if (bIc2NeiLoaded) {
             try {
                 Class.forName("speiger.src.crops.api.CropPluginAPI").getMethod("registerCropInfo", Class.forName("speiger.src.crops.api.ICropCardInfo")).invoke(Class.forName("speiger.src.crops.api.CropPluginAPI").getField("instance"), this);
-            } catch (IllegalAccessException ex) {
-                bIc2NeiLoaded = false;
-            } catch (IllegalArgumentException ex) {
-                bIc2NeiLoaded = false;
-            } catch (java.lang.reflect.InvocationTargetException ex) {
-                bIc2NeiLoaded = false;
-            } catch (NoSuchFieldException ex) {
-                bIc2NeiLoaded = false;
-            } catch (NoSuchMethodException ex) {
-                bIc2NeiLoaded = false;
-            } catch (SecurityException ex) {
-                bIc2NeiLoaded = false;
-            } catch (ClassNotFoundException ex) {
+            } catch (IllegalAccessException | IllegalArgumentException | ClassNotFoundException | SecurityException | NoSuchMethodException | NoSuchFieldException | InvocationTargetException ex) {
                 bIc2NeiLoaded = false;
             }
         }
@@ -115,7 +117,8 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
 
     @Override
     public int growthDuration(ICropTile aCrop) {
-        if (mGrowthSpeed < 200) return super.growthDuration(aCrop);
+        if (mGrowthSpeed < 200)
+            return super.growthDuration(aCrop);
         return tier() * mGrowthSpeed;
     }
 
@@ -153,7 +156,8 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
 
     @Override
     public int stat(int n) {
-        if (n < 0 || n >= mStats.length) return 0;
+        if (n < 0 || n >= mStats.length)
+            return 0;
         return mStats[n];
     }
 
@@ -174,8 +178,8 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
 
     @Override
     public ItemStack getGain(ICropTile aCrop) {
-        int tDrop = 0;
-        if (mSpecialDrops != null && (tDrop = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, (mSpecialDrops.length*2) + 2)) < mSpecialDrops.length && mSpecialDrops[tDrop] != null) {
+        int tDrop;
+        if (mSpecialDrops != null && (tDrop = java.util.concurrent.ThreadLocalRandom.current().nextInt(0, (mSpecialDrops.length * 2) + 2)) < mSpecialDrops.length && mSpecialDrops[tDrop] != null) {
             return GT_Utility.copy(mSpecialDrops[tDrop]);
         }
         return GT_Utility.copy(mDrop);
@@ -183,8 +187,9 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
 
     @Override
     public boolean rightclick(ICropTile aCrop, EntityPlayer aPlayer) {
-        if (!canBeHarvested(aCrop)) return false;
-        return aCrop.harvest(aPlayer == null ? false : aPlayer instanceof EntityPlayerMP);
+        if (!canBeHarvested(aCrop))
+            return false;
+        return aCrop.harvest(aPlayer instanceof EntityPlayerMP);
     }
 
     @Override
@@ -203,11 +208,7 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
                 if ((tTileEntity instanceof GT_TileEntity_Ores)) {
                     Materials tMaterial = GregTech_API.sGeneratedMaterials[(((GT_TileEntity_Ores) tTileEntity).mMetaData % 1000)];
                     if ((tMaterial != null) && (tMaterial != Materials._NULL)) {
-                        if (tMaterial == mBlock) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return tMaterial == mBlock;
                     }
                 }
             } else {
@@ -235,7 +236,7 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
 
     public List<String> getCropInformation() {
         if (mBlock != null) {
-            ArrayList<String> result = new ArrayList<String>(1);
+            ArrayList<String> result = new ArrayList<>(1);
             result.add(String.format("Requires %s Ore or Block of %s as soil block to reach full growth.", mBlock.mName, mBlock.mName));
             return result;
         }

@@ -49,12 +49,13 @@ public class GT_Shaped_Recipe extends ShapedOreRecipe implements IGT_CraftingRec
             GT_Utility.updateItemStack(rStack);
 
             // Keeping NBT
-            if (mKeepingNBT) for (int i = 0; i < aGrid.getSizeInventory(); i++) {
-                if (aGrid.getStackInSlot(i) != null && aGrid.getStackInSlot(i).hasTagCompound()) {
-                    rStack.setTagCompound((NBTTagCompound) aGrid.getStackInSlot(i).getTagCompound().copy());
-                    break;
+            if (mKeepingNBT)
+                for (int i = 0; i < aGrid.getSizeInventory(); i++) {
+                    if (aGrid.getStackInSlot(i) != null && aGrid.getStackInSlot(i).hasTagCompound()) {
+                        rStack.setTagCompound((NBTTagCompound) aGrid.getStackInSlot(i).getTagCompound().copy());
+                        break;
+                    }
                 }
-            }
 
             // Charge Values
             if (GT_ModHandler.isElectricItem(rStack)) {
@@ -62,20 +63,23 @@ public class GT_Shaped_Recipe extends ShapedOreRecipe implements IGT_CraftingRec
                 int tCharge = 0;
                 for (int i = 0; i < aGrid.getSizeInventory(); i++)
                     tCharge += GT_ModHandler.dischargeElectricItem(aGrid.getStackInSlot(i), Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true);
-                if (tCharge > 0) GT_ModHandler.chargeElectricItem(rStack, tCharge, Integer.MAX_VALUE, true, false);
+                if (tCharge > 0)
+                    GT_ModHandler.chargeElectricItem(rStack, tCharge, Integer.MAX_VALUE, true, false);
             }
 
             // Saving Ingredients inside the Item.
             if (mDismantleable) {
                 NBTTagCompound rNBT = rStack.getTagCompound(), tNBT = new NBTTagCompound();
-                if (rNBT == null) rNBT = new NBTTagCompound();
+                if (rNBT == null)
+                    rNBT = new NBTTagCompound();
                 for (int i = 0; i < 9; i++) {
                     ItemStack tStack = aGrid.getStackInSlot(i);
                     if (tStack != null && GT_Utility.getContainerItem(tStack, true) == null && !(tStack.getItem() instanceof GT_MetaGenerated_Tool)) {
                         tStack = GT_Utility.copyAmount(1, tStack);
-                        if(GT_Utility.isStackValid(tStack)){
-                        GT_ModHandler.dischargeElectricItem(tStack, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false, true);
-                        tNBT.setTag("Ingredient." + i, tStack.writeToNBT(new NBTTagCompound()));}
+                        if (GT_Utility.isStackValid(tStack)) {
+                            GT_ModHandler.dischargeElectricItem(tStack, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false, true);
+                            tNBT.setTag("Ingredient." + i, tStack.writeToNBT(new NBTTagCompound()));
+                        }
                     }
                 }
                 rNBT.setTag("GT.CraftingComponents", tNBT);

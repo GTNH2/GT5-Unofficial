@@ -12,8 +12,8 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.Map;
 
 public class GT_Forestry_Compat {
-    
-    public static void populateFakeNeiRecipes(){
+
+    public static void populateFakeNeiRecipes() {
         if (ItemList.FR_Bee_Drone.get(1L) != null) {
             GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{ItemList.FR_Bee_Drone.getWildcard(1L)}, new ItemStack[]{ItemList.FR_Bee_Drone.getWithName(1L, "Scanned Drone")}, null, new FluidStack[]{Materials.Honey.getFluid(100L)}, null, 500, 2, 0);
         }
@@ -42,8 +42,8 @@ public class GT_Forestry_Compat {
             GT_Recipe.GT_Recipe_Map.sScannerFakeRecipes.addFakeRecipe(false, new ItemStack[]{ItemList.FR_PollenFertile.getWildcard(1L)}, new ItemStack[]{ItemList.FR_PollenFertile.getWithName(1L, "Scanned Pollen")}, null, new FluidStack[]{Materials.Honey.getFluid(100L)}, null, 500, 2, 0);
         }
     }
-    
-    public static void transferCentrifugeRecipes(){
+
+    public static void transferCentrifugeRecipes() {
         try {
             for (ICentrifugeRecipe tRecipe : RecipeManagers.centrifugeManager.recipes()) {
                 Map<ItemStack, Float> outputs = tRecipe.getAllProducts();
@@ -63,8 +63,8 @@ public class GT_Forestry_Compat {
             }
         }
     }
-    
-    public static void transferSqueezerRecipes(){
+
+    public static void transferSqueezerRecipes() {
         try {
             for (ISqueezerRecipe tRecipe : RecipeManagers.squeezerManager.recipes()) {
                 if ((tRecipe.getResources().length == 1) && (tRecipe.getFluidOutput() != null)) {
