@@ -1,5 +1,5 @@
 package gregtech.api.objects;
-/**
+/*
  * A subclass of java.util.random that implements the Xorshift random number
  * generator
  *
@@ -33,6 +33,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * 03.06.2016
  * version 0.0.4
  */
+@SuppressWarnings("ALL")
 public class XSTR extends Random {
 
     private static final long serialVersionUID = 6208727693524452904L;

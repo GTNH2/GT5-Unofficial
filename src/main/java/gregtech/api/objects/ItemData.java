@@ -9,11 +9,11 @@ import java.util.*;
 public class ItemData {
     private static final MaterialStack[] EMPTY_MATERIALSTACK_ARRAY = new MaterialStack[0];
 
-    public final List<Object> mExtraData = new GT_ArrayList<Object>(false, 1);
+    public final List<Object> mExtraData = new GT_ArrayList<>(false, 1);
     public final OrePrefixes mPrefix;
     public final MaterialStack mMaterial;
     public final MaterialStack[] mByProducts;
-    public boolean mBlackListed = false;
+    public boolean mBlackListed;
     public ItemStack mUnificationTarget = null;
 
     public ItemData(OrePrefixes aPrefix, Materials aMaterial, boolean aBlackListed) {
@@ -36,11 +36,11 @@ public class ItemData {
         } else {
             MaterialStack[] tByProducts = aByProducts.length < 1 ? EMPTY_MATERIALSTACK_ARRAY : new MaterialStack[aByProducts.length];
             int j = 0;
-            for (int i = 0; i < aByProducts.length; i++)
-                if (aByProducts[i] != null && aByProducts[i].mMaterial != null)
-                    tByProducts[j++] = aByProducts[i].clone();
+            for (MaterialStack aByProduct : aByProducts)
+                if (aByProduct != null && aByProduct.mMaterial != null)
+                    tByProducts[j++] = aByProduct.clone();
             mByProducts = j > 0 ? new MaterialStack[j] : EMPTY_MATERIALSTACK_ARRAY;
-            for (int i = 0; i < mByProducts.length; i++) mByProducts[i] = tByProducts[i];
+            System.arraycopy(tByProducts, 0, mByProducts, 0, mByProducts.length);
         }
     }
 
@@ -56,13 +56,15 @@ public class ItemData {
         mPrefix = null;
         mBlackListed = true;
 
-        ArrayList<MaterialStack> aList = new ArrayList<MaterialStack>(), rList = new ArrayList<MaterialStack>();
+        ArrayList<MaterialStack> aList = new ArrayList<>(), rList = new ArrayList<>();
 
         for (ItemData tData : aData)
             if (tData != null) {
-                if (tData.hasValidMaterialData() && tData.mMaterial.mAmount > 0) aList.add(tData.mMaterial.clone());
+                if (tData.hasValidMaterialData() && tData.mMaterial.mAmount > 0)
+                    aList.add(tData.mMaterial.clone());
                 for (MaterialStack tMaterial : tData.mByProducts)
-                    if (tMaterial.mAmount > 0) aList.add(tMaterial.clone());
+                    if (tMaterial.mAmount > 0)
+                        aList.add(tMaterial.clone());
             }
 
         for (MaterialStack aMaterial : aList) {
@@ -73,15 +75,11 @@ public class ItemData {
                     temp = false;
                     break;
                 }
-            if (temp) rList.add(aMaterial.clone());
+            if (temp)
+                rList.add(aMaterial.clone());
         }
 
-        Collections.sort(rList, new Comparator<MaterialStack>() {
-            @Override
-            public int compare(MaterialStack a, MaterialStack b) {
-                return a.mAmount == b.mAmount ? 0 : a.mAmount > b.mAmount ? -1 : +1;
-            }
-        });
+        rList.sort((a, b) -> Long.compare(b.mAmount, a.mAmount));
 
         if (rList.isEmpty()) {
             mMaterial = null;
@@ -90,7 +88,7 @@ public class ItemData {
             rList.remove(0);
         }
 
-        mByProducts = rList.toArray(new MaterialStack[rList.size()]);
+        mByProducts = rList.toArray(new MaterialStack[0]);
     }
 
     public final boolean hasValidPrefixMaterialData() {
@@ -106,8 +104,9 @@ public class ItemData {
     }
 
     public final ArrayList<MaterialStack> getAllMaterialStacks() {
-        ArrayList<MaterialStack> rList = new ArrayList();
-        if (hasValidMaterialData()) rList.add(mMaterial);
+        ArrayList<MaterialStack> rList = new ArrayList<>();
+        if (hasValidMaterialData())
+            rList.add(mMaterial);
         rList.addAll(Arrays.asList(mByProducts));
         return rList;
     }
@@ -118,7 +117,8 @@ public class ItemData {
 
     @Override
     public String toString() {
-        if (mPrefix == null || mMaterial == null || mMaterial.mMaterial == null) return "";
-        return String.valueOf(new StringBuilder().append(mPrefix.name()).append(mMaterial.mMaterial.mName));
+        if (mPrefix == null || mMaterial == null || mMaterial.mMaterial == null)
+            return "";
+        return mPrefix.name() + mMaterial.mMaterial.mName;
     }
 }

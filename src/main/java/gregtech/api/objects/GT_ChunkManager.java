@@ -7,8 +7,6 @@ import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.util.GT_Log;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -24,8 +22,8 @@ import java.util.Map;
 
 // This class handles re-initializing chunks after a server restart
 public class GT_ChunkManager implements ForgeChunkManager.OrderedLoadingCallback, ForgeChunkManager.PlayerOrderedLoadingCallback {
-    private Map<TileEntity, Ticket> registeredTickets = new HashMap<>();
-    public static GT_ChunkManager instance = new GT_ChunkManager();
+    private final Map<TileEntity, Ticket> registeredTickets = new HashMap<>();
+    public static final GT_ChunkManager instance = new GT_ChunkManager();
 
     public static void init() {
         ForgeChunkManager.setForcedChunkLoadingCallback(GT_Mod.instance, instance);
@@ -48,7 +46,7 @@ public class GT_ChunkManager implements ForgeChunkManager.OrderedLoadingCallback
                 int z = ticket.getModData().getInteger("OwnerZ");
                 if (y > 0) {
                     TileEntity tile = world.getTileEntity(x, y, z);
-                    if (tile != null && tile instanceof IGregTechTileEntity && ((IGregTechTileEntity)tile).isAllowedToWork()) {
+                    if (tile instanceof IGregTechTileEntity && ((IGregTechTileEntity) tile).isAllowedToWork()) {
                         ForgeChunkManager.forceChunk(ticket, new ChunkCoordIntPair(x >> 4, z >> 4));
                         if (!registeredTickets.containsKey(tile)) {
                             registeredTickets.put(tile, ticket);
@@ -84,8 +82,8 @@ public class GT_ChunkManager implements ForgeChunkManager.OrderedLoadingCallback
         if (instance.registeredTickets.containsKey(owner)) {
             ForgeChunkManager.forceChunk(instance.registeredTickets.get(owner), chunkXZ);
         } else {
-            Ticket ticket = null;
-            if (player != "")
+            Ticket ticket;
+            if (!player.equals(""))
                 ticket = ForgeChunkManager.requestPlayerTicket(GT_Mod.instance, player, owner.getWorldObj(), ForgeChunkManager.Type.NORMAL);
             else
                 ticket = ForgeChunkManager.requestTicket(GT_Mod.instance, owner.getWorldObj(), ForgeChunkManager.Type.NORMAL);

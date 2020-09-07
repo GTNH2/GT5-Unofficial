@@ -3,8 +3,8 @@ package gregtech.api.objects;
 import gregtech.api.enums.Element;
 
 public class ElementStack implements Cloneable {
-    public int mAmount;
-    public Element mElement;
+    public final int mAmount;
+    public final Element mElement;
 
     public ElementStack(Element aElement, int aAmount) {
         mElement = aElement == null ? Element._NULL : aElement;

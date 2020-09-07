@@ -20,7 +20,8 @@ public class GT_CopiedBlockTexture implements ITexture {
     public short[] mRGBa;
 
     public GT_CopiedBlockTexture(Block aBlock, int aSide, int aMeta, short[] aRGBa, boolean aAllowAlpha) {
-        if (aRGBa.length != 4) throw new IllegalArgumentException("RGBa doesn't have 4 Values @ GT_CopiedBlockTexture");
+        if (aRGBa.length != 4)
+            throw new IllegalArgumentException("RGBa doesn't have 4 Values @ GT_CopiedBlockTexture");
         mBlock = aBlock;
         mRGBa = aRGBa;
         mSide = (byte) aSide;
@@ -36,8 +37,9 @@ public class GT_CopiedBlockTexture implements ITexture {
         this(aBlock, aSide, aMeta, Dyes._NULL.mRGBa);
     }
 
-    private final IIcon getIcon(int aSide) {
-        if (mSide == 6) return mBlock.getIcon(aSide, mMeta);
+    private IIcon getIcon(int aSide) {
+        if (mSide == 6)
+            return mBlock.getIcon(aSide, mMeta);
         return mBlock.getIcon(mSide, mMeta);
     }
 
