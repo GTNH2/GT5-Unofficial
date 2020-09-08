@@ -45,7 +45,7 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
         return (16 * ((long) Math.pow(4, aTier)));
     }
 
-    public final ArrayDeque<ChunkPosition> mPumpList = new ArrayDeque<>();
+    public ArrayDeque<ChunkPosition> mPumpList = new ArrayDeque<>();
     public boolean wasPumping = false;
     public int mPumpTimer = 0;
     public int mPumpCountBelow = 0;

@@ -429,7 +429,7 @@ public abstract class GT_MetaTileEntity_DrillerBase extends GT_MetaTileEntity_Mu
         return config;
     }
 
-    public final ArrayList<GT_MetaTileEntity_Hatch_DataAccess> mDataAccessHatches = new ArrayList<>();
+    public ArrayList<GT_MetaTileEntity_Hatch_DataAccess> mDataAccessHatches = new ArrayList<>();
 
     /**
      * @param state using bitmask, 1 for IntegratedCircuit, 2 for DataStick, 4 for DataOrb

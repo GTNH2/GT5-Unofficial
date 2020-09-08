@@ -26,6 +26,8 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fluids.FluidStack;
 import thaumcraft.api.ThaumcraftApiHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("ALL")
@@ -34,11 +36,11 @@ public class GT_Achievements {
 //    public static List<Materials> oreList = new ArrayList<Materials>();
 //    public static List<Integer[]> oreStats = new ArrayList<Integer[]>();
 //    public static int oreReg = -1;
-    public static int assReg=-1;
-    public final ConcurrentHashMap<String, Achievement> achievementList;
-    public final ConcurrentHashMap<String, Boolean> issuedAchievements;
-    public final int adjX = 5;
-    public final int adjY = 9;
+    public static int assReg = -1;
+    public ConcurrentHashMap<String, Achievement> achievementList;
+    public ConcurrentHashMap<String, Boolean> issuedAchievements;
+    public int adjX = 5;
+    public int adjY = 9;
 
     public GT_Achievements() {
         this.achievementList = new ConcurrentHashMap<>();
@@ -238,9 +240,9 @@ public class GT_Achievements {
         oreStats.add(new Integer[]{min, max, chance, overworld ? 1 : 0, nether ? 1 : 0, end ? 1 : 0});*/
     }
 
-    public void registerAchievement(String textId, int x, int y, ItemStack icon, Achievement requirement, boolean special) {
+    public Achievement registerAchievement(String textId, int x, int y, ItemStack icon, Achievement requirement, boolean special) {
         if (!GT_Mod.gregtechproxy.mAchievements) {
-            return;
+            return null;
         }
         Achievement achievement = new Achievement(textId, textId, this.adjX + x, this.adjY + y, icon, requirement);
         if (special) {
@@ -252,11 +254,12 @@ public class GT_Achievements {
             GT_Log.out.println("achievement." + textId + ".desc=");
         }
         this.achievementList.put(textId, achievement);
+        return achievement;
     }
 
-    public void registerAchievement(String textId, int x, int y, ItemStack icon, String requirement, boolean special) {
+    public Achievement registerAchievement(String textId, int x, int y, ItemStack icon, String requirement, boolean special) {
         if (!GT_Mod.gregtechproxy.mAchievements) {
-            return;
+            return null;
         }
         Achievement achievement = new Achievement(textId, textId, this.adjX + x, this.adjY + y, icon, getAchievement(requirement));
         if (special) {
@@ -268,6 +271,7 @@ public class GT_Achievements {
             GT_Log.out.println("achievement." + textId + ".desc=");
         }
         this.achievementList.put(textId, achievement);
+        return achievement;
     }
 
     @SuppressWarnings("ALL")
@@ -281,12 +285,14 @@ public class GT_Achievements {
         return null;
     }
 
-    public void registerAssAchievement(GT_Recipe recipe) {
+    public Achievement registerAssAchievement(GT_Recipe recipe) {
         if (this.achievementList.get(recipe.getOutput(0).getUnlocalizedName()) == null) {
             assReg++;
-            registerAchievement(recipe.getOutput(0).getUnlocalizedName(), -(11 + assReg % 5), ((assReg) / 5) - 8, recipe.getOutput(0)
+            return registerAchievement(recipe.getOutput(0).getUnlocalizedName(), -(11 + assReg % 5), ((assReg) / 5) - 8, recipe.getOutput(0)
                     , AchievementList.openInventory, false);
         }
+
+        return null;
     }
 
     public void issueAchievement(EntityPlayer entityplayer, String textId) {

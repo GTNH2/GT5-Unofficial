@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GT_CoolantCell_Item
         extends GT_Generic_Item {
-    protected final int heatStorage;
+    protected int heatStorage;
 
     public GT_CoolantCell_Item(String aUnlocalized, String aEnglish, int aMaxStore) {
         super(aUnlocalized, aEnglish, null);

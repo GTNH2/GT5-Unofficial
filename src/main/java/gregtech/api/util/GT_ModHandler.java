@@ -53,25 +53,30 @@ import static gregtech.api.enums.GT_Values.*;
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class GT_ModHandler {
-    public static final List<IRecipe> sSingleNonBlockDamagableRecipeList = new ArrayList<>(1000);
-    private static final Map<String, ItemStack> sIC2ItemMap = new HashMap<>();
-    private static final List<IRecipe> sAllRecipeList = /*Collections.synchronizedList(*/new ArrayList<>(5000)/*)*/, sBufferRecipeList = new ArrayList<>(1000);
+    public static List<IRecipe> sSingleNonBlockDamagableRecipeList = new ArrayList<>(1000);
+    private static Map<String, ItemStack> sIC2ItemMap = new HashMap<>();
+    private static List<IRecipe> sAllRecipeList = /*Collections.synchronizedList(*/new ArrayList<>(5000)/*)*/;
+    private static List<IRecipe> sBufferRecipeList = new ArrayList<>(1000);
     public static volatile int VERSION = 509;
-    public static final Collection<String> sNativeRecipeClasses = new HashSet<>();
-    public static final Collection<String> sSpecialRecipeClasses = new HashSet<>();
-    public static final GT_HashSet<GT_ItemStack> sNonReplaceableItems = new GT_HashSet<>();
-    public static final Object sBoxableWrapper = GT_Utility.callConstructor("gregtechmod.api.util.GT_IBoxableWrapper", 0, null, false);
-    private static final Map<IRecipeInput, RecipeOutput> sExtractorRecipes = new /*Concurrent*/HashMap<>();
-    private static final Map<IRecipeInput, RecipeOutput> sMaceratorRecipes = new /*Concurrent*/HashMap<>();
-    private static final Map<IRecipeInput, RecipeOutput> sCompressorRecipes = new /*Concurrent*/HashMap<>();
-    private static final Map<IRecipeInput, RecipeOutput> sOreWashingRecipes = new /*Concurrent*/HashMap<>();
-    private static final Map<IRecipeInput, RecipeOutput> sThermalCentrifugeRecipes = new /*Concurrent*/HashMap<>();
-    private static final Map<IRecipeInput, RecipeOutput> sMassfabRecipes = new /*Concurrent*/HashMap<>();
+    public static Collection<String> sNativeRecipeClasses = new HashSet<>();
+    public static Collection<String> sSpecialRecipeClasses = new HashSet<>();
+    public static GT_HashSet<GT_ItemStack> sNonReplaceableItems = new GT_HashSet<>();
+    public static Object sBoxableWrapper = GT_Utility.callConstructor("gregtechmod.api.util.GT_IBoxableWrapper", 0, null, false);
+    private static Map<IRecipeInput, RecipeOutput> sExtractorRecipes = new /*Concurrent*/HashMap<>();
+    private static Map<IRecipeInput, RecipeOutput> sMaceratorRecipes = new /*Concurrent*/HashMap<>();
+    private static Map<IRecipeInput, RecipeOutput> sCompressorRecipes = new /*Concurrent*/HashMap<>();
+    private static Map<IRecipeInput, RecipeOutput> sOreWashingRecipes = new /*Concurrent*/HashMap<>();
+    private static Map<IRecipeInput, RecipeOutput> sThermalCentrifugeRecipes = new /*Concurrent*/HashMap<>();
+    private static Map<IRecipeInput, RecipeOutput> sMassfabRecipes = new /*Concurrent*/HashMap<>();
     private static boolean sBufferCraftingRecipes = true;
     public static List<Integer> sSingleNonBlockDamagableRecipeList_list = new ArrayList<>(100);
     private static final boolean sSingleNonBlockDamagableRecipeList_create = true;
     private static final ItemStack sMt1 = new ItemStack(Blocks.dirt, 1, 0), sMt2 = new ItemStack(Blocks.dirt, 1, 0);
-    private static final String s_H = "h", s_F = "f", s_I = "I", s_P = "P", s_R = "R";
+    private static final String s_H = "h";
+    private static final String s_F = "f";
+    private static final String s_I = "I";
+    private static final String s_P = "P";
+    private static final String s_R = "R";
     private static final ItemStack[][]
             sShapes1 = new ItemStack[][]{
             {sMt1, null, sMt1, sMt1, sMt1, sMt1, null, sMt1, null},
@@ -123,7 +128,7 @@ public class GT_ModHandler {
     public static boolean sSingleNonBlockDamagableRecipeList_validsShapes1_update = false;
     public static List<Integer> sSingleNonBlockDamagableRecipeList_warntOutput = new ArrayList<>(50);
     public static List<Integer> sVanillaRecipeList_warntOutput = new ArrayList<>(50);
-    public static final List<IRecipe> sSingleNonBlockDamagableRecipeList_verified = new ArrayList<>(1000);
+    public static List<IRecipe> sSingleNonBlockDamagableRecipeList_verified = new ArrayList<>(1000);
 
     static {
         sNativeRecipeClasses.add(ShapedRecipes.class.getName());

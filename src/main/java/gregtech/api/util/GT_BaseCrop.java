@@ -27,7 +27,7 @@ import static gregtech.api.enums.GT_Values.E;
 
 @SuppressWarnings("FieldCanBeFinal")
 public class GT_BaseCrop extends CropCard implements ICropCardInfo {
-    public static final ArrayList<GT_BaseCrop> sCropList = new ArrayList<>();
+    public static ArrayList<GT_BaseCrop> sCropList = new ArrayList<>();
     private String mName = E;
     private String mDiscoveredBy = "Gregorius Techneticies";
     private String[] mAttributes;

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GT_RadioactiveCell_Item
         extends GT_Generic_Item  implements IBoxable{
-    protected final int cellCount;
+    protected int cellCount;
     protected int maxDmg;
     protected int dura;
 

@@ -35,11 +35,11 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class GT_Block_Ores_Abstract extends GT_Generic_Block implements ITileEntityProvider {
-    public static final ThreadLocal<GT_TileEntity_Ores> mTemporaryTileEntity = new ThreadLocal<>();
+    public static ThreadLocal<GT_TileEntity_Ores> mTemporaryTileEntity = new ThreadLocal<>();
     public static boolean FUCKING_LOCK = false;
     public static boolean tHideOres;
     private final String aTextName = ".name";
-    public static final Set<Materials> aBlockedOres = new HashSet<>();
+    public static Set<Materials> aBlockedOres = new HashSet<>();
 
     @SuppressWarnings("SameParameterValue")
     protected GT_Block_Ores_Abstract(String aUnlocalizedName, int aOreMetaCount, boolean aHideFirstMeta, Material aMaterial) {

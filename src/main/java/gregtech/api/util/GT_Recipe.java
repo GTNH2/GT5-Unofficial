@@ -34,31 +34,31 @@ import static gregtech.api.enums.GT_Values.*;
  * This is just the Core of my Recipe System, if you just want to GET the Recipes I add, then you can access this File.
  * Do NOT add Recipes using the Constructors inside this Class, The GregTech_API File calls the correct Functions for these Constructors.
  * <p/>
- * I know this File causes some Errors, because of missing Main Functions, but if you just need to compile Stuff, then remove said erroreous Functions.
+ * I know this File causes some Errors, because of missing Main Functions, but if you just need to compile Stuff, then remove said erroneous Functions.
  */
 public class GT_Recipe implements Comparable<GT_Recipe> {
     public static volatile int VERSION = 509;
     /**
      * If you want to change the Output, feel free to modify or even replace the whole ItemStack Array, for Inputs, please add a new Recipe, because of the HashMaps.
      */
-    public final ItemStack[] mInputs;
-    public final ItemStack[] mOutputs;
+    public ItemStack[] mInputs;
+    public ItemStack[] mOutputs;
     /**
      * If you want to change the Output, feel free to modify or even replace the whole ItemStack Array, for Inputs, please add a new Recipe, because of the HashMaps.
      */
-    public final FluidStack[] mFluidInputs;
-    public final FluidStack[] mFluidOutputs;
+    public FluidStack[] mFluidInputs;
+    public FluidStack[] mFluidOutputs;
     /**
      * If you changed the amount of Array-Items inside the Output Array then the length of this Array must be larger or equal to the Output Array. A chance of 10000 equals 100%
      */
-    public final int[] mChances;
+    public int[] mChances;
     /**
      * An Item that needs to be inside the Special Slot, like for example the Copy Slot inside the Printer. This is only useful for Fake Recipes in NEI, since findRecipe() and containsInput() don't give a shit about this Field. Lists are also possible.
      */
-    public final Object mSpecialItems;
-    public final int mDuration;
-    public final int mEUt;
-    public final int mSpecialValue;
+    public Object mSpecialItems;
+    public int mDuration;
+    public int mEUt;
+    public int mSpecialValue;
     /**
      * Use this to just disable a specific Recipe, but the Configuration enables that already for every single Recipe.
      */
@@ -539,16 +539,16 @@ public class GT_Recipe implements Comparable<GT_Recipe> {
     }
 
     public static class GT_Recipe_AssemblyLine {
-        public static final ArrayList<GT_Recipe_AssemblyLine> sAssemblylineRecipes = new ArrayList<>();
+        public static ArrayList<GT_Recipe_AssemblyLine> sAssemblylineRecipes = new ArrayList<>();
 
-        public final ItemStack mResearchItem;
-        public final int mResearchTime;
-        public final ItemStack[] mInputs;
-        public final FluidStack[] mFluidInputs;
-        public final ItemStack mOutput;
-        public final int mDuration;
-        public final int mEUt;
-        public final ItemStack[][] mOreDictAlt;
+        public ItemStack mResearchItem;
+        public int mResearchTime;
+        public ItemStack[] mInputs;
+        public FluidStack[] mFluidInputs;
+        public ItemStack mOutput;
+        public int mDuration;
+        public int mEUt;
+        public ItemStack[][] mOreDictAlt;
 
         public GT_Recipe_AssemblyLine(ItemStack aResearchItem, int aResearchTime, ItemStack[] aInputs, FluidStack[] aFluidInputs, ItemStack aOutput, int aDuration, int aEUt) {
             this(aResearchItem, aResearchTime, aInputs, aFluidInputs, aOutput, aDuration, aEUt, new ItemStack[aInputs.length][]);
@@ -1689,9 +1689,9 @@ public class GT_Recipe implements Comparable<GT_Recipe> {
     }
 
     public static class GT_Recipe_Map_LargeChemicalReactor extends GT_Recipe_Map {
-        private static final int TOTAL_INPUT_COUNT = 6;
-        private static final int OUTPUT_COUNT = 2;
-        private static final int FLUID_OUTPUT_COUNT = 4;
+        private static int TOTAL_INPUT_COUNT = 6;
+        private static int OUTPUT_COUNT = 2;
+        private static int FLUID_OUTPUT_COUNT = 4;
 
         public GT_Recipe_Map_LargeChemicalReactor() {
             super(new HashSet<>(1000), "gt.recipe.largechemicalreactor", "Large Chemical Reactor", null, RES_PATH_GUI + "basicmachines/Default", 2, OUTPUT_COUNT, 0, 0, 1, E, 1, E, true, true);

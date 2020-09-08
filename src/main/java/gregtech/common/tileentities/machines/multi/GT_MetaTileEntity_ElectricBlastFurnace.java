@@ -31,7 +31,7 @@ public class GT_MetaTileEntity_ElectricBlastFurnace
         extends GT_MetaTileEntity_MultiBlockBase {
     private int mHeatingCapacity = 0;
     private int controllerY;
-    private final FluidStack[] pollutionFluidStacks = new FluidStack[]{Materials.CarbonDioxide.getGas(1000),
+    private FluidStack[] pollutionFluidStacks = new FluidStack[]{Materials.CarbonDioxide.getGas(1000),
             Materials.CarbonMonoxide.getGas(1000), Materials.SulfurDioxide.getGas(1000)};
 
     public GT_MetaTileEntity_ElectricBlastFurnace(int aID, String aName, String aNameRegional) {

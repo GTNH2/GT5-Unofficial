@@ -39,10 +39,10 @@ implements IWorldGenerator {
     //private static int gcMinSize = 100;
     //private static int gcMaxSize = 400;
     private static boolean endAsteroids = true;
-    public static final List<Runnable> mList = new ArrayList<>();
+    public static List<Runnable> mList = new ArrayList<>();
     // This is probably not going to work.  Trying to create a fake orevein to put into hashtable when there will be no ores in a vein.
-    public static final GT_Worldgen_GT_Ore_Layer noOresInVein = new GT_Worldgen_GT_Ore_Layer( "NoOresInVein", false, 0, 255, 0, 255, 16,  false, false, false, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium);
-    public static final Hashtable<Long, GT_Worldgen_GT_Ore_Layer> validOreveins = new Hashtable<>(1024);
+    public static GT_Worldgen_GT_Ore_Layer noOresInVein = new GT_Worldgen_GT_Ore_Layer( "NoOresInVein", false, 0, 255, 0, 255, 16,  false, false, false, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium, Materials.Aluminium);
+    public static Hashtable<Long, GT_Worldgen_GT_Ore_Layer> validOreveins = new Hashtable<>(1024);
     public boolean mIsGenerating = false;
     public static final Object listLock = new Object();
     //private static boolean gcAsteroids = true;
@@ -142,7 +142,7 @@ implements IWorldGenerator {
             }
         }
 
-        public static final ArrayList<GT_Worldgenerator.WorldGenContainer.NearbySeeds> seedList = new ArrayList<>();
+        public static ArrayList<GT_Worldgenerator.WorldGenContainer.NearbySeeds> seedList = new ArrayList<>();
 
         // aX and aZ are now the by-chunk X and Z for the chunk of interest
         public WorldGenContainer(Random aRandom, int aX, int aZ, int aDimensionType, World aWorld, IChunkProvider aChunkGenerator, IChunkProvider aChunkProvider, String aBiome) {

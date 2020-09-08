@@ -91,10 +91,10 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             OreGenEvent.GenerateMinable.EventType.IRON, OreGenEvent.GenerateMinable.EventType.GOLD,
             OreGenEvent.GenerateMinable.EventType.DIAMOND, OreGenEvent.GenerateMinable.EventType.REDSTONE, OreGenEvent.GenerateMinable.EventType.LAPIS,
             OreGenEvent.GenerateMinable.EventType.QUARTZ);
-    public final HashSet<ItemStack> mRegisteredOres = new HashSet<>(10000);
-    public final ArrayList<String> mSoundNames = new ArrayList<>();
-    public final ArrayList<ItemStack> mSoundItems = new ArrayList<>();
-    public final ArrayList<Integer> mSoundCounts = new ArrayList<>();
+    public HashSet<ItemStack> mRegisteredOres = new HashSet<>(10000);
+    public ArrayList<String> mSoundNames = new ArrayList<>();
+    public ArrayList<ItemStack> mSoundItems = new ArrayList<>();
+    public ArrayList<Integer> mSoundCounts = new ArrayList<>();
     private final Collection<OreDictEventContainer> mEvents = new HashSet<>();
     private final Collection<String> mIgnoredItems = new HashSet<>(Arrays.asList("itemGhastTear", "itemFlint", "itemClay", "itemBucketSaltWater",
             "itemBucketFreshWater", "itemBucketWater", "itemRock", "itemReed", "itemArrow", "itemSaw", "itemKnife", "itemHammer", "itemChisel", "itemRubber",
@@ -513,7 +513,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
         GT_LanguageManager.writePlaceholderStrings();
     }
 
-    public static final long tBits = GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED | GT_ModHandler.RecipeBits.ONLY_ADD_IF_RESULT_IS_NOT_NULL | GT_ModHandler.RecipeBits.NOT_REMOVABLE;
+    public static long tBits = GT_ModHandler.RecipeBits.DO_NOT_CHECK_FOR_COLLISIONS | GT_ModHandler.RecipeBits.BUFFERED | GT_ModHandler.RecipeBits.ONLY_ADD_IF_RESULT_IS_NOT_NULL | GT_ModHandler.RecipeBits.NOT_REMOVABLE;
     public void onPostLoad() {
         GT_Log.out.println("GT_Mod: Beginning PostLoad-Phase.");
         GT_Log.ore.println("GT_Mod: Beginning PostLoad-Phase.");

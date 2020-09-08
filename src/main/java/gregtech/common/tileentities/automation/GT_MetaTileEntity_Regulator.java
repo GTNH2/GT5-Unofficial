@@ -18,7 +18,7 @@ import java.util.Collections;
 
 public class GT_MetaTileEntity_Regulator
         extends GT_MetaTileEntity_Buffer {
-    public final int[] mTargetSlots = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public int[] mTargetSlots = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     private boolean charge = false, decharge = false;
 
     public GT_MetaTileEntity_Regulator(int aID, String aName, String aNameRegional, int aTier) {

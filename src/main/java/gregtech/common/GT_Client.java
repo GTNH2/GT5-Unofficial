@@ -473,84 +473,68 @@ public class GT_Client extends GT_Proxy
                 mAnimationDirection = !mAnimationDirection;
             }
             int tDirection = mAnimationDirection ? 1 : -1;
-            for (Object o12 : mPosR) {
-                Materials tMaterial = (Materials) o12;
-                tMaterial.mRGBa[0] += tDirection;
+            for (Materials o12 : mPosR) {
+                o12.mRGBa[0] += tDirection;
             }
 
-            for (Object o11 : mPosG) {
-                Materials tMaterial = (Materials) o11;
-                tMaterial.mRGBa[1] += tDirection;
+            for (Materials o11 : mPosG) {
+                o11.mRGBa[1] += tDirection;
             }
 
-            for (Object o10 : mPosB) {
-                Materials tMaterial = (Materials) o10;
-                tMaterial.mRGBa[2] += tDirection;
+            for (Materials o10 : mPosB) {
+                o10.mRGBa[2] += tDirection;
             }
 
-            for (Object o9 : mPosA) {
-                Materials tMaterial = (Materials) o9;
-                tMaterial.mRGBa[3] += tDirection;
+            for (Materials o9 : mPosA) {
+                o9.mRGBa[3] += tDirection;
             }
 
-            for (Object o8 : mNegR) {
-                Materials tMaterial = (Materials) o8;
-                tMaterial.mRGBa[0] -= tDirection;
+            for (Materials o8 : mNegR) {
+                o8.mRGBa[0] -= tDirection;
             }
 
-            for (Object o7 : mNegG) {
-                Materials tMaterial = (Materials) o7;
-                tMaterial.mRGBa[1] -= tDirection;
+            for (Materials o7 : mNegG) {
+                o7.mRGBa[1] -= tDirection;
             }
 
-            for (Object o6 : mNegB) {
-                Materials tMaterial = (Materials) o6;
-                tMaterial.mRGBa[2] -= tDirection;
+            for (Materials o6 : mNegB) {
+                o6.mRGBa[2] -= tDirection;
             }
 
-            for (Object o5 : mNegA) {
-                Materials tMaterial = (Materials) o5;
-                tMaterial.mRGBa[3] -= tDirection;
+            for (Materials o5 : mNegA) {
+                o5.mRGBa[3] -= tDirection;
             }
 
-            for (Object o4 : mMoltenPosR) {
-                Materials tMaterial = (Materials) o4;
-                tMaterial.mMoltenRGBa[0] += tDirection;
+            for (Materials o4 : mMoltenPosR) {
+                o4.mMoltenRGBa[0] += tDirection;
             }
 
-            for (Object o3 : mMoltenPosG) {
-                Materials tMaterial = (Materials) o3;
-                tMaterial.mMoltenRGBa[1] += tDirection;
+            for (Materials o3 : mMoltenPosG) {
+                o3.mMoltenRGBa[1] += tDirection;
             }
 
-            for (Object o2 : mMoltenPosB) {
-                Materials tMaterial = (Materials) o2;
-                tMaterial.mMoltenRGBa[2] += tDirection;
+            for (Materials o2 : mMoltenPosB) {
+                o2.mMoltenRGBa[2] += tDirection;
             }
 
-            for (Object o1 : mMoltenPosA) {
-                Materials tMaterial = (Materials) o1;
-                tMaterial.mMoltenRGBa[3] += tDirection;
+            for (Materials o1 : mMoltenPosA) {
+                o1.mMoltenRGBa[3] += tDirection;
             }
 
-            for (Object element : mMoltenNegR) {
-                Materials tMaterial = (Materials) element;
-                tMaterial.mMoltenRGBa[0] -= tDirection;
+            for (Materials element : mMoltenNegR) {
+                element.mMoltenRGBa[0] -= tDirection;
             }
 
-            for (Object item : mMoltenNegG) {
-                Materials tMaterial = (Materials) item;
-                tMaterial.mMoltenRGBa[1] -= tDirection;
+            for (Materials item : mMoltenNegG) {
+                item.mMoltenRGBa[1] -= tDirection;
             }
 
-            for (Object value : mMoltenNegB) {
-                Materials tMaterial = (Materials) value;
-                tMaterial.mMoltenRGBa[2] -= tDirection;
+            for (Materials value : mMoltenNegB) {
+                value.mMoltenRGBa[2] -= tDirection;
             }
 
-            for (Object o : mMoltenNegA) {
-                Materials tMaterial = (Materials) o;
-                tMaterial.mMoltenRGBa[3] -= tDirection;
+            for (Materials o : mMoltenNegA) {
+                o.mMoltenRGBa[3] -= tDirection;
             }
 
         }
