@@ -52,15 +52,15 @@ import appeng.api.parts.IPartHost;
 import static gregtech.api.enums.GT_Values.VN;
 
 public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTileEntityCable {
-    public final float mThickNess;
-    public final Materials mMaterial;
-    public final long mCableLossPerMeter, mAmperage, mVoltage;
-    public final boolean mInsulated, mCanShock;
+    public float mThickNess;
+    public Materials mMaterial;
+    public long mCableLossPerMeter, mAmperage, mVoltage;
+    public boolean mInsulated, mCanShock;
     public int mTransferredAmperage = 0, mTransferredAmperageLast20 = 0,mTransferredAmperageLast20OK=0,mTransferredAmperageOK=0;
     public long mTransferredVoltageLast20 = 0, mTransferredVoltage = 0,mTransferredVoltageLast20OK=0,mTransferredVoltageOK=0;
     public long mRestRF;
     public int mOverheat;
-    public static final short mMaxOverheat=(short) (GT_Mod.gregtechproxy.mWireHeatingTicks * 100);
+    public static short mMaxOverheat=(short) (GT_Mod.gregtechproxy.mWireHeatingTicks * 100);
 
     private int[] lastAmperage;
     private long lastWorldTick;

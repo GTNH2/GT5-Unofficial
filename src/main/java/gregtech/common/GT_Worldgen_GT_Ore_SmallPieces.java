@@ -26,7 +26,7 @@ public class GT_Worldgen_GT_Ore_SmallPieces
     public final boolean mMoon = false, mMars = false, mAsteroid = false;
     public final String mBiome;
     public final String aTextWorldgen = "worldgen.";
-    public static final ArrayList<GT_Worldgen_GT_Ore_SmallPieces> sList = new ArrayList<>();
+    public static ArrayList<GT_Worldgen_GT_Ore_SmallPieces> sList = new ArrayList<>();
     
     //TODO CHECk IF INSTANTIATION IS CORRECT
     public GT_Worldgen_GT_Ore_SmallPieces(String aName, boolean aDefault, int aMinY, int aMaxY, int aAmount, boolean aOverworld, boolean aNether, boolean aEnd, Materials aPrimary) {

@@ -47,7 +47,7 @@ import static gregtech.api.objects.XSTR.XSTR_INSTANCE;
 public class GT_Block_Machines
         extends GT_Generic_Block
         implements IDebugableBlock, ITileEntityProvider {
-    public static final ThreadLocal<IGregTechTileEntity> mTemporaryTileEntity = new ThreadLocal<>();
+    public static ThreadLocal<IGregTechTileEntity> mTemporaryTileEntity = new ThreadLocal<>();
 
     public GT_Block_Machines() {
         super(GT_Item_Machines.class, "gt.blockmachines", new GT_Material_Machines());

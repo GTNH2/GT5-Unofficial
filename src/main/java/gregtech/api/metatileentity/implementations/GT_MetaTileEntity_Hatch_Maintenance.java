@@ -31,7 +31,7 @@ public class GT_MetaTileEntity_Hatch_Maintenance extends GT_MetaTileEntity_Hatch
     public boolean mHardHammer = false;
     public boolean mSolderingTool = false;
     public boolean mCrowbar = false;
-    public final boolean mAuto;
+    public boolean mAuto;
 
     public GT_MetaTileEntity_Hatch_Maintenance(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 1, "For maintaining Multiblocks");

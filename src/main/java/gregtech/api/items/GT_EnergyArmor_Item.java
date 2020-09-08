@@ -30,14 +30,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
 
 public class GT_EnergyArmor_Item extends ItemArmor implements ISpecialArmor {
-    public static final Map<EntityPlayer, Float> jumpChargeMap = new ConcurrentHashMap<>();
-    public final int mCharge;
-    public final int mTransfer;
-    public final int mTier;
-    public final int mDamageEnergyCost;
-    public final int mSpecials;
-    public final boolean mChargeProvider;
-    public final double mArmorAbsorbtionPercentage;
+    public static Map<EntityPlayer, Float> jumpChargeMap = new ConcurrentHashMap<>();
+    public int mCharge;
+    public int mTransfer;
+    public int mTier;
+    public int mDamageEnergyCost;
+    public int mSpecials;
+    public boolean mChargeProvider;
+    public double mArmorAbsorbtionPercentage;
 
     public GT_EnergyArmor_Item(int aID, String aUnlocalized, String aEnglish, int aCharge, int aTransfer, int aTier, int aDamageEnergyCost, int aSpecials, double aArmorAbsorbtionPercentage, boolean aChargeProvider, int aType, int aArmorIndex) {
         super(ArmorMaterial.DIAMOND, aArmorIndex, aType);

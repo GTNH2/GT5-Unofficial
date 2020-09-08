@@ -14,9 +14,9 @@ public class GT_GUIContainer extends GuiContainer {
 
     public boolean mCrashed = false;
 
-    public final ResourceLocation mGUIbackground;
+    public ResourceLocation mGUIbackground;
 
-    public final String mGUIbackgroundPath;
+    public String mGUIbackgroundPath;
 
     public GT_GUIContainer(Container aContainer, String aGUIbackground) {
         super(aContainer);

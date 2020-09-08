@@ -25,7 +25,7 @@ public class GT_Worldgen_Stone
 
     static final double[] sizeConversion = { 1, 1, 1.333333, 1.333333, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 }; // Bias the sizes towards skinnier boulders, ie more "shafts" than dikes or sills.
 
-    public final Hashtable<Long, StoneSeeds> validStoneSeeds = new Hashtable<>(1024);
+    public Hashtable<Long, StoneSeeds> validStoneSeeds = new Hashtable<>(1024);
 
     class StoneSeeds {
         public final boolean mExists;

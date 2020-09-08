@@ -21,7 +21,7 @@ import java.io.File;
 @SuppressWarnings("unused")
 public class GT_DummyWorld
         extends World {
-    public final GT_IteratorRandom mRandom = new GT_IteratorRandom();
+    public GT_IteratorRandom mRandom = new GT_IteratorRandom();
     public ItemStack mLastSetBlock = null;
 
     public GT_DummyWorld(ISaveHandler par1iSaveHandler, String par2Str, WorldProvider par3WorldProvider, WorldSettings par4WorldSettings, Profiler par5Profiler) {

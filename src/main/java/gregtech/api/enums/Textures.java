@@ -1464,11 +1464,11 @@ public class Textures {
          */
         @Deprecated
         public static ITexture[] CASING_BLOCKS = new ITexture[128];//original variable still limited to 128
-        public static final ITexture[][] MACHINE_CASINGS = new ITexture[16][17];
+        public static ITexture[][] MACHINE_CASINGS = new ITexture[16][17];
         /**
          * by Default pages are null
          */
-        public static final ITexture[][] casingTexturePages = new ITexture[128][];//page holder so we don't make an short long array
+        public static ITexture[][] casingTexturePages = new ITexture[128][];//page holder so we don't make an short long array
 
         public static ITexture getCasingTextureForId(int id){
             return casingTexturePages[(id>>7)&0x7f][id&0x7f];
@@ -1518,7 +1518,7 @@ public class Textures {
 
         public static class CustomIcon implements IIconContainer, Runnable {
             protected IIcon mIcon;
-            protected final String mIconName;
+            protected String mIconName;
 
             public CustomIcon(String aIconName) {
                 mIconName = aIconName;
@@ -1619,7 +1619,7 @@ public class Textures {
                         ENERGY_BAR_8,
                 };
 
-        public static final ITexture[] ERROR_RENDERING = new ITexture[]{new GT_RenderedTexture(RENDERING_ERROR)};
+        public static ITexture[] ERROR_RENDERING = new ITexture[]{new GT_RenderedTexture(RENDERING_ERROR)};
 
         protected IIcon mIcon, mOverlay;
 
@@ -1650,7 +1650,7 @@ public class Textures {
 
         public static class CustomIcon implements IIconContainer, Runnable {
             protected IIcon mIcon, mOverlay;
-            protected final String mIconName;
+            protected String mIconName;
 
             public CustomIcon(String aIconName) {
                 mIconName = aIconName;

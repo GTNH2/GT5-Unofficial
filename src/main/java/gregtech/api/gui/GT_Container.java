@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class GT_Container extends Container {
     public IGregTechTileEntity mTileEntity;
-    public final InventoryPlayer mPlayerInventory;
+    public InventoryPlayer mPlayerInventory;
 
     public GT_Container(InventoryPlayer aPlayerInventory, IGregTechTileEntity aTileEntityInventory) {
 

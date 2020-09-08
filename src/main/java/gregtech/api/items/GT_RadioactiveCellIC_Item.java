@@ -155,9 +155,9 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
     }
 
     private static class ItemStackCoord {
-        public final ItemStack stack;
-        public final int x;
-        public final int y;
+        public ItemStack stack;
+        public int x;
+        public int y;
 
         public ItemStackCoord(ItemStack stack1, int x1, int y1) {
             this.stack = stack1;

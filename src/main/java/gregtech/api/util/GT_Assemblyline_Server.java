@@ -16,8 +16,10 @@ import net.minecraftforge.common.config.Property;
 public class GT_Assemblyline_Server {
 
 
-    public static final LinkedHashMap<String, String> lServerNames = new LinkedHashMap<>();
-    private static LinkedHashMap<String, String> internal2 = new LinkedHashMap<>(), internal3 = new LinkedHashMap<>(), internal4 = new LinkedHashMap<>();
+    public static LinkedHashMap<String, String> lServerNames = new LinkedHashMap<>();
+    private static LinkedHashMap<String, String> internal2 = new LinkedHashMap<>();
+    private static LinkedHashMap<String, String> internal3 = new LinkedHashMap<>();
+    private static LinkedHashMap<String, String> internal4 = new LinkedHashMap<>();
     private static HashMap<String, Property> internal = new HashMap<>();
 
     //TODO: @Bart rework

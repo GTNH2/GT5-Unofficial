@@ -283,7 +283,7 @@ public enum Element {
     /**
      * Links to every pure Material containing just this Element.
      */
-    public final ArrayList<Materials> mLinkedMaterials = new ArrayList<>();
+    public ArrayList<Materials> mLinkedMaterials = new ArrayList<>();
 
     /**
      * @param aProtons         Amount of Protons. Antiprotons if negative.

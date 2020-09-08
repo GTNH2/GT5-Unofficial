@@ -10,8 +10,8 @@ import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
 
 public class GT_GUIContainer_FusionReactor extends GT_GUIContainerMetaTile_Machine {
 
-    public final String mNEI;
-    final String mName;
+    public String mNEI;
+    private String mName;
 
     public GT_GUIContainer_FusionReactor(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity, String aName, String aTextureFile, String aNEI) {
         super(new GT_Container_MultiMachine(aInventoryPlayer, aTileEntity, false), RES_PATH_GUI + "multimachines/" + (aTextureFile == null ? "MultiblockDisplay" : aTextureFile));

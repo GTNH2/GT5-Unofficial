@@ -162,8 +162,8 @@ public enum CombType {
     FIREESSENSE("fireessence", true, Materials._NULL, 30,0xFFA157, 0xD41238);
 
     public boolean showInList;
-    public final Materials material;
-    public final int chance;
+    public Materials material;
+    public int chance;
 
     private final String name;
     private final int[] color;

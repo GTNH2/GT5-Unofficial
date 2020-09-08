@@ -25,20 +25,19 @@ import java.util.List;
 
 public abstract class GT_GUICover extends GuiScreen implements GT_IToolTipRenderer, IGuiScreen {
 
-    protected final GT_GuiTooltipManager ttManager = new GT_GuiTooltipManager();
+    protected GT_GuiTooltipManager ttManager = new GT_GuiTooltipManager();
 
-    protected final int gui_width;// = 176;
-    protected final int gui_height;// = 107;
+    protected int gui_width;// = 176;
+    protected int gui_height;// = 107;
     protected int guiTop, guiLeft;
     protected final boolean drawButtons = true;
     private GuiButton selectedButton;
-    public final String header;
-    public final GT_GuiFakeItemButton headerIcon;
-    public final ICoverable tile;
+    public String header;
+    public GT_GuiFakeItemButton headerIcon;
+    public ICoverable tile;
 
-
-    protected final List<IGuiElement> elements = new ArrayList<>();
-    protected final List<GT_GuiIntegerTextBox> textBoxes = new ArrayList<>();
+    protected List<IGuiElement> elements = new ArrayList<>();
+    protected List<GT_GuiIntegerTextBox> textBoxes = new ArrayList<>();
 
     public GT_GUICover(ICoverable tile, int width, int height, ItemStack cover) {
         this.tile = tile;

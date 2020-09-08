@@ -22,8 +22,8 @@ import java.util.Map;
 
 // This class handles re-initializing chunks after a server restart
 public class GT_ChunkManager implements ForgeChunkManager.OrderedLoadingCallback, ForgeChunkManager.PlayerOrderedLoadingCallback {
-    private final Map<TileEntity, Ticket> registeredTickets = new HashMap<>();
-    public static final GT_ChunkManager instance = new GT_ChunkManager();
+    private Map<TileEntity, Ticket> registeredTickets = new HashMap<>();
+    public static GT_ChunkManager instance = new GT_ChunkManager();
 
     public static void init() {
         ForgeChunkManager.setForcedChunkLoadingCallback(GT_Mod.instance, instance);

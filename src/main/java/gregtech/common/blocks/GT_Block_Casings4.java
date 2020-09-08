@@ -16,7 +16,7 @@ import net.minecraft.world.IBlockAccess;
 
 public class GT_Block_Casings4
         extends GT_Block_Casings_Abstract {
-    public static final boolean mConnectedMachineTextures = true;
+    public static boolean mConnectedMachineTextures = true;
 
     public GT_Block_Casings4() {
         super(GT_Item_Casings4.class, "gt.blockcasings4", GT_Material_Casings.INSTANCE);
