@@ -60,7 +60,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
     public long mTransferredVoltageLast20 = 0, mTransferredVoltage = 0,mTransferredVoltageLast20OK=0,mTransferredVoltageOK=0;
     public long mRestRF;
     public int mOverheat;
-    public static short mMaxOverheat=(short) (GT_Mod.gregtechproxy.mWireHeatingTicks * 100);
+    public static final short mMaxOverheat=(short) (GT_Mod.gregtechproxy.mWireHeatingTicks * 100);
 
     private int[] lastAmperage;
     private long lastWorldTick;
@@ -148,7 +148,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
 
     @Override
     public int getProgresstime() {
-        return (int) mTransferredAmperage * 64;
+        return mTransferredAmperage * 64;
     }
 
     @Override
@@ -267,7 +267,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
             }
             else if (rfReceiver.receiveEnergy(tDirection, rfOut, true) > 0) {
                 if (mRestRF == 0) {
-                    int RFtrans = rfReceiver.receiveEnergy(tDirection, (int) rfOut, false);
+                    int RFtrans = rfReceiver.receiveEnergy(tDirection, rfOut, false);
                     rUsedAmperes++;
                     mRestRF = rfOut - RFtrans;
                 } else {
@@ -455,11 +455,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
             return true;
 
         // RF Input Compat
-        if (GregTech_API.mInputRF && (tTileEntity instanceof IEnergyEmitter && ((IEnergyEmitter) tTileEntity).emitsEnergyTo((TileEntity)baseMetaTile, tDir)))
-            return true;
-
-
-        return false;
+        return GregTech_API.mInputRF && (tTileEntity instanceof IEnergyEmitter && ((IEnergyEmitter) tTileEntity).emitsEnergyTo((TileEntity) baseMetaTile, tDir));
     }
 
     @Override
@@ -520,14 +516,14 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
                         EnumChatFormatting.RED+ mOverheat +EnumChatFormatting.RESET+" / "+EnumChatFormatting.YELLOW+ mMaxOverheat + EnumChatFormatting.RESET,
                 "Max Load (1t):",
                 EnumChatFormatting.GREEN + Integer.toString(mTransferredAmperageOK) + EnumChatFormatting.RESET +" A / "+
-                        EnumChatFormatting.YELLOW + Long.toString(mAmperage) + EnumChatFormatting.RESET +" A",
+                        EnumChatFormatting.YELLOW + mAmperage + EnumChatFormatting.RESET +" A",
                 "Max EU/p (1t):",
                 EnumChatFormatting.GREEN + Long.toString(mTransferredVoltageOK) + EnumChatFormatting.RESET +" EU / "+
-                        EnumChatFormatting.YELLOW + Long.toString(mVoltage) + EnumChatFormatting.RESET +" EU",
+                        EnumChatFormatting.YELLOW + mVoltage + EnumChatFormatting.RESET +" EU",
                 "Max Load (20t): "+
-                    EnumChatFormatting.GREEN + Integer.toString(mTransferredAmperageLast20OK) + EnumChatFormatting.RESET +" A",
+                    EnumChatFormatting.GREEN + mTransferredAmperageLast20OK + EnumChatFormatting.RESET +" A",
                 "Max EU/p (20t): "+
-                    EnumChatFormatting.GREEN + Long.toString(mTransferredVoltageLast20OK) + EnumChatFormatting.RESET +" EU"
+                    EnumChatFormatting.GREEN + mTransferredVoltageLast20OK + EnumChatFormatting.RESET +" EU"
         };
     }
 

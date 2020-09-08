@@ -87,6 +87,7 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
         return true;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public boolean isFluidChangingAllowed() {
         return true;
     }

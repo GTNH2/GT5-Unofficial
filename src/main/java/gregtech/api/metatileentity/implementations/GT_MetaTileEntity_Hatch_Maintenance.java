@@ -25,7 +25,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class GT_MetaTileEntity_Hatch_Maintenance extends GT_MetaTileEntity_Hatch {
-    public boolean mWrench = false, mScrewdriver = false, mSoftHammer = false, mHardHammer = false, mSolderingTool = false, mCrowbar = false, mAuto;
+    public boolean mWrench = false;
+    public boolean mScrewdriver = false;
+    public boolean mSoftHammer = false;
+    public boolean mHardHammer = false;
+    public boolean mSolderingTool = false;
+    public boolean mCrowbar = false;
+    public final boolean mAuto;
 
     public GT_MetaTileEntity_Hatch_Maintenance(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 1, "For maintaining Multiblocks");
@@ -49,19 +55,19 @@ public class GT_MetaTileEntity_Hatch_Maintenance extends GT_MetaTileEntity_Hatch
 
     @Override
     public String[] getDescription() {
+        String[] desc;
         if (mAuto) {
-            String[] desc = new String[mDescriptionArray.length + 3];
+            desc = new String[mDescriptionArray.length + 3];
             System.arraycopy(mDescriptionArray, 0, desc, 0, mDescriptionArray.length);
             desc[mDescriptionArray.length] = "4 Ducttape, 2 Lubricant Cells";
             desc[mDescriptionArray.length + 1] = "4 Steel Screws, 2 Adv Circuits";
             desc[mDescriptionArray.length + 2] = "For each autorepair";
-            return desc;
         } else {
-            String[] desc = new String[mDescriptionArray.length + 1];
+            desc = new String[mDescriptionArray.length + 1];
             System.arraycopy(mDescriptionArray, 0, desc, 0, mDescriptionArray.length);
             desc[mDescriptionArray.length] = "Cannot be shared between Multiblocks!";
-            return desc;
         }
+        return desc;
     }
 
     @Override
@@ -141,12 +147,13 @@ public class GT_MetaTileEntity_Hatch_Maintenance extends GT_MetaTileEntity_Hatch
         }
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean autoMaintainance(){
         return isRecipeInputEqual(true);
     }
 
     public boolean isRecipeInputEqual(boolean aDecreaseStacksizeBySuccess) {
-        ItemStack[] mInputs=new ItemStack[]{ItemList.Duct_Tape.get(4, new Object[]{}),
+        ItemStack[] mInputs=new ItemStack[]{ItemList.Duct_Tape.get(4),
                 GT_OreDictUnificator.get(OrePrefixes.cell, Materials.Lubricant, 2),
                 GT_OreDictUnificator.get(OrePrefixes.screw, Materials.Steel, 4),
                 GT_OreDictUnificator.get(OrePrefixes.circuit, Materials.Advanced, 2)};

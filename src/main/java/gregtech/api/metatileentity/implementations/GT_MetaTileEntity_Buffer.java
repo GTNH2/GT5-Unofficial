@@ -58,7 +58,6 @@ public abstract class GT_MetaTileEntity_Buffer extends GT_MetaTileEntity_TieredM
             case 2:
                 switch (aSide) {
                     case 0:
-                        return mTextures[2][aColorIndex + 1];
                     case 1:
                         return mTextures[2][aColorIndex + 1];
                     case 4:
@@ -69,7 +68,6 @@ public abstract class GT_MetaTileEntity_Buffer extends GT_MetaTileEntity_TieredM
             case 3:
                 switch (aSide) {
                     case 0:
-                        return mTextures[4][aColorIndex + 1];
                     case 1:
                         return mTextures[4][aColorIndex + 1];
                     case 4:
@@ -80,22 +78,18 @@ public abstract class GT_MetaTileEntity_Buffer extends GT_MetaTileEntity_TieredM
             case 4:
                 switch (aSide) {
                     case 0:
-                        return mTextures[3][aColorIndex + 1];
-                    case 1:
-                        return mTextures[1][aColorIndex + 1];
                     case 2:
                         return mTextures[3][aColorIndex + 1];
+                    case 1:
                     case 3:
                         return mTextures[1][aColorIndex + 1];
                 }
             case 5:
                 switch (aSide) {
                     case 0:
-                        return mTextures[1][aColorIndex + 1];
-                    case 1:
-                        return mTextures[3][aColorIndex + 1];
                     case 2:
                         return mTextures[1][aColorIndex + 1];
+                    case 1:
                     case 3:
                         return mTextures[3][aColorIndex + 1];
                 }
