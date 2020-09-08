@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GT_GuiTooltip {
 
-    protected Rectangle bounds;
+    protected final Rectangle bounds;
     private List<String> text;
     public boolean enabled = true;
 
@@ -15,6 +15,7 @@ public class GT_GuiTooltip {
         setToolTipText(text);
     }
 
+    @SuppressWarnings("EmptyMethod")
     protected void updateText() {
     }
 

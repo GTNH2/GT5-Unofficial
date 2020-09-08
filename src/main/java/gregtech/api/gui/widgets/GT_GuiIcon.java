@@ -38,6 +38,7 @@ public enum GT_GuiIcon {
     public final GT_GuiIcon overlay;
     private final int texID;
 
+    @SuppressWarnings("SameParameterValue")
     GT_GuiIcon(int texID, int x, int y, int width, int height, GT_GuiIcon overlay) {
         this.x = x;
         this.y = y;
@@ -47,9 +48,12 @@ public enum GT_GuiIcon {
         this.texID = texID;
     }
 
+    @SuppressWarnings("SameParameterValue")
     GT_GuiIcon(int texID, int x, int y) {
         this(texID, x, y,32,32,null);
     }
+
+    @SuppressWarnings("SameParameterValue")
     GT_GuiIcon(int texID, int x, int y, int width, int height) {
         this(texID, x, y, width, height,null);
     }
