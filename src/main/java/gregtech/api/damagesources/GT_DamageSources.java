@@ -33,7 +33,7 @@ public class GT_DamageSources {
     }
 
     private static class DamageSourceCombat extends EntityDamageSource {
-        private IChatComponent mDeathMessage;
+        private final IChatComponent mDeathMessage;
 
         public DamageSourceCombat(String aType, EntityLivingBase aPlayer, IChatComponent aDeathMessage) {
             super(aType, aPlayer);
