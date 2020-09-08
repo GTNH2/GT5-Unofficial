@@ -162,7 +162,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
         if(!aPlayer.isSneaking()) return false;
         byte tSide = GT_Utility.getOppositeSide(aWrenchingSide);
         TileEntity tTileEntity = getBaseMetaTileEntity().getTileEntityAtSide(aWrenchingSide);
-        if (tTileEntity != null && (tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() instanceof GT_MetaPipeEntity_Cable)) {
+        if ((tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() instanceof GT_MetaPipeEntity_Cable)) {
             // The tile entity we're facing is a cable, let's try to connect to it
             return ((IGregTechTileEntity) tTileEntity).getMetaTileEntity().onWireCutterRightClick(aWrenchingSide, tSide, aPlayer, aX, aY, aZ);
         }
@@ -174,7 +174,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
         if(!aPlayer.isSneaking()) return false;
         byte tSide = GT_Utility.getOppositeSide(aWrenchingSide);
         TileEntity tTileEntity = getBaseMetaTileEntity().getTileEntityAtSide(aWrenchingSide);
-        if (tTileEntity != null && (tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() instanceof GT_MetaPipeEntity_Cable)) {
+        if ((tTileEntity instanceof IGregTechTileEntity) && (((IGregTechTileEntity) tTileEntity).getMetaTileEntity() instanceof GT_MetaPipeEntity_Cable)) {
             // The tile entity we're facing is a cable, let's try to connect to it
             return ((IGregTechTileEntity) tTileEntity).getMetaTileEntity().onSolderingToolRightClick(aWrenchingSide, tSide, aPlayer, aX, aY, aZ);
         }
@@ -207,11 +207,13 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
     /**
      * When a GUI is opened
      */
+    @SuppressWarnings("EmptyMethod")
     public void onOpenGUI() {/*Do nothing*/}
 
     /**
      * When a GUI is closed
      */
+    @SuppressWarnings("EmptyMethod")
     public void onCloseGUI() {/*Do nothing*/}
 
     /**
@@ -351,6 +353,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
     /**
      * @return true if Transformer Upgrades increase Packet Amount.
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean isTransformingLowEnergy() {
         return true;
     }
@@ -463,6 +466,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
     /**
      * gets if this is protected from other Players per default or not
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean ownerControl() {
         return false;
     }
@@ -571,6 +575,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
      * If this TileEntity makes use of Sided Redstone behaviors.
      * Determines only, if the Output Redstone Array is getting filled with 0 for true, or 15 for false.
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean hasSidedRedstoneOutputBehavior() {
         return false;
     }
@@ -578,6 +583,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
     /**
      * When the Facing gets changed.
      */
+    @SuppressWarnings("EmptyMethod")
     public void onFacingChange() {/*Do nothing*/}
 
     /**
@@ -620,10 +626,12 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
         return new String[]{};
     }
 
+    @SuppressWarnings("SameReturnValue")
     public boolean isDigitalChest() {
         return false;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public ItemStack[] getStoredItemData() {
         return null;
     }
@@ -685,7 +693,7 @@ public abstract class MetaTileEntity implements IMetaTileEntity {
 
     @Override
     public int[] getAccessibleSlotsFromSide(int aSide) {
-        ArrayList<Integer> tList = new ArrayList<Integer>();
+        ArrayList<Integer> tList = new ArrayList<>();
         IGregTechTileEntity tTileEntity = getBaseMetaTileEntity();
         boolean tSkip = tTileEntity.getCoverBehaviorAtSide((byte) aSide).letsItemsIn((byte) aSide, tTileEntity.getCoverIDAtSide((byte) aSide), tTileEntity.getCoverDataAtSide((byte) aSide), -2, tTileEntity) || tTileEntity.getCoverBehaviorAtSide((byte) aSide).letsItemsOut((byte) aSide, tTileEntity.getCoverIDAtSide((byte) aSide), tTileEntity.getCoverDataAtSide((byte) aSide), -2, tTileEntity);
         for (int i = 0; i < getSizeInventory(); i++)

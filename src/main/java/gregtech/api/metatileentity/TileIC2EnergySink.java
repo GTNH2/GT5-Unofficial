@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileIC2EnergySink extends TileEntity implements IEnergySink {
-    private IGregTechTileEntity myMeta;
+    private final IGregTechTileEntity myMeta;
     private GT_MetaPipeEntity_Cable cableMeta = null;
 
     public TileIC2EnergySink(IGregTechTileEntity meta) {

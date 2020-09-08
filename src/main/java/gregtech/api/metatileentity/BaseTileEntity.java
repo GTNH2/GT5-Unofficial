@@ -20,6 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.IFluidHandler;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static gregtech.api.enums.GT_Values.GT;
@@ -48,16 +49,17 @@ public abstract class BaseTileEntity extends TileEntity implements IHasWorldObje
      */
     public boolean isDead = false;
 
-    private final void clearNullMarkersFromTileEntityBuffer() {
+    private void clearNullMarkersFromTileEntityBuffer() {
         for (int i = 0; i < mBufferedTileEntities.length; i++)
-            if (mBufferedTileEntities[i] == this) mBufferedTileEntities[i] = null;
+            if (mBufferedTileEntities[i] == this)
+                mBufferedTileEntities[i] = null;
     }
 
     /**
      * Called automatically when the Coordinates of this TileEntity have been changed
      */
     protected final void clearTileEntityBuffer() {
-        for (int i = 0; i < mBufferedTileEntities.length; i++) mBufferedTileEntities[i] = null;
+        Arrays.fill(mBufferedTileEntities, null);
     }
 
     @Override
@@ -112,7 +114,8 @@ public abstract class BaseTileEntity extends TileEntity implements IHasWorldObje
 
     @Override
     public final boolean openGUI(EntityPlayer aPlayer, int aID) {
-        if (aPlayer == null) return false;
+        if (aPlayer == null)
+            return false;
         aPlayer.openGui(GT, aID, worldObj, xCoord, yCoord, zCoord);
         return true;
     }
@@ -229,143 +232,165 @@ public abstract class BaseTileEntity extends TileEntity implements IHasWorldObje
 
     @Override
     public final TileEntity getTileEntityAtSideAndDistance(byte aSide, int aDistance) {
-        if (aDistance == 1) return getTileEntityAtSide(aSide);
+        if (aDistance == 1)
+            return getTileEntityAtSide(aSide);
         return getTileEntity(getOffsetX(aSide, aDistance), getOffsetY(aSide, aDistance), getOffsetZ(aSide, aDistance));
     }
 
     @Override
     public final IInventory getIInventory(int aX, int aY, int aZ) {
         TileEntity tTileEntity = getTileEntity(aX, aY, aZ);
-        if (tTileEntity instanceof IInventory) return (IInventory) tTileEntity;
+        if (tTileEntity instanceof IInventory)
+            return (IInventory) tTileEntity;
         return null;
     }
 
     @Override
     public final IInventory getIInventoryOffset(int aX, int aY, int aZ) {
         TileEntity tTileEntity = getTileEntityOffset(aX, aY, aZ);
-        if (tTileEntity instanceof IInventory) return (IInventory) tTileEntity;
+        if (tTileEntity instanceof IInventory)
+            return (IInventory) tTileEntity;
         return null;
     }
 
     @Override
     public final IInventory getIInventoryAtSide(byte aSide) {
         TileEntity tTileEntity = getTileEntityAtSide(aSide);
-        if (tTileEntity instanceof IInventory) return (IInventory) tTileEntity;
+        if (tTileEntity instanceof IInventory)
+            return (IInventory) tTileEntity;
         return null;
     }
 
     @Override
     public final IInventory getIInventoryAtSideAndDistance(byte aSide, int aDistance) {
         TileEntity tTileEntity = getTileEntityAtSideAndDistance(aSide, aDistance);
-        if (tTileEntity instanceof IInventory) return (IInventory) tTileEntity;
+        if (tTileEntity instanceof IInventory)
+            return (IInventory) tTileEntity;
         return null;
     }
 
     @Override
     public final IFluidHandler getITankContainer(int aX, int aY, int aZ) {
         TileEntity tTileEntity = getTileEntity(aX, aY, aZ);
-        if (tTileEntity instanceof IFluidHandler) return (IFluidHandler) tTileEntity;
+        if (tTileEntity instanceof IFluidHandler)
+            return (IFluidHandler) tTileEntity;
         return null;
     }
 
     @Override
     public final IFluidHandler getITankContainerOffset(int aX, int aY, int aZ) {
         TileEntity tTileEntity = getTileEntityOffset(aX, aY, aZ);
-        if (tTileEntity instanceof IFluidHandler) return (IFluidHandler) tTileEntity;
+        if (tTileEntity instanceof IFluidHandler)
+            return (IFluidHandler) tTileEntity;
         return null;
     }
 
     @Override
     public final IFluidHandler getITankContainerAtSide(byte aSide) {
         TileEntity tTileEntity = getTileEntityAtSide(aSide);
-        if (tTileEntity instanceof IFluidHandler) return (IFluidHandler) tTileEntity;
+        if (tTileEntity instanceof IFluidHandler)
+            return (IFluidHandler) tTileEntity;
         return null;
     }
 
     @Override
     public final IFluidHandler getITankContainerAtSideAndDistance(byte aSide, int aDistance) {
         TileEntity tTileEntity = getTileEntityAtSideAndDistance(aSide, aDistance);
-        if (tTileEntity instanceof IFluidHandler) return (IFluidHandler) tTileEntity;
+        if (tTileEntity instanceof IFluidHandler)
+            return (IFluidHandler) tTileEntity;
         return null;
     }
 
     @Override
     public final IGregTechTileEntity getIGregTechTileEntity(int aX, int aY, int aZ) {
         TileEntity tTileEntity = getTileEntity(aX, aY, aZ);
-        if (tTileEntity instanceof IGregTechTileEntity) return (IGregTechTileEntity) tTileEntity;
+        if (tTileEntity instanceof IGregTechTileEntity)
+            return (IGregTechTileEntity) tTileEntity;
         return null;
     }
 
     @Override
     public final IGregTechTileEntity getIGregTechTileEntityOffset(int aX, int aY, int aZ) {
         TileEntity tTileEntity = getTileEntityOffset(aX, aY, aZ);
-        if (tTileEntity instanceof IGregTechTileEntity) return (IGregTechTileEntity) tTileEntity;
+        if (tTileEntity instanceof IGregTechTileEntity)
+            return (IGregTechTileEntity) tTileEntity;
         return null;
     }
 
     @Override
     public final IGregTechTileEntity getIGregTechTileEntityAtSide(byte aSide) {
         TileEntity tTileEntity = getTileEntityAtSide(aSide);
-        if (tTileEntity instanceof IGregTechTileEntity) return (IGregTechTileEntity) tTileEntity;
+        if (tTileEntity instanceof IGregTechTileEntity)
+            return (IGregTechTileEntity) tTileEntity;
         return null;
     }
 
     @Override
     public final IGregTechTileEntity getIGregTechTileEntityAtSideAndDistance(byte aSide, int aDistance) {
         TileEntity tTileEntity = getTileEntityAtSideAndDistance(aSide, aDistance);
-        if (tTileEntity instanceof IGregTechTileEntity) return (IGregTechTileEntity) tTileEntity;
+        if (tTileEntity instanceof IGregTechTileEntity)
+            return (IGregTechTileEntity) tTileEntity;
         return null;
     }
 
     @Override
     public final Block getBlock(int aX, int aY, int aZ) {
-        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return Blocks.air;
+        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ))
+            return Blocks.air;
         return worldObj.getBlock(aX, aY, aZ);
     }
 
     @Override
     public final byte getMetaID(int aX, int aY, int aZ) {
-        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return 0;
+        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ))
+            return 0;
         return (byte) worldObj.getBlockMetadata(aX, aY, aZ);
     }
 
     @Override
     public final byte getLightLevel(int aX, int aY, int aZ) {
-        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return 0;
+        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ))
+            return 0;
         return (byte) (worldObj.getLightBrightness(aX, aY, aZ) * 15);
     }
 
     @Override
     public final boolean getSky(int aX, int aY, int aZ) {
-        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return true;
+        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ))
+            return true;
         return worldObj.canBlockSeeTheSky(aX, aY, aZ);
     }
 
     @Override
     public final boolean getOpacity(int aX, int aY, int aZ) {
-        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return false;
+        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ))
+            return false;
         return GT_Utility.isOpaqueBlock(worldObj, aX, aY, aZ);
     }
 
     @Override
     public final boolean getAir(int aX, int aY, int aZ) {
-        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return true;
+        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ))
+            return true;
         return GT_Utility.isBlockAir(worldObj, aX, aY, aZ);
     }
 
     @Override
     public final TileEntity getTileEntity(int aX, int aY, int aZ) {
-        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ)) return null;
+        if (ignoreUnloadedChunks && crossedChunkBorder(aX, aZ) && !worldObj.blockExists(aX, aY, aZ))
+            return null;
         return worldObj.getTileEntity(aX, aY, aZ);
     }
 
     @Override
     public final TileEntity getTileEntityAtSide(byte aSide) {
-        if (aSide < 0 || aSide >= 6 || mBufferedTileEntities[aSide] == this) return null;
+        if (aSide < 0 || aSide >= 6 || mBufferedTileEntities[aSide] == this)
+            return null;
         int tX = getOffsetX(aSide, 1), tY = getOffsetY(aSide, 1), tZ = getOffsetZ(aSide, 1);
         if (crossedChunkBorder(tX, tZ)) {
             mBufferedTileEntities[aSide] = null;
-            if (ignoreUnloadedChunks && !worldObj.blockExists(tX, tY, tZ)) return null;
+            if (ignoreUnloadedChunks && !worldObj.blockExists(tX, tY, tZ))
+                return null;
         }
         if (mBufferedTileEntities[aSide] == null) {
             mBufferedTileEntities[aSide] = worldObj.getTileEntity(tX, tY, tZ);
@@ -436,7 +461,7 @@ public abstract class BaseTileEntity extends TileEntity implements IHasWorldObje
                 worldObj.notifyBlockOfNeighborChange(x1, y1, z1, thisBlock);
 
                 //update if it was / is strong powered.
-                if (((((mStrongRedstone | oStrongRedstone) >>> dir.ordinal()) & 1) != 0 ) && getBlock(x1, y1, z1).isNormalCube()) {
+                if (((((mStrongRedstone | oStrongRedstone) >>> dir.ordinal()) & 1) != 0) && getBlock(x1, y1, z1).isNormalCube()) {
                     int skipUpdateSide = dir.getOpposite().ordinal(); //Don't update this block. Still updates diagonal blocks twice if conditions meet.
 
                     for (ForgeDirection dir2 : ForgeDirection.VALID_DIRECTIONS) {
@@ -465,12 +490,12 @@ public abstract class BaseTileEntity extends TileEntity implements IHasWorldObje
     public final void setToFire() {
         worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.fire);
     }
-    
-    @Override 
-    public void markDirty() {/* Do not do the super Function */} 
-    
-    public String trans(String aKey, String aEnglish){
-    	return GT_LanguageManager.addStringLocalization("Interaction_DESCRIPTION_Index_"+aKey, aEnglish, false);
+
+    @Override
+    public void markDirty() {/* Do not do the super Function */}
+
+    public String trans(String aKey, String aEnglish) {
+        return GT_LanguageManager.addStringLocalization("Interaction_DESCRIPTION_Index_" + aKey, aEnglish, false);
     }
 
     /*
@@ -479,11 +504,13 @@ public abstract class BaseTileEntity extends TileEntity implements IHasWorldObje
     protected TileIC2EnergySink ic2EnergySink = null;
     protected boolean joinedIc2Enet = false;
 
-    public IMetaTileEntity getMetaTileEntity() { return null; }
+    public IMetaTileEntity getMetaTileEntity() {
+        return null;
+    }
 
     protected void createIc2Sink() {
-        if(ic2EnergySink == null && isServerSide() && shouldJoinIc2Enet()) {
-            ic2EnergySink = new TileIC2EnergySink((IGregTechTileEntity)this);
+        if (ic2EnergySink == null && isServerSide() && shouldJoinIc2Enet()) {
+            ic2EnergySink = new TileIC2EnergySink((IGregTechTileEntity) this);
         }
     }
 
@@ -493,9 +520,11 @@ public abstract class BaseTileEntity extends TileEntity implements IHasWorldObje
     }
 
     protected void joinEnet() {
-        if (joinedIc2Enet || !shouldJoinIc2Enet()) return;
+        if (joinedIc2Enet || !shouldJoinIc2Enet())
+            return;
 
-        if(ic2EnergySink == null) createIc2Sink();
+        if (ic2EnergySink == null)
+            createIc2Sink();
 
         if (ic2EnergySink != null) {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(ic2EnergySink));
