@@ -2,7 +2,10 @@ package gregtech.api.metatileentity.implementations;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.*;
+import gregtech.api.enums.Dyes;
+import gregtech.api.enums.Materials;
+import gregtech.api.enums.OrePrefixes;
+import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.ICoverable;
@@ -94,24 +97,38 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aConnections, byte aColorIndex, boolean aConnected, boolean aRedstone) {
     	float tThickNess = getThickNess();
-    	if (mDisableInput == 0) return new ITexture[]{aConnected ? getBaseTexture(tThickNess, mPipeAmount, mMaterial, aColorIndex) : new GT_RenderedTexture(mMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.mRGBa))};
+    	if (mDisableInput == 0) 
+    	    return new ITexture[]{aConnected ? getBaseTexture(tThickNess, mPipeAmount, mMaterial, aColorIndex) : new GT_RenderedTexture(mMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.mRGBa))};
         byte tMask = 0;
+        byte down = (byte) ForgeDirection.DOWN.ordinal();
+        byte up = (byte) ForgeDirection.UP.ordinal();
+        byte west = (byte) ForgeDirection.WEST.ordinal();
+        byte east = (byte) ForgeDirection.EAST.ordinal();
+        byte north = (byte) ForgeDirection.NORTH.ordinal();
+        byte south = (byte) ForgeDirection.SOUTH.ordinal();
+        byte unknown = (byte) ForgeDirection.UNKNOWN.ordinal();
         byte[][] sRestrictionArray = new byte[][]{
-        	{2, 3, 5, 4},
-        	{2, 3, 4, 5},
-        	{1, 0, 4, 5},
-        	{1, 0, 4, 5},
-        	{1, 0, 2, 3},
-        	{1, 0, 2, 3}
+        	{north, south, west, east}, //down should be east, west, but bugs out.
+        	{north, south, west, east}, //up
+        	{up, down, west, east}, //north
+        	{up, down, west, east}, //south
+        	{up, down, north, south}, //west
+        	{up, down, north, south} //east
         };
-        if (aSide >= 0 && aSide < 6) {
-            for (byte i = 0; i < 4; i++) if (isInputDisabledAtSide(sRestrictionArray[aSide][i])) tMask |= 1 << i;
+        if (aSide >= down && aSide < unknown) {
+            for (byte i = 0; i < 4; i++)
+                if (isInputDisabledAtSide(sRestrictionArray[aSide][i])) {
+                    tMask |= 1 << i;
+                }
             //Full block size renderer flips side 5 and 2  textures, flip restrictor textures to compensate
             if (tThickNess >= 0.99F && (aSide == 5 || aSide == 2))
                 if (tMask > 3 && tMask < 12)
                     tMask = (byte) (tMask ^ 12);
         }
-        return new ITexture[]{aConnected ? getBaseTexture(tThickNess, mPipeAmount, mMaterial, aColorIndex) : new GT_RenderedTexture(mMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.mRGBa)), getRestrictorTexture(tMask)};
+        return new ITexture[]{aConnected
+                ? getBaseTexture(tThickNess, mPipeAmount, mMaterial, aColorIndex)
+                : new GT_RenderedTexture(mMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.mRGBa)),
+                getRestrictorTexture(tMask)};
     }
 
     protected static final ITexture getBaseTexture(float aThickNess, int aPipeAmount, Materials aMaterial, byte aColorIndex) {
