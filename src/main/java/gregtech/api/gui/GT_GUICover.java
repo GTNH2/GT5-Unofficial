@@ -25,20 +25,20 @@ import java.util.List;
 
 public abstract class GT_GUICover extends GuiScreen implements GT_IToolTipRenderer, IGuiScreen {
 
-    protected GT_GuiTooltipManager ttManager = new GT_GuiTooltipManager();
+    protected final GT_GuiTooltipManager ttManager = new GT_GuiTooltipManager();
 
-    protected int gui_width = 176;
-    protected int gui_height = 107;
+    protected final int gui_width;// = 176;
+    protected final int gui_height;// = 107;
     protected int guiTop, guiLeft;
-    protected boolean drawButtons = true;
+    protected final boolean drawButtons = true;
     private GuiButton selectedButton;
-    public String header;
-    public GT_GuiFakeItemButton headerIcon;
+    public final String header;
+    public final GT_GuiFakeItemButton headerIcon;
     public final ICoverable tile;
 
 
-    protected List<IGuiElement> elements = new ArrayList<>();
-    protected List<GT_GuiIntegerTextBox> textBoxes = new ArrayList<>();
+    protected final List<IGuiElement> elements = new ArrayList<>();
+    protected final List<GT_GuiIntegerTextBox> textBoxes = new ArrayList<>();
 
     public GT_GUICover(ICoverable tile, int width, int height, ItemStack cover) {
         this.tile = tile;
@@ -49,6 +49,7 @@ public abstract class GT_GUICover extends GuiScreen implements GT_IToolTipRender
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void initGui() {
         guiLeft = (this.width - this.gui_width) / 2;
         guiTop = (this.height - this.gui_height) / 2;
@@ -138,7 +139,7 @@ public abstract class GT_GUICover extends GuiScreen implements GT_IToolTipRender
     }
 
     public void closeScreen() {
-        this.mc.displayGuiScreen((GuiScreen) null);
+        this.mc.displayGuiScreen(null);
         this.mc.setIngameFocus();
     }
 

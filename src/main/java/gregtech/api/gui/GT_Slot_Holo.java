@@ -7,10 +7,10 @@ import net.minecraft.item.ItemStack;
 
 public class GT_Slot_Holo extends Slot {
     public final int mSlotIndex;
-    public boolean
-            mCanInsertItem,
-            mCanStackItem;
-    public int mMaxStacksize = 127;
+    public final boolean
+            mCanInsertItem;
+    public final boolean mCanStackItem;
+    public final int mMaxStacksize;// = 127;
 
     public GT_Slot_Holo(IInventory par1iInventory, int par2, int par3, int par4, boolean aCanInsertItem, boolean aCanStackItem, int aMaxStacksize) {
         super(par1iInventory, par2, par3, par4);
