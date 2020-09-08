@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GT_CoolantCell_Item
         extends GT_Generic_Item {
-    protected int heatStorage;
+    protected final int heatStorage;
 
     public GT_CoolantCell_Item(String aUnlocalized, String aEnglish, int aMaxStore) {
         super(aUnlocalized, aEnglish, null);
@@ -49,6 +49,7 @@ public class GT_CoolantCell_Item
         }
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void addAdditionalToolTips(List aList, ItemStack aStack, EntityPlayer aPlayer) {
     	super.addAdditionalToolTips(aList, aStack, aPlayer);
         int rHeat = getHeatOfStack(aStack) * 10 / this.heatStorage;
@@ -66,10 +67,9 @@ public class GT_CoolantCell_Item
         default: color = EnumChatFormatting.DARK_RED; break;
         }
         aList.add(EnumChatFormatting.WHITE + String.format(trans("000", "Stored Heat: %s"), "" + color + getHeatOfStack(aStack)));
-        switch (getControlTagOfStack(aStack)) {
-            case 1:
-                aList.add(StatCollector.translateToLocal("ic2.reactoritem.heatwarning.line1"));
-                aList.add(StatCollector.translateToLocal("ic2.reactoritem.heatwarning.line2"));
+        if (getControlTagOfStack(aStack) == 1) {
+            aList.add(StatCollector.translateToLocal("ic2.reactoritem.heatwarning.line1"));
+            aList.add(StatCollector.translateToLocal("ic2.reactoritem.heatwarning.line2"));
         }
     }
 

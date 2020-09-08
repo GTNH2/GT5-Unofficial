@@ -58,19 +58,19 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * <p/>
      * You can also use the unlocalized Name gotten from getUnlocalizedName() as Key if you want to get a specific Item.
      */
-    public static final ConcurrentHashMap<String, GT_MetaGenerated_Item> sInstances = new ConcurrentHashMap<String, GT_MetaGenerated_Item>();
+    public static final ConcurrentHashMap<String, GT_MetaGenerated_Item> sInstances = new ConcurrentHashMap<>();
 
-	/* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
+    /* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
 
     public final short mOffset, mItemAmount;
     public final BitSet mEnabledItems;
     public final BitSet mVisibleItems;
     public final IIcon[][] mIconList;
 
-    public final ConcurrentHashMap<Short, IFoodStat> mFoodStats = new ConcurrentHashMap<Short, IFoodStat>();
-    public final ConcurrentHashMap<Short, Long[]> mElectricStats = new ConcurrentHashMap<Short, Long[]>();
-    public final ConcurrentHashMap<Short, Long[]> mFluidContainerStats = new ConcurrentHashMap<Short, Long[]>();
-    public final ConcurrentHashMap<Short, Short> mBurnValues = new ConcurrentHashMap<Short, Short>();
+    public final ConcurrentHashMap<Short, IFoodStat> mFoodStats = new ConcurrentHashMap<>();
+    public final ConcurrentHashMap<Short, Long[]> mElectricStats = new ConcurrentHashMap<>();
+    public final ConcurrentHashMap<Short, Long[]> mFluidContainerStats = new ConcurrentHashMap<>();
+    public final ConcurrentHashMap<Short, Short> mBurnValues = new ConcurrentHashMap<>();
 
     /**
      * Creates the Item using these Parameters.
@@ -103,14 +103,15 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @return An ItemStack containing the newly created Item.
      */
     public final ItemStack addItem(int aID, String aEnglish, String aToolTip, Object... aRandomData) {
-        if (aToolTip == null) aToolTip = "";
+        if (aToolTip == null)
+            aToolTip = "";
         if (aID >= 0 && aID < mItemAmount) {
             ItemStack rStack = new ItemStack(this, 1, mOffset + aID);
             mEnabledItems.set(aID);
             mVisibleItems.set(aID);
             GT_LanguageManager.addStringLocalization(getUnlocalizedName(rStack) + ".name", aEnglish);
             GT_LanguageManager.addStringLocalization(getUnlocalizedName(rStack) + ".tooltip", aToolTip);
-            List<TC_AspectStack> tAspects = new ArrayList<TC_AspectStack>();
+            List<TC_AspectStack> tAspects = new ArrayList<>();
             // Important Stuff to do first
             for (Object tRandomData : aRandomData)
                 if (tRandomData instanceof SubTag) {
@@ -120,7 +121,6 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
                     }
                     if (tRandomData == SubTag.NO_UNIFICATION) {
                         GT_OreDictUnificator.addToBlacklist(rStack);
-                        continue;
                     }
                 }
             // now check for the rest
@@ -137,6 +137,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
                         tUseOreDict = false;
                     }
                     if (tRandomData instanceof IItemBehaviour) {
+                        //noinspection unchecked
                         addItemBehavior(mOffset + aID, (IItemBehaviour<GT_MetaBase_Item>) tRandomData);
                         tUseOreDict = false;
                     }
@@ -154,12 +155,12 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
                     if (tRandomData instanceof ItemData) {
                         if (GT_Utility.isStringValid(tRandomData))
                             GT_OreDictUnificator.registerOre(tRandomData, rStack);
-                        else GT_OreDictUnificator.addItemData(rStack, (ItemData) tRandomData);
+                        else
+                            GT_OreDictUnificator.addItemData(rStack, (ItemData) tRandomData);
                         continue;
                     }
                     if (tUseOreDict) {
                         GT_OreDictUnificator.registerOre(tRandomData, rStack);
-                        continue;
                     }
                 }
             if (GregTech_API.sThaumcraftCompat != null)
@@ -176,10 +177,14 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @param aFoodBehavior the Food Behavior you want to add.
      * @return the Item itself for convenience in constructing.
      */
+    @SuppressWarnings("UnusedReturnValue")
     public final GT_MetaGenerated_Item setFoodBehavior(int aMetaValue, IFoodStat aFoodBehavior) {
-        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length()) return this;
-        if (aFoodBehavior == null) mFoodStats.remove((short) aMetaValue);
-        else mFoodStats.put((short) aMetaValue, aFoodBehavior);
+        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length())
+            return this;
+        if (aFoodBehavior == null)
+            mFoodStats.remove((short) aMetaValue);
+        else
+            mFoodStats.put((short) aMetaValue, aFoodBehavior);
         return this;
     }
 
@@ -191,9 +196,12 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @return the Item itself for convenience in constructing.
      */
     public final GT_MetaGenerated_Item setBurnValue(int aMetaValue, int aValue) {
-        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length() || aValue < 0) return this;
-        if (aValue == 0) mBurnValues.remove((short) aMetaValue);
-        else mBurnValues.put((short) aMetaValue, aValue > Short.MAX_VALUE ? Short.MAX_VALUE : (short) aValue);
+        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length() || aValue < 0)
+            return this;
+        if (aValue == 0)
+            mBurnValues.remove((short) aMetaValue);
+        else
+            mBurnValues.put((short) aMetaValue, aValue > Short.MAX_VALUE ? Short.MAX_VALUE : (short) aValue);
         return this;
     }
 
@@ -209,8 +217,10 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @return the Item itself for convenience in constructing.
      */
     public final GT_MetaGenerated_Item setElectricStats(int aMetaValue, long aMaxCharge, long aTransferLimit, long aTier, long aSpecialData, boolean aUseAnimations) {
-        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length()) return this;
-        if (aMaxCharge == 0) mElectricStats.remove((short) aMetaValue);
+        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length())
+            return this;
+        if (aMaxCharge == 0)
+            mElectricStats.remove((short) aMetaValue);
         else {
             mElectricStats.put((short) aMetaValue, new Long[]{aMaxCharge, Math.max(0, aTransferLimit), Math.max(-1, aTier), aSpecialData});
             if (aMetaValue >= mOffset && aUseAnimations)
@@ -231,15 +241,19 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * @return the Item itself for convenience in constructing.
      */
     public final GT_MetaGenerated_Item setFluidContainerStats(int aMetaValue, long aCapacity, long aStacksize) {
-        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length()) return this;
-        if (aCapacity < 0) mElectricStats.remove((short) aMetaValue);
-        else mFluidContainerStats.put((short) aMetaValue, new Long[]{aCapacity, Math.max(1, aStacksize)});
+        if (aMetaValue < 0 || aMetaValue >= mOffset + mEnabledItems.length())
+            return this;
+        if (aCapacity < 0)
+            mElectricStats.remove((short) aMetaValue);
+        else
+            mFluidContainerStats.put((short) aMetaValue, new Long[]{aCapacity, Math.max(1, aStacksize)});
         return this;
     }
 
     /**
      * @return if this MetaGenerated Item should use my Default Renderer System.
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean useStandardMetaItemRenderer() {
         return true;
     }
@@ -257,8 +271,8 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
     public IIconContainer getIconContainer(int aMetaData) {
         return null;
     }
-	
-	/* ---------- INTERNAL OVERRIDES ---------- */
+
+    /* ---------- INTERNAL OVERRIDES ---------- */
 
     @Override
     public ItemStack onItemRightClick(ItemStack aStack, World aWorld, EntityPlayer aPlayer) {
@@ -302,6 +316,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
 
     @Override
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings({"unchecked"})
     public void getSubItems(Item var1, CreativeTabs aCreativeTab, List aList) {
         int j = mEnabledItems.length();
         for (int i = 0; i < j; i++)

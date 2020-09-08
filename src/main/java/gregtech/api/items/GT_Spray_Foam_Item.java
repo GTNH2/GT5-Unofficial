@@ -59,12 +59,14 @@ public class GT_Spray_Foam_Item extends GT_Tool_Item {
     @Override
     public boolean onItemUseFirst(ItemStack aStack, EntityPlayer aPlayer, World aWorld, int aX, int aY, int aZ, int aSide, float hitX, float hitY, float hitZ) {
         super.onItemUseFirst(aStack, aPlayer, aWorld, aX, aY, aZ, aSide, hitX, hitY, hitZ);
-        if (aPlayer.isSneaking()) return false;
+        if (aPlayer.isSneaking())
+            return false;
         if (aWorld.isRemote) {
             return false;
         }
         Block aBlock = aWorld.getBlock(aX, aY, aZ);
-        if (aBlock == null) return false;
+        if (aBlock == null)
+            return false;
 //    	byte aMeta = (byte)aWorld.getBlockMetadata(aX, aY, aZ);
         TileEntity aTileEntity = aWorld.getTileEntity(aX, aY, aZ);
 
@@ -80,7 +82,8 @@ public class GT_Spray_Foam_Item extends GT_Tool_Item {
                 return false;
             }
         } catch (Throwable e) {
-            if (D1) e.printStackTrace(GT_Log.err);
+            if (D1)
+                e.printStackTrace(GT_Log.err);
         }
 
         if (aTileEntity instanceof BaseMetaPipeEntity && (((BaseMetaPipeEntity) aTileEntity).mConnections & -64) == 0) {
@@ -101,9 +104,7 @@ public class GT_Spray_Foam_Item extends GT_Tool_Item {
             byte tSide = 0;
             if (tRotationPitch >= 65) {
                 tSide = 1;
-            } else if (tRotationPitch <= -65) {
-                tSide = 0;
-            } else {
+            } else if (tRotationPitch > -65) {
                 switch (MathHelper.floor_double((aPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) {
                     case 0:
                         tSide = 2;
@@ -119,7 +120,7 @@ public class GT_Spray_Foam_Item extends GT_Tool_Item {
                         break;
                 }
             }
-            switch (0) {
+            switch (tSide) {
                 case 0:
                     if (GT_Utility.isBlockAir(aWorld, aX, aY, aZ) && GT_ModHandler.damageOrDechargeItem(aStack, 1, 1000, aPlayer)) {
                         GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(102), 1.0F, -1, aX, aY, aZ);
@@ -133,7 +134,8 @@ public class GT_Spray_Foam_Item extends GT_Tool_Item {
                             GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(102), 1.0F, -1, aX, aY, aZ);
                             aWorld.setBlock(aX, aY, aZ, GT_Utility.getBlockFromStack(tStack), tStack.getItemDamage(), 3);
                         } else {
-                            if (i == 0) return false;
+                            if (i == 0)
+                                return false;
                             break;
                         }
                         aX -= ForgeDirection.getOrientation(tSide).offsetX;
@@ -151,18 +153,20 @@ public class GT_Spray_Foam_Item extends GT_Tool_Item {
                     aY -= (tYFactor ? 1 : 0);
                     aZ -= (tZFactor ? 1 : 0);
 
-                    for (byte i = 0; i < 3; i++)
+                    for (byte i = 0; i < 3; i++) {
                         for (byte j = 0; j < 3; j++) {
-                            if (GT_Utility.isBlockAir(aWorld, aX + (tXFactor ? i : 0), aY + (!tXFactor && tYFactor ? i : 0) + (!tZFactor && tYFactor ? j : 0), aZ + (tZFactor ? j : 0))) {
+                            int aY1 = aY + (!tXFactor && tYFactor ? i : 0) + (!tZFactor && tYFactor ? j : 0);
+                            if (GT_Utility.isBlockAir(aWorld, aX + (tXFactor ? i : 0), aY1, aZ + (tZFactor ? j : 0))) {
                                 if (GT_ModHandler.damageOrDechargeItem(aStack, 1, 1000, aPlayer)) {
                                     GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(102), 1.0F, -1, aX, aY, aZ);
-                                    aWorld.setBlock(aX + (tXFactor ? i : 0), aY + (!tXFactor && tYFactor ? i : 0) + (!tZFactor && tYFactor ? j : 0), aZ + (tZFactor ? j : 0), GT_Utility.getBlockFromStack(tStack), tStack.getItemDamage(), 3);
+                                    aWorld.setBlock(aX + (tXFactor ? i : 0), aY1, aZ + (tZFactor ? j : 0), GT_Utility.getBlockFromStack(tStack), tStack.getItemDamage(), 3);
                                     temp = true;
                                 } else {
                                     break;
                                 }
                             }
                         }
+                    }
                     return temp;
             }
         }

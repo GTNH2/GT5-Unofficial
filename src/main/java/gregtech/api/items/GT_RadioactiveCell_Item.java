@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GT_RadioactiveCell_Item
         extends GT_Generic_Item  implements IBoxable{
-    protected int cellCount;
+    protected final int cellCount;
     protected int maxDmg;
     protected int dura;
 
@@ -46,6 +46,7 @@ public class GT_RadioactiveCell_Item
       return (x * x + x) / 2;
     }
 
+    @SuppressWarnings("SameReturnValue")
     protected boolean outputPulseForStack(ItemStack aStack) {
         NBTTagCompound tNBT = aStack.getTagCompound();
         if (tNBT == null) {
@@ -56,6 +57,7 @@ public class GT_RadioactiveCell_Item
         return false;//(this.pulserate > 0) || (tNBT.getInteger("output") % -this.pulserate == 0);
     }
 
+    @SuppressWarnings("SameReturnValue")
     protected boolean incrementPulseForStack(ItemStack aStack) {
         NBTTagCompound tNBT = aStack.getTagCompound();
         if (tNBT == null) {
@@ -84,10 +86,12 @@ public class GT_RadioactiveCell_Item
 //    }
     }
 
+    @SuppressWarnings("SameReturnValue")
     public int getMaxNuclearDurability() {
         return 0;//return this.maxDelay;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public int func_77619_b() {
         return 0;
     }
@@ -96,6 +100,7 @@ public class GT_RadioactiveCell_Item
         return false;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public boolean func_82789_a(ItemStack par1ItemStack, ItemStack par2ItemStack) {
         return false;
     }
@@ -138,6 +143,7 @@ public class GT_RadioactiveCell_Item
         setDamageForStack(stack, getDamageOfStack(stack) + Dmg);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void addAdditionalToolTips(List aList, ItemStack aStack, EntityPlayer aPlayer) {
     	super.addAdditionalToolTips(aList, aStack, aPlayer);
         //aList.add("Time left: " + (this.maxDelay - getDurabilityOfStack(aStack)) + " secs");

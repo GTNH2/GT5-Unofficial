@@ -44,6 +44,7 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
         return 0;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void processChamber(IReactor reactor, ItemStack yourStack, int x, int y, boolean heatrun) {
         if (!reactor.produceEnergy()) {
             return;
@@ -54,17 +55,20 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
                 for (int i = 0; i < pulses; i++) {
                     acceptUraniumPulse(reactor, yourStack, yourStack, x, y, x, y, heatrun);
                 }
-                checkPulseable(reactor, x - 1, y, yourStack, x, y, heatrun);checkPulseable(reactor, x + 1, y, yourStack, x, y, heatrun);checkPulseable(reactor, x, y - 1, yourStack, x, y, heatrun);checkPulseable(reactor, x, y + 1, yourStack, x, y, heatrun);
+                checkPulseable(reactor, x - 1, y, yourStack, x, y, heatrun);
+                checkPulseable(reactor, x + 1, y, yourStack, x, y, heatrun);
+                checkPulseable(reactor, x, y - 1, yourStack, x, y, heatrun);
+                checkPulseable(reactor, x, y + 1, yourStack, x, y, heatrun);
             } else {
                 pulses += checkPulseable(reactor, x - 1, y, yourStack, x, y, heatrun) + checkPulseable(reactor, x + 1, y, yourStack, x, y, heatrun) + checkPulseable(reactor, x, y - 1, yourStack, x, y, heatrun) + checkPulseable(reactor, x, y + 1, yourStack, x, y, heatrun);
 
 //                int heat = sumUp(pulses) * 4;
 
                 int heat = triangularNumber(pulses) * 4;
-                
+
                 heat = getFinalHeat(reactor, yourStack, x, y, heat);
-                
-                ArrayList<ItemStackCoord> heatAcceptors = new ArrayList();
+
+                ArrayList<ItemStackCoord> heatAcceptors = new ArrayList<>();
                 checkHeatAcceptor(reactor, x - 1, y, heatAcceptors);
                 checkHeatAcceptor(reactor, x + 1, y, heatAcceptors);
                 checkHeatAcceptor(reactor, x, y - 1, heatAcceptors);
@@ -74,7 +78,7 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
 
                     int dheat = heat / heatAcceptors.size();
                     heat -= dheat;
-                    dheat = ((IReactorComponent) ((ItemStackCoord) heatAcceptors.get(0)).stack.getItem()).alterHeat(reactor, ((ItemStackCoord) heatAcceptors.get(0)).stack, ((ItemStackCoord) heatAcceptors.get(0)).x, ((ItemStackCoord) heatAcceptors.get(0)).y, dheat);
+                    dheat = ((IReactorComponent) heatAcceptors.get(0).stack.getItem()).alterHeat(reactor, heatAcceptors.get(0).stack, heatAcceptors.get(0).x, heatAcceptors.get(0).y, dheat);
                     heat += dheat;
                     heatAcceptors.remove(0);
                 }
@@ -84,22 +88,20 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
             }
         }
         if (getDamageOfStack(yourStack) >= getMaxDamageEx() - 1) {
-        	reactor.setItemAt(x, y, sDepleted.copy());
+            reactor.setItemAt(x, y, sDepleted.copy());
         } else if (heatrun) {
             damageItemStack(yourStack, 1);
         }
     }
-    
-    protected int getFinalHeat(IReactor reactor, ItemStack stack, int x, int y, int heat)
-    {
-      if (sMox&&reactor.isFluidCooled())
-      {
-        float breedereffectiveness = (float)reactor.getHeat() / (float)reactor.getMaxHeat();
-        if (breedereffectiveness > 0.5D) {
-          heat *= 2;
+
+    protected int getFinalHeat(IReactor reactor, ItemStack stack, int x, int y, int heat) {
+        if (sMox && reactor.isFluidCooled()) {
+            float breedereffectiveness = (float) reactor.getHeat() / (float) reactor.getMaxHeat();
+            if (breedereffectiveness > 0.5D) {
+                heat *= 2;
+            }
         }
-      }
-      return heat;
+        return heat;
     }
 
     private void checkHeatAcceptor(IReactor reactor, int x, int y, ArrayList<ItemStackCoord> heatAcceptors) {
@@ -111,13 +113,14 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
     }
 
     public boolean acceptUraniumPulse(IReactor reactor, ItemStack yourStack, ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY, boolean heatrun) {
-    	if (!heatrun) {
-        	if(sMox){
-        	      float breedereffectiveness = (float)reactor.getHeat() / (float)reactor.getMaxHeat();
-        	      float ReaktorOutput = 1.5F * breedereffectiveness + 1.0F;
-        	      reactor.addOutput(ReaktorOutput * this.sEnergy);
-        	}else{
-            reactor.addOutput((float) (1.0F * this.sEnergy));}
+        if (!heatrun) {
+            if (sMox) {
+                float breedereffectiveness = (float) reactor.getHeat() / (float) reactor.getMaxHeat();
+                float ReaktorOutput = 1.5F * breedereffectiveness + 1.0F;
+                reactor.addOutput(ReaktorOutput * this.sEnergy);
+            } else {
+                reactor.addOutput(1.0F * this.sEnergy);
+            }
         }
         return true;
     }
@@ -145,16 +148,16 @@ public class GT_RadioactiveCellIC_Item extends GT_RadioactiveCell_Item implement
     public void onUpdate(ItemStack stack, World world, Entity entity, int slotIndex, boolean isCurrentItem) {
         if (this.sRadiation > 0 && (entity instanceof EntityLivingBase)) {
             EntityLivingBase entityLiving = (EntityLivingBase) entity;
-            if (!GregTech_API.mIC2Classic&&!ItemArmorHazmat.hasCompleteHazmat(entityLiving)) {
+            if (!GregTech_API.mIC2Classic && !ItemArmorHazmat.hasCompleteHazmat(entityLiving)) {
                 IC2Potion.radiation.applyTo(entityLiving, sRadiation * 20, sRadiation * 10);
             }
         }
     }
 
-    private class ItemStackCoord {
-        public ItemStack stack;
-        public int x;
-        public int y;
+    private static class ItemStackCoord {
+        public final ItemStack stack;
+        public final int x;
+        public final int y;
 
         public ItemStackCoord(ItemStack stack1, int x1, int y1) {
             this.stack = stack1;
