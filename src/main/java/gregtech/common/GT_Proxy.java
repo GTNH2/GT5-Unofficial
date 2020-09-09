@@ -237,7 +237,9 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 //                    tOreStack = (ItemStack) i$.next();
 //                }
 
-                OreDictionary.getOres(tOreName).forEach(itemStack->registerOre(new OreDictionary.OreRegisterEvent(tOreName, itemStack)));
+                for (ItemStack tOreStack : OreDictionary.getOres(tOreName)) {
+                    registerOre(new OreDictionary.OreRegisterEvent(tOreName, tOreStack));
+                }
             }
         } catch (Throwable e) {e.printStackTrace(GT_Log.err);}
     }
@@ -976,7 +978,9 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 //                                    tReRegisteredMaterial = (Materials) i$.next();
 //                                }
 
-                                aMaterial.mOreReRegistrations.forEach(x-> GT_OreDictUnificator.registerOre(aPrefix, x, aEvent.Ore));
+                                for (Materials x : aMaterial.mOreReRegistrations) {
+                                    GT_OreDictUnificator.registerOre(aPrefix, x, aEvent.Ore);
+                                }
 
                                 aMaterial.add(GT_Utility.copyAmount(1L, aEvent.Ore));
 
