@@ -9,9 +9,14 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        maven {
+            name = "jitpack"
+            url = "https://jitpack.io"
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        //Defaults to Java 8 & UTF-8 encoding
+        classpath 'com.github.GTNH2:ForgeGradle:061ac05b6c'
     }
 }
 
@@ -29,19 +34,19 @@ version = "${config.gt.version}"
 group= "gregtech"
 archivesBaseName = "gregtech"
 
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 minecraft {
     version = "${config.minecraft.version}-${config.forge.version}"
     runDir = "eclipse"
 
 }
 
-idea { module { inheritOutputDirs = true } }
+idea {
+    module {
+        inheritOutputDirs = true
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
 
 configurations {
     provided
