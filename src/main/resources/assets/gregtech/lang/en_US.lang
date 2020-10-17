@@ -41,8 +41,8 @@ GT5U.machines.separatebus=Input busses are separated
 GT5U.machines.pumpareaset=Pumping area set to
 GT5U.machines.oilfluidpump=Oil/Fluid Pump
 GT5U.machines.minermulti=Multiblock Miner
-GT5U.machines.voidoveflow=Void Over Flow
-
+GT5U.machines.voidoveflow.enabled=Overflow voiding enabled
+GT5U.machines.voidoveflow.disabled=Overflow voiding disabled
 
 
 
@@ -816,6 +816,8 @@ achievement.gt.blockmachines.multimachine.em.emtoessentia=Essentia Dequantizer
 achievement.gt.blockmachines.multimachine.em.emtoessentia.desc=Pickup this item to see the recipe in NEI
 achievement.gt.blockmachines.multimachine.em.scanner=Elemental Scanner
 achievement.gt.blockmachines.multimachine.em.scanner.desc=Pickup this item to see the recipe in NEI
+achievement.gt.blockmachines.multimachine.em.scanner=Data Bank
+achievement.gt.blockmachines.multimachine.em.databank.desc=Pickup this item to see the recipe in NEI
 achievement.gt.blockcasingsTT.8=Hollow Casing
 achievement.gt.blockcasingsTT.8.desc=Pickup this item to see the recipe in NEI
 achievement.gt.blockcasingsTT.7=Molecular Coil
