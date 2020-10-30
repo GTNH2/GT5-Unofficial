@@ -16,7 +16,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.ChunkPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import static gregtech.api.objects.XSTR.XSTR_INSTANCE;
@@ -200,10 +199,7 @@ public abstract class GT_MetaTileEntity_PrimitiveBlastFurnace extends MetaTileEn
                 }
             }
             if (this.mMaxProgresstime > 0 && (aTimer % 20L == 0L)) {
-                GT_Pollution.addPollution(this.getBaseMetaTileEntity().getWorld(),
-                        new ChunkPosition(this.getBaseMetaTileEntity().getXCoord(), this.getBaseMetaTileEntity().getYCoord(),
-                                this.getBaseMetaTileEntity().getZCoord()),
-                        200);
+                GT_Pollution.addPollution(this.getBaseMetaTileEntity(),200);
             }
 
             aBaseMetaTileEntity.setActive((this.mMaxProgresstime > 0) && (this.mMachine));
@@ -267,27 +263,27 @@ public abstract class GT_MetaTileEntity_PrimitiveBlastFurnace extends MetaTileEn
         return ((this.mInventory[absoluteSlot].stackSize + outputStack.stackSize <= this.mInventory[absoluteSlot].getMaxStackSize()) && (GT_Utility.areStacksEqual(this.mInventory[absoluteSlot], outputStack)));
     }
 
-    private boolean checkRecipe() {
+    private void checkRecipe() {
         if (!this.mMachine) {
-            return false;
+            return;
         }
         ItemStack[] inputs = new ItemStack[INPUT_SLOTS];
         System.arraycopy(mInventory, 0, inputs, 0, INPUT_SLOTS);
         GT_Recipe recipe = GT_Recipe.GT_Recipe_Map.sPrimitiveBlastRecipes.findRecipe(getBaseMetaTileEntity(), false, 0, null, inputs);
         if (recipe == null) {
             this.mOutputItems = null;
-            return false;
+            return;
         }
         for (int i = 0; i < OUTPUT_SLOTS; i++) {
             if (!spaceForOutput(recipe.getOutput(i), i)) {
                 this.mOutputItems = null;
-                return false;
+                return;
             }
         }
 
         if (!recipe.isRecipeInputEqual(true, null, inputs)) {
             this.mOutputItems = null;
-            return false;
+            return;
         }
         for (int i = 0; i < INPUT_SLOTS; i++) {
             if (mInventory[i] != null && mInventory[i].stackSize == 0) {
@@ -297,7 +293,6 @@ public abstract class GT_MetaTileEntity_PrimitiveBlastFurnace extends MetaTileEn
 
         this.mMaxProgresstime = recipe.mDuration;
         this.mOutputItems = recipe.mOutputs;
-        return true;
     }
 
     public boolean isGivingInformation() {

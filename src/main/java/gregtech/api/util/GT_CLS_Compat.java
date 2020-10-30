@@ -91,7 +91,7 @@ public class GT_CLS_Compat {
     private GT_CLS_Compat() {
     }
 
-    private static int[] setSizeSteps(Set<Materials> replaceVanillaItemsSet){
+    private static int[] setSizeSteps(Set<Materials> replaceVanillaItemsSet) {
         int sizeStep;
         int sizeStep2;
         if (replaceVanillaItemsSet.size() >= 100) {
@@ -129,7 +129,7 @@ public class GT_CLS_Compat {
             counter--;
             sizeSteps[0]--;
 
-            displayMethodAdapter(counter,m.mDefaultLocalName,size);
+            displayMethodAdapter(counter, m.mDefaultLocalName, size);
             GT_Mod.doActualRegistration(m);
 
             size += sizeSteps[1];

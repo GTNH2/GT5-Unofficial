@@ -51,53 +51,52 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
         String BlockName = tBlock.getUnlocalizedName();
         aMetaData += isSmallOre ? 16000 : 0;
         if ((aMetaData > 0) && ((tBlock != Blocks.air) || air)) {
-            if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) {
-                //Do nothing, stone background is default background.
-                //Do this comparison first since stone is most common
-            } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) {
-                aMetaData += 1000;
-            } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone)) {
-                aMetaData += 2000;
-            } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites)) {
-                if (tBlock == GregTech_API.sBlockGranites) {
-                    if (aWorld.getBlockMetadata(aX, aY, aZ) < 8) {
+            if (!tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) {
+                if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack)) {
+                    aMetaData += 1000;
+                } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.end_stone)) {
+                    aMetaData += 2000;
+                } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites)) {
+                    if (tBlock == GregTech_API.sBlockGranites) {
+                        if (aWorld.getBlockMetadata(aX, aY, aZ) < 8) {
+                            aMetaData += 3000;
+                        } else {
+                            aMetaData += 4000;
+                        }
+                    } else {
                         aMetaData += 3000;
-                    } else {
-                        aMetaData += 4000;
                     }
-                } else {
-                    aMetaData += 3000;
-                }
-            } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockStones)) {
-                if (tBlock == GregTech_API.sBlockStones) {
-                    if (aWorld.getBlockMetadata(aX, aY, aZ) < 8) {
+                } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockStones)) {
+                    if (tBlock == GregTech_API.sBlockStones) {
+                        if (aWorld.getBlockMetadata(aX, aY, aZ) < 8) {
+                            aMetaData += 5000;
+                        } else {
+                            aMetaData += 6000;
+                        }
+                    } else {
                         aMetaData += 5000;
-                    } else {
-                        aMetaData += 6000;
+                    }
+                } else if (BlockName.equals("tile.igneousStone")) {
+                    if (GregTech_API.sBlockOresUb1 != null) {
+                        tOreBlock = GregTech_API.sBlockOresUb1;
+                        aMetaData += (BlockMeta * 1000);
+                        //GT_FML_LOGGER.info("Block changed to UB1");
+                    }
+                } else if (BlockName.equals("tile.metamorphicStone")) {
+                    if (GregTech_API.sBlockOresUb2 != null) {
+                        tOreBlock = GregTech_API.sBlockOresUb2;
+                        aMetaData += (BlockMeta * 1000);
+                        //GT_FML_LOGGER.info("Block changed to UB2");
+                    }
+                } else if (BlockName.equals("tile.sedimentaryStone")) {
+                    if (GregTech_API.sBlockOresUb3 != null) {
+                        tOreBlock = GregTech_API.sBlockOresUb3;
+                        aMetaData += (BlockMeta * 1000);
+                        //GT_FML_LOGGER.info("Block changed to UB3");
                     }
                 } else {
-                    aMetaData += 5000;
+                    return false;
                 }
-            } else if (BlockName.equals("tile.igneousStone")) {
-                if (GregTech_API.sBlockOresUb1 != null) {
-                    tOreBlock = GregTech_API.sBlockOresUb1;
-                    aMetaData += (BlockMeta * 1000);
-                    //GT_FML_LOGGER.info("Block changed to UB1");
-                }
-            } else if (BlockName.equals("tile.metamorphicStone")) {
-                if (GregTech_API.sBlockOresUb2 != null) {
-                    tOreBlock = GregTech_API.sBlockOresUb2;
-                    aMetaData += (BlockMeta * 1000);
-                    //GT_FML_LOGGER.info("Block changed to UB2");
-                }
-            } else if (BlockName.equals("tile.sedimentaryStone")) {
-                if (GregTech_API.sBlockOresUb3 != null) {
-                    tOreBlock = GregTech_API.sBlockOresUb3;
-                    aMetaData += (BlockMeta * 1000);
-                    //GT_FML_LOGGER.info("Block changed to UB3");
-                }
-            } else {
-                return false;
             }
             //GT_FML_LOGGER.info(tOreBlock);
             aWorld.setBlock(aX, aY, aZ, tOreBlock, getHarvestData((short) aMetaData, ((GT_Block_Ores_Abstract) tOreBlock).getBaseBlockHarvestLevel(aMetaData % 16000 / 1000)), 0);
@@ -171,7 +170,7 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
     }
 
     public void convertOreBlock(World aWorld, int aX, int aY, int aZ) {
-        short aMeta = ((short) (int) (this.mMetaData % 1000 + (this.mMetaData / 16000 * 16000)));
+        short aMeta = ((short) (this.mMetaData % 1000 + (this.mMetaData / 16000 * 16000)));
         aWorld.setBlock(aX, aY, aZ, GregTech_API.sBlockOres1);
         TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
         if (tTileEntity instanceof GT_TileEntity_Ores) {
@@ -189,7 +188,7 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
     }
 
     public ArrayList<ItemStack> getDrops(Block aDroppedOre, int aFortune) {
-        ArrayList<ItemStack> rList = new ArrayList();
+        ArrayList<ItemStack> rList = new ArrayList<>();
         if (this.mMetaData <= 0) {
             rList.add(new ItemStack(Blocks.cobblestone, 1, 0));
             return rList;
@@ -207,7 +206,7 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
         }
         if (aMaterial != null) {
             Random tRandom = new XSTR(this.xCoord ^ this.yCoord ^ this.zCoord);
-            ArrayList<ItemStack> tSelector = new ArrayList();
+            ArrayList<ItemStack> tSelector = new ArrayList<>();
 
 
             ItemStack tStack = GT_OreDictUnificator.get(OrePrefixes.gemExquisite, aMaterial, GT_OreDictUnificator.get(OrePrefixes.gem, aMaterial, 1L), 1L);
@@ -255,7 +254,7 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
             if (tSelector.size() > 0) {
                 int i = 0;
                 for (int j = Math.max(1, aMaterial.mOreMultiplier + (aFortune > 0 ? tRandom.nextInt(1 + aFortune * aMaterial.mOreMultiplier) : 0) / 2); i < j; i++) {
-                    rList.add(GT_Utility.copyAmount(1L, new Object[]{tSelector.get(tRandom.nextInt(tSelector.size()))}));
+                    rList.add(GT_Utility.copyAmount(1L, tSelector.get(tRandom.nextInt(tSelector.size()))));
                 }
             }
             if (tRandom.nextInt(3 + aFortune) > 1) {

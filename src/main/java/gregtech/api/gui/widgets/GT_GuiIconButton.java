@@ -11,9 +11,9 @@ public class GT_GuiIconButton extends GuiButton implements IGuiScreen.IGuiElemen
     public static final int DEFAULT_HEIGHT = 16;
 
     protected GT_GuiIcon icon;
-    private int x0, y0;
+    private int x0;
+    private int y0;
     protected IGuiScreen gui;
-    private String[] tooltipText;
 
     private GT_GuiTooltip tooltip;
 
@@ -55,10 +55,10 @@ public class GT_GuiIconButton extends GuiButton implements IGuiScreen.IGuiElemen
 
             int x = xPosition;
             int y = yPosition;
-            if(!this.field_146123_n) {
-            //    GL11.glColor4f(200F/255F, 210F/255F, 1, 1);
-            }
-            else
+//            if(!this.field_146123_n) {
+//                GL11.glColor4f(200F/255F, 210F/255F, 1, 1);
+//            }
+//            else
                 GL11.glColor4f(1, 1, 1, 1);
 
             GT_GuiIcon.render(getButtonTexture(this.field_146123_n), x, y, width, height, 0, true);
@@ -91,6 +91,8 @@ public class GT_GuiIconButton extends GuiButton implements IGuiScreen.IGuiElemen
     public GT_GuiIcon getIcon() {
         return icon;
     }
+
+    @SuppressWarnings("UnusedReturnValue")
     public GT_GuiIconButton setIcon(GT_GuiIcon icon) {
         this.icon = icon;
         return this;
@@ -105,7 +107,6 @@ public class GT_GuiIconButton extends GuiButton implements IGuiScreen.IGuiElemen
             tooltip = new GT_GuiTooltip(getBounds(), text);
         else
             tooltip.setToolTipText(text);
-        this.tooltipText = text;
         return this;
     }
 

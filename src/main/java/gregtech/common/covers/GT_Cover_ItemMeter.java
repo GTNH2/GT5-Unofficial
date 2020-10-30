@@ -156,13 +156,13 @@ public class GT_Cover_ItemMeter
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            button = new GT_GuiIconCheckButton(this, 0, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
+            button = new GT_GuiIconCheckButton(this, 0, startX, startY, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
 
-            intSlot = new GT_GuiIntegerTextBox(this, 1, startX + spaceX * 0, startY + spaceY * 1 + 2, spaceX * 2+5, 12);
+            intSlot = new GT_GuiIntegerTextBox(this, 1, startX, startY + spaceY + 2, spaceX * 2+5, 12);
             intSlot.setMaxStringLength(6);
 
             //only shows if opened gui of block sadly, should've used container.
-            intSlotIcon = new GT_GuiFakeItemButton(this, startX + spaceX * 8-4, startY + spaceY * 1, GT_GuiIcon.SLOT_GRAY);
+            intSlotIcon = new GT_GuiFakeItemButton(this, startX + spaceX * 8-4, startY + spaceY, GT_GuiIcon.SLOT_GRAY);
 
             if (tile instanceof TileEntity && !super.tile.isDead())
                 maxSlot = Math.min(tile.getSizeInventory() - 1, SLOT_MASK-1);
@@ -177,11 +177,11 @@ public class GT_Cover_ItemMeter
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
             if (isInverted())
-                this.getFontRenderer().drawString(INVERTED,  startX + spaceX*3, 4+startY+spaceY*0, 0xFF555555);
+                this.getFontRenderer().drawString(INVERTED,  startX + spaceX*3, 4 + startY, 0xFF555555);
             else
-                this.getFontRenderer().drawString(NORMAL,  startX + spaceX*3, 4+startY+spaceY*0, 0xFF555555);
+                this.getFontRenderer().drawString(NORMAL,  startX + spaceX*3, 4 + startY, 0xFF555555);
 
-            this.getFontRenderer().drawString(trans("254", "Detect slot#"),     startX + spaceX*3, 4+startY+spaceY*1, 0xFF555555);
+            this.getFontRenderer().drawString(trans("254", "Detect slot#"),     startX + spaceX*3, 4+startY+ spaceY, 0xFF555555);
         }
 
         @Override

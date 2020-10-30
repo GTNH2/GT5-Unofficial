@@ -6,13 +6,11 @@ import gregtech.api.objects.GT_ChunkManager;
 import gregtech.common.GT_Pollution;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChunkCoordinates;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -49,9 +47,8 @@ public final class GT_Command extends CommandBase {
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender sender, String[] ss) {
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] ss) {
         List<String> l = new ArrayList<>();
-        Stream<String> keywords = Arrays.stream(new String[]{"toggle", "chunks"});
         String test = ss.length == 0 ? "" : ss[0].trim();
         if (ss.length == 0 || ss.length == 1 && (test.isEmpty() || Stream.of("toggle", "chunks", "pollution").anyMatch(s -> s.startsWith(test)))) {
             Stream.of("toggle", "chunks", "pollution")

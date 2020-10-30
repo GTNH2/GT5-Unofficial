@@ -29,7 +29,6 @@ import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.*;
 
-import static gregtech.api.enums.GT_Values.D1;
 import static gregtech.api.enums.GT_Values.V;
 import static gregtech.api.enums.GT_Values.debugBlockPump;
 
@@ -64,6 +63,7 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
         radiusConfig = getMaxDistanceForTier(mTier);
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_Pump(String aName, int aTier, String aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
         radiusConfig = getMaxDistanceForTier(mTier);
@@ -449,7 +449,7 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
         }
     }
 
-    private boolean queueFluid(int aX, int aY, int aZ, ArrayDeque<ChunkPosition> fluidsFound, Set<ChunkPosition> checked) {
+    private void queueFluid(int aX, int aY, int aZ, ArrayDeque<ChunkPosition> fluidsFound, Set<ChunkPosition> checked) {
         // If we haven't already looked at this coordinate set, and it's not already in the list of fluids found, see if there is
         // a valid fluid and add it to the fluids found
         ChunkPosition tCoordinate = new ChunkPosition(aX, aY, aZ);
@@ -457,10 +457,8 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
             Block aBlock = getBaseMetaTileEntity().getBlock(aX, aY, aZ);
             if ((this.mPrimaryPumpedBlock == aBlock) || (this.mSecondaryPumpedBlock == aBlock)) {
                 fluidsFound.addFirst(tCoordinate);
-                return true;
             }
         }
-        return false;
     }
 
     private void checkForFluidToPump(int aX, int aY, int aZ) {
@@ -673,7 +671,9 @@ public class GT_MetaTileEntity_Pump extends GT_MetaTileEntity_Hatch {
     private FakePlayer mFakePlayer = null;
 
     protected FakePlayer getFakePlayer(IGregTechTileEntity aBaseTile) {
-        if (mFakePlayer == null) mFakePlayer = GT_Utility.getFakePlayer(aBaseTile);
+        if (mFakePlayer == null)
+            mFakePlayer = GT_Utility.getFakePlayer(aBaseTile);
+        assert mFakePlayer != null;
         mFakePlayer.setWorld(aBaseTile.getWorld());
         mFakePlayer.setPosition(aBaseTile.getXCoord(), aBaseTile.getYCoord(), aBaseTile.getZCoord());
         return mFakePlayer;

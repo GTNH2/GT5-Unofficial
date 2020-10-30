@@ -16,6 +16,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 import static gregtech.api.enums.GT_Values.MOD_ID_FR;
 
+@SuppressWarnings("ALL")
 public class GT_Bees {
 
     public static IAlleleInteger noFertility;
@@ -67,7 +68,7 @@ public class GT_Bees {
 
         noWork = new AlleleFloat("speedUnproductive", 0, false);
         superSpeed = new AlleleFloat("speedAccelerated", 4F, false);
-        speedBlinding = (IAlleleFloat) AlleleManager.alleleRegistry.getAllele("magicbees.speedBlinding") == null ? new AlleleFloat("speedBlinding", 2f, false) : (IAlleleFloat) AlleleManager.alleleRegistry.getAllele("magicbees.speedBlinding") ;
+        speedBlinding = AlleleManager.alleleRegistry.getAllele("magicbees.speedBlinding") == null ? new AlleleFloat("speedBlinding", 2f, false) : (IAlleleFloat) AlleleManager.alleleRegistry.getAllele("magicbees.speedBlinding") ;
 
         blinkLife = new AlleleInteger("lifeBlink", 2, false, EnumBeeChromosome.LIFESPAN);
         superLife = new AlleleInteger("lifeEon", 600, false, EnumBeeChromosome.LIFESPAN);
@@ -75,7 +76,7 @@ public class GT_Bees {
     }
 
     private static class AlleleFloat extends Allele implements IAlleleFloat {
-        private float value;
+        private final float value;
 
         public AlleleFloat(String id, float val, boolean isDominant) {
             super("gregtech."+id, "gregtech."+id, isDominant);
@@ -92,7 +93,7 @@ public class GT_Bees {
 
     private static class AlleleInteger extends Allele implements IAlleleInteger {
 
-        private int value;
+        private final int value;
 
         public AlleleInteger(String id, int val, boolean isDominant, EnumBeeChromosome c) {
             super("gregtech."+id, "gregtech."+id, isDominant);
@@ -108,7 +109,7 @@ public class GT_Bees {
 
     private static class AlleleArea extends Allele implements IAlleleArea {
 
-        private int[] value;
+        private final int[] value;
 
         public AlleleArea(String id, int rangeXZ,int rangeY, boolean isDominant) {
             super("gregtech."+id, "gregtech."+id, isDominant);
@@ -124,8 +125,8 @@ public class GT_Bees {
 
     public static class DimensionMutationCondition implements IMutationCondition {
 
-        int dimID;
-        String dimName;
+        final int dimID;
+        final String dimName;
 
         public DimensionMutationCondition(int id, String name) {
             dimID = id;
@@ -147,8 +148,8 @@ public class GT_Bees {
 
     public static class BiomeIDMutationCondition implements IMutationCondition {
 
-        int biomeID;
-        String biomeName;
+        final int biomeID;
+        final String biomeName;
 
         public BiomeIDMutationCondition(int id, String name) {
             biomeID = id;

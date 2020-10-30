@@ -9,7 +9,7 @@ public class GT_Renderer_Entity_Arrow
         extends RenderArrow {
     private final ResourceLocation mTexture;
 
-    public GT_Renderer_Entity_Arrow(Class aArrowClass, String aTextureName) {
+    public GT_Renderer_Entity_Arrow(Class<? extends Entity> aArrowClass, String aTextureName) {
         this.mTexture = new ResourceLocation("gregtech:textures/entity/" + aTextureName + ".png");
         RenderingRegistry.registerEntityRenderingHandler(aArrowClass, this);
     }

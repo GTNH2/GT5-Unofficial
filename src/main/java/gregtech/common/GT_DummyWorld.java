@@ -18,6 +18,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 import java.io.File;
 
+@SuppressWarnings("unused")
 public class GT_DummyWorld
         extends World {
     public GT_IteratorRandom mRandom = new GT_IteratorRandom();

@@ -70,7 +70,8 @@ public class GT_MetaTileEntity_DieselGenerator
         if (ItemList.Fuel_Can_Plastic_Filled.isStackEqual(aStack, false, true)) {
             rValue = Math.max(rValue, GameRegistry.getFuelValue(aStack) * 3);
         }
-        if(rValue> Integer.MAX_VALUE){
+        //noinspection ConstantConditions
+        if(rValue > Integer.MAX_VALUE){
             throw new ArithmeticException("Integer LOOPBACK!");
         }
         return (int)rValue;

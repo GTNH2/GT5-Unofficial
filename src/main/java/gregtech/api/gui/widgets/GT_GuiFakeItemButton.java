@@ -11,9 +11,13 @@ public class GT_GuiFakeItemButton implements IGuiScreen.IGuiElement {
 
     private final GT_GuiIcon bgIcon;
     private ItemStack item;
-    private IGuiScreen gui;
-    private int x0, y0, xPosition, yPosition;
-    private int width, height;
+    private final IGuiScreen gui;
+    private final int x0;
+    private final int y0;
+    private int xPosition;
+    private int yPosition;
+    private final int width;
+    private final int height;
 
     public GT_GuiFakeItemButton(IGuiScreen gui, int x, int y, GT_GuiIcon bgIcon) {
         this.gui = gui;

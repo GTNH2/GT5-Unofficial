@@ -15,15 +15,15 @@ public class MaterialBuilder {
 			PLASMA = 4,
 			MAGIC = 5;
 
-	private int metaItemSubID;
-	private TextureSet iconSet;
+	private final int metaItemSubID;
+	private final TextureSet iconSet;
 	private float toolSpeed = 1.0f;
 	private int durability = 0;
 	private int toolQuality = 0;
 	private int types = 0;
 	private int r = 255, g = 255, b = 255, a = 0;
 	private String name;
-	private String defaultLocalName;
+	private final String defaultLocalName;
 	private int fuelType = 0;
 	private int fuelPower = 0;
 	private int meltingPoint = 0;
@@ -40,7 +40,7 @@ public class MaterialBuilder {
 	private boolean hasCorrespondingFluid = false;
 	private boolean hasCorrespondingGas = false;
 	private boolean canBeCracked = false;
-	private boolean canBeSteamCracked = false;
+	private final boolean canBeSteamCracked = false;
 	private int liquidTemperature = 300;
 	private int gasTemperature = 300;
 

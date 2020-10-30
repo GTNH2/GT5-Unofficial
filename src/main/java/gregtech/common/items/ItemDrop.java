@@ -43,6 +43,7 @@ public class ItemDrop extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("unchecked")
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		for (DropType type : DropType.values()) {
 			if (type.showInList) {

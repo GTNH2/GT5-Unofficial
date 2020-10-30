@@ -47,12 +47,15 @@ public class GT_MetaTileEntity_LargeTurbine_Plasma extends GT_MetaTileEntity_Lar
     }
 
     public int getFuelValue(FluidStack aLiquid) {
-        if (aLiquid == null || GT_Recipe_Map.sTurbineFuels == null) return 0;
+        if (aLiquid == null)
+            return 0;
         FluidStack tLiquid;
         Collection<GT_Recipe> tRecipeList = GT_Recipe_Map.sPlasmaFuels.mRecipeList;
-        if (tRecipeList != null) for (GT_Recipe tFuel : tRecipeList)
-            if ((tLiquid = GT_Utility.getFluidForFilledItem(tFuel.getRepresentativeInput(0), true)) != null)
-                if (aLiquid.isFluidEqual(tLiquid)) return tFuel.mSpecialValue;
+        if (tRecipeList != null)
+            for (GT_Recipe tFuel : tRecipeList)
+                if ((tLiquid = GT_Utility.getFluidForFilledItem(tFuel.getRepresentativeInput(0), true)) != null)
+                    if (aLiquid.isFluidEqual(tLiquid))
+                        return tFuel.mSpecialValue;
         return 0;
     }
 
@@ -85,9 +88,9 @@ public class GT_MetaTileEntity_LargeTurbine_Plasma extends GT_MetaTileEntity_Lar
     int fluidIntoPower(ArrayList<FluidStack> aFluids, int aOptFlow, int aBaseEff) {
         if (aFluids.size() >= 1) {
             aOptFlow *= 800;//CHANGED THINGS HERE, check recipe runs once per 20 ticks
-            int tEU = 0;
+            int tEU;
 
-        int actualOptimalFlow = 0;
+        int actualOptimalFlow;
 
             FluidStack firstFuelType = new FluidStack(aFluids.get(0), 0); // Identify a SINGLE type of fluid to process.  Doesn't matter which one. Ignore the rest!
             int fuelValue = getFuelValue(firstFuelType);
@@ -95,16 +98,15 @@ public class GT_MetaTileEntity_LargeTurbine_Plasma extends GT_MetaTileEntity_Lar
             this.realOptFlow = actualOptimalFlow; // For scanner info
 
             int remainingFlow = GT_Utility.safeInt((long)(actualOptimalFlow * 1.25f)); // Allowed to use up to 125% of optimal flow.  Variable required outside of loop for multi-hatch scenarios.
-            int flow = 0;
+            int flow;
             int totalFlow = 0;
 
             storedFluid=0;
-            int aFluids_sS=aFluids.size();
-            for (int i = 0; i < aFluids_sS; i++) {
-                if (aFluids.get(i).isFluidEqual(firstFuelType)) {
-                    flow = Math.min(aFluids.get(i).amount, remainingFlow); // try to use up w/o exceeding remainingFlow
-                    depleteInput(new FluidStack(aFluids.get(i), flow)); // deplete that amount
-                    this.storedFluid += aFluids.get(i).amount;
+            for (FluidStack aFluid : aFluids) {
+                if (aFluid.isFluidEqual(firstFuelType)) {
+                    flow = Math.min(aFluid.amount, remainingFlow); // try to use up w/o exceeding remainingFlow
+                    depleteInput(new FluidStack(aFluid, flow)); // deplete that amount
+                    this.storedFluid += aFluid.amount;
                     remainingFlow -= flow; // track amount we're allowed to continue depleting from hatches
                     totalFlow += flow; // track total input used
                 }
@@ -132,10 +134,8 @@ public class GT_MetaTileEntity_LargeTurbine_Plasma extends GT_MetaTileEntity_Lar
                 //if (efficiency < 0)
                 //    efficiency = 0; // Can happen with really ludicrously poor inefficiency.
                 tEU = (int)(tEU * efficiency);
-                tEU = GT_Utility.safeInt((long)(aBaseEff/10000D*tEU));
-            } else {
-                tEU = GT_Utility.safeInt((long)(aBaseEff/10000D*tEU));
             }
+            tEU = GT_Utility.safeInt((long)(aBaseEff/10000D*tEU));
 
             return tEU;
 
@@ -157,7 +157,7 @@ public class GT_MetaTileEntity_LargeTurbine_Plasma extends GT_MetaTileEntity_Lar
                 baseEff = GT_Utility.safeInt((long)((5F + ((GT_MetaGenerated_Tool) aStack.getItem()).getToolCombatDamage(aStack)) * 1000F));
                 optFlow = GT_Utility.safeInt((long)Math.max(Float.MIN_NORMAL,
                         ((GT_MetaGenerated_Tool) aStack.getItem()).getToolStats(aStack).getSpeedMultiplier()
-                                * ((GT_MetaGenerated_Tool) aStack.getItem()).getPrimaryMaterial(aStack).mToolSpeed
+                                * GT_MetaGenerated_Tool.getPrimaryMaterial(aStack).mToolSpeed
                                 * 50));
             } else {
                 counter++;

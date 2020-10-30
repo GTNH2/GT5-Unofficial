@@ -28,6 +28,7 @@ public class GT_Item_Stones_Abstract
         return aMeta;
     }
 
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
         super.addInformation(aStack, aPlayer, aList, aF3_H);
         if (aStack.getItemDamage() % 8 >= 3) {

@@ -253,11 +253,13 @@ public abstract class MetaPipeEntity implements IMetaTileEntity, IConnectable {
     /**
      * When a GUI is opened
      */
+    @SuppressWarnings("EmptyMethod")
     public void onOpenGUI() {/*Do nothing*/}
 
     /**
      * When a GUI is closed
      */
+    @SuppressWarnings("EmptyMethod")
     public void onCloseGUI() {/*Do nothing*/}
 
     /**
@@ -395,6 +397,7 @@ public abstract class MetaPipeEntity implements IMetaTileEntity, IConnectable {
     /**
      * Increases the Progress, returns the overflown Progress.
      */
+    @SuppressWarnings("SameReturnValue")
     public int increaseProgress(int aProgress) {
         return 0;
     }
@@ -440,16 +443,20 @@ public abstract class MetaPipeEntity implements IMetaTileEntity, IConnectable {
         return new String[]{};
     }
 
+    @SuppressWarnings("SameReturnValue")
     public boolean isDigitalChest() {
         return false;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public ItemStack[] getStoredItemData() {
         return null;
     }
 
+    @SuppressWarnings("EmptyMethod")
     public void setItemCount(int aCount) {/*Do nothing*/}
 
+    @SuppressWarnings("SameReturnValue")
     public int getMaxItemCount() {
         return 0;
     }
@@ -505,7 +512,7 @@ public abstract class MetaPipeEntity implements IMetaTileEntity, IConnectable {
 
     @Override
     public int[] getAccessibleSlotsFromSide(int aSide) {
-        ArrayList<Integer> tList = new ArrayList<Integer>();
+        ArrayList<Integer> tList = new ArrayList<>();
         IGregTechTileEntity tTileEntity = getBaseMetaTileEntity();
         boolean tSkip = tTileEntity.getCoverBehaviorAtSide((byte) aSide).letsItemsIn((byte) aSide, tTileEntity.getCoverIDAtSide((byte) aSide), tTileEntity.getCoverDataAtSide((byte) aSide), -2, tTileEntity) || tTileEntity.getCoverBehaviorAtSide((byte) aSide).letsItemsOut((byte) aSide, tTileEntity.getCoverIDAtSide((byte) aSide), tTileEntity.getCoverDataAtSide((byte) aSide), -2, tTileEntity);
         for (int i = 0; i < getSizeInventory(); i++)
@@ -749,7 +756,7 @@ public abstract class MetaPipeEntity implements IMetaTileEntity, IConnectable {
         if (tTileEntity instanceof IColoredTileEntity) {
             if (getBaseMetaTileEntity().getColorization() >= 0) {
                 byte tColor = ((IColoredTileEntity) tTileEntity).getColorization();
-                if (tColor >= 0 && tColor != getBaseMetaTileEntity().getColorization()) return false;
+                return tColor < 0 || tColor == getBaseMetaTileEntity().getColorization();
             }
         }
 

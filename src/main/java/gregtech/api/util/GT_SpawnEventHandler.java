@@ -14,7 +14,7 @@ import java.util.List;
 
 public class GT_SpawnEventHandler {
 
-    public static volatile List<int[]> mobReps = new ArrayList();
+    public static volatile List<int[]> mobReps = new ArrayList<>();
 
     public GT_SpawnEventHandler() {
         MinecraftForge.EVENT_BUS.register(this);

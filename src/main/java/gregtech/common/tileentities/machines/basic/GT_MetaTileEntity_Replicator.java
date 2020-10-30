@@ -22,19 +22,20 @@ public class GT_MetaTileEntity_Replicator
     private static int sHeaviestElementMass = 0;
     public static final HashMap<Materials,Long> MASS_OVERRIDES =new HashMap<>();
 
-    static{
-        //put overrides here
-        //ex.
-        //MASS_OVERRIDES.put(Materials.get("cake"),Materials.get("cake").getMass());
-        //MASS_OVERRIDES.put(Materials.get("otherCake"),1235234L);
-        //MASS_OVERRIDES.put(Materials.Kalendrite,1235234L);
-        //MASS_OVERRIDES.put(Materials.Kalendrite,Materials.Kalendrite.getMass()*2);
-    }
+//    static {
+//        put overrides here
+//        ex.
+//        MASS_OVERRIDES.put(Materials.get("cake"),Materials.get("cake").getMass());
+//        MASS_OVERRIDES.put(Materials.get("otherCake"),1235234L);
+//        MASS_OVERRIDES.put(Materials.Kalendrite,1235234L);
+//        MASS_OVERRIDES.put(Materials.Kalendrite,Materials.Kalendrite.getMass()*2);
+//    }
 
     public GT_MetaTileEntity_Replicator(int aID, String aName, String aNameRegional, int aTier) {
         super(aID, aName, aNameRegional, aTier, 1, "Producing Elemental Matter", 1, 1, "Replicator.png", "", new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_REPLICATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_REPLICATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_REPLICATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_REPLICATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_REPLICATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_REPLICATOR), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_REPLICATOR_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_REPLICATOR));
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_Replicator(String aName, int aTier, String aDescription, ITexture[][][] aTextures, String aGUIName, String aNEIName) {
         super(aName, aTier, 1, aDescription, aTextures, 1, 1, aGUIName, aNEIName);
     }

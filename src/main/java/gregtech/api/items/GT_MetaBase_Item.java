@@ -33,13 +33,12 @@ import static gregtech.api.enums.GT_Values.V;
 
 public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpecialElectricItem, IElectricItemManager, IFluidContainerItem {
     /* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
-    private final ConcurrentHashMap<Short, ArrayList<IItemBehaviour<GT_MetaBase_Item>>> mItemBehaviors = new ConcurrentHashMap<Short, ArrayList<IItemBehaviour<GT_MetaBase_Item>>>();
+    private final ConcurrentHashMap<Short, ArrayList<IItemBehaviour<GT_MetaBase_Item>>> mItemBehaviors = new ConcurrentHashMap<>();
 
     /**
      * Creates the Item using these Parameters.
      *
      * @param aUnlocalized         The Unlocalized Name of this Item.
-     * @param aGeneratedPrefixList The OreDict Prefixes you want to have generated.
      */
     public GT_MetaBase_Item(String aUnlocalized) {
         super(aUnlocalized, "Generated Item", null, false);
@@ -58,11 +57,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
      */
     public final GT_MetaBase_Item addItemBehavior(int aMetaValue, IItemBehaviour<GT_MetaBase_Item> aBehavior) {
         if (aMetaValue < 0 || aMetaValue >= 32766 || aBehavior == null) return this;
-        ArrayList<IItemBehaviour<GT_MetaBase_Item>> tList = mItemBehaviors.get((short) aMetaValue);
-        if (tList == null) {
-            tList = new ArrayList<IItemBehaviour<GT_MetaBase_Item>>(1);
-            mItemBehaviors.put((short) aMetaValue, tList);
-        }
+        ArrayList<IItemBehaviour<GT_MetaBase_Item>> tList = mItemBehaviors.computeIfAbsent((short) aMetaValue, k -> new ArrayList<>(1));
         tList.add(aBehavior);
         return this;
     }
@@ -189,6 +184,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
     }
 
     @Override
+    @SuppressWarnings({"unchecked"})
     public final void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
         String tKey = getUnlocalizedName(aStack) + ".tooltip";
         String[] tStrings = GT_LanguageManager.getTranslation(tKey).split("/n ");
@@ -205,7 +201,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
                 if (tStats[3] == -2 && tCharge <= 0) {
                 	aList.add(EnumChatFormatting.AQUA + trans("010", "Empty. You should recycle it properly.") + EnumChatFormatting.GRAY);
                 } else {
-                	aList.add(String.valueOf(EnumChatFormatting.AQUA) + String.format(trans("011", "%s / %s EU - Voltage: %s"), GT_Utility.formatNumbers(tCharge), GT_Utility.formatNumbers(Math.abs(tStats[0])), "" + V[(int) (tStats[2] >= 0 ? tStats[2] < V.length ? tStats[2] : V.length - 1 : 1)]) + EnumChatFormatting.GRAY);
+                	aList.add(EnumChatFormatting.AQUA + String.format(trans("011", "%s / %s EU - Voltage: %s"), GT_Utility.formatNumbers(tCharge), GT_Utility.formatNumbers(Math.abs(tStats[0])), "" + V[(int) (tStats[2] >= 0 ? tStats[2] < V.length ? tStats[2] : V.length - 1 : 1)]) + EnumChatFormatting.GRAY);
                 }
             }
         }
@@ -419,6 +415,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
         return tNBT == null ? 0 : tNBT.getLong("GT.ItemCharge");
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public final boolean setCharge(ItemStack aStack, long aCharge) {
         Long[] tStats = getElectricStats(aStack);
         if (tStats == null || tStats[3] > 0) return false;
@@ -465,7 +462,12 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
         if (tStack != null) {
             aStack.setItemDamage(tStack.getItemDamage());
             aStack.func_150996_a(tStack.getItem());
-            return GT_Utility.getFluidForFilledItem(tStack, false).amount;
+            FluidStack fluidStack = GT_Utility.getFluidForFilledItem(tStack, false);
+
+            if (fluidStack != null)
+                return fluidStack.amount;
+
+            return 0;
         }
 
         Long[] tStats = getFluidContainerStats(aStack);

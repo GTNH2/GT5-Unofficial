@@ -74,6 +74,7 @@ public class GT_Container extends Container {
     /**
      * Is Player-Inventory visible?
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean doesBindPlayerInventory() {
         return true;
     }
@@ -253,6 +254,7 @@ public class GT_Container extends Container {
             aSlot = (Slot) this.inventorySlots.get(aSlotIndex);
             if (aSlot != null && aSlot.getHasStack()) {
                 tTempStack = GT_Utility.copy(aSlot.getStack());
+                assert tTempStack != null;
                 tTempStack.stackSize = tTempStack.getMaxStackSize();
                 aPlayerInventory.setItemStack(tTempStack);
             }
@@ -388,6 +390,7 @@ public class GT_Container extends Container {
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public List getInventory() {
         try {
             return super.getInventory();

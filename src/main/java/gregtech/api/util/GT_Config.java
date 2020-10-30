@@ -23,23 +23,29 @@ public class GT_Config implements Runnable {
     }
 
     public static int addIDConfig(Object aCategory, String aName, int aDefault) {
-        if (GT_Utility.isStringInvalid(aName)) return aDefault;
+        if (GT_Utility.isStringInvalid(aName))
+            return aDefault;
         Property tProperty = sConfigFileIDs.get(aCategory.toString().replaceAll("\\|", "."), aName.replaceAll("\\|", "."), aDefault);
         int rResult = tProperty.getInt(aDefault);
-        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) sConfigFileIDs.save();
+        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished)
+            sConfigFileIDs.save();
         return rResult;
     }
 
     public static String getStackConfigName(ItemStack aStack) {
-        if (GT_Utility.isStackInvalid(aStack)) return E;
+        if (GT_Utility.isStackInvalid(aStack))
+            return E;
         Object rName = GT_OreDictUnificator.getAssociation(aStack);
-        if (rName != null) return rName.toString();
+        if (rName != null)
+            return rName.toString();
         try {
-            if (GT_Utility.isStringValid(rName = aStack.getUnlocalizedName())) return rName.toString();
+            if (GT_Utility.isStringValid(rName = aStack.getUnlocalizedName()))
+                return rName.toString();
         } catch (Throwable e) {/*Do nothing*/}
         String sName = aStack.getItem().toString();
         String[] tmp = sName.split("@");
-        if (tmp.length > 0) sName = tmp[0];
+        if (tmp.length > 0)
+            sName = tmp[0];
         return sName + "." + aStack.getItemDamage();
     }
 
@@ -49,10 +55,12 @@ public class GT_Config implements Runnable {
     }
 
     public boolean get(Object aCategory, String aName, boolean aDefault) {
-        if (GT_Utility.isStringInvalid(aName)) return aDefault;
+        if (GT_Utility.isStringInvalid(aName))
+            return aDefault;
         Property tProperty = mConfig.get(aCategory.toString().replaceAll("\\|", "_"), (aName + "_" + aDefault).replaceAll("\\|", "_"), aDefault);
         boolean rResult = tProperty.getBoolean(aDefault);
-        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
+        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished)
+            mConfig.save();
         return rResult;
     }
 
@@ -61,10 +69,12 @@ public class GT_Config implements Runnable {
     }
 
     public int get(Object aCategory, String aName, int aDefault) {
-        if (GT_Utility.isStringInvalid(aName)) return aDefault;
+        if (GT_Utility.isStringInvalid(aName))
+            return aDefault;
         Property tProperty = mConfig.get(aCategory.toString().replaceAll("\\|", "_"), (aName + "_" + aDefault).replaceAll("\\|", "_"), aDefault);
         int rResult = tProperty.getInt(aDefault);
-        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
+        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished)
+            mConfig.save();
         return rResult;
     }
 
@@ -73,10 +83,12 @@ public class GT_Config implements Runnable {
     }
 
     public double get(Object aCategory, String aName, double aDefault) {
-        if (GT_Utility.isStringInvalid(aName)) return aDefault;
+        if (GT_Utility.isStringInvalid(aName))
+            return aDefault;
         Property tProperty = mConfig.get(aCategory.toString().replaceAll("\\|", "_"), (aName + "_" + aDefault).replaceAll("\\|", "_"), aDefault);
         double rResult = tProperty.getDouble(aDefault);
-        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
+        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished)
+            mConfig.save();
         return rResult;
     }
 
@@ -85,10 +97,12 @@ public class GT_Config implements Runnable {
     }
 
     public String get(Object aCategory, String aName, String aDefault) {
-        if (GT_Utility.isStringInvalid(aName)) return aDefault;
+        if (GT_Utility.isStringInvalid(aName))
+            return aDefault;
         Property tProperty = mConfig.get(aCategory.toString().replaceAll("\\|", "_"), (aName + "_" + aDefault).replaceAll("\\|", "_"), aDefault);
         String rResult = tProperty.getString();
-        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished) mConfig.save();
+        if (!tProperty.wasRead() && GregTech_API.sPostloadFinished)
+            mConfig.save();
         return rResult;
     }
 

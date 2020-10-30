@@ -17,6 +17,7 @@ public class GT_MetaTileEntity_AlloySmelter_Steel extends GT_MetaTileEntity_Basi
         super(aID, aName, aNameRegional, "Combination Smelter", 2, 1, true);
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_AlloySmelter_Steel(String aName, String aDescription, ITexture[][][] aTextures) {
         super(aName, aDescription, aTextures, 2, 1, true);
     }
@@ -47,7 +48,7 @@ public class GT_MetaTileEntity_AlloySmelter_Steel extends GT_MetaTileEntity_Basi
     public void startSoundLoop(byte aIndex, double aX, double aY, double aZ) {
         super.startSoundLoop(aIndex, aX, aY, aZ);
         if (aIndex == 1) {
-            GT_Utility.doSoundAtClient((String) GregTech_API.sSoundList.get(Integer.valueOf(208)), 10, 1.0F, aX, aY, aZ);
+            GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(208), 10, 1.0F, aX, aY, aZ);
         }
     }
 

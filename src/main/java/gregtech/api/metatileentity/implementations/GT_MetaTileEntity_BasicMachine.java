@@ -84,6 +84,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         mGUIName = aGUIName;
         mNEIName = aNEIName;
     }
+
     public GT_MetaTileEntity_BasicMachine(int aID, String aName, String aNameRegional, int aTier, int aAmperage, String[] aDescription, int aInputSlotCount, int aOutputSlotCount, String aGUIName, String aNEIName, ITexture... aOverlays) {
         super(aID, aName, aNameRegional, aTier, OTHER_SLOT_COUNT + aInputSlotCount + aOutputSlotCount + 1, aDescription, aOverlays);
         mInputSlotCount = Math.max(0, aInputSlotCount);
@@ -92,6 +93,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         mGUIName = aGUIName;
         mNEIName = aNEIName;
     }
+
     public GT_MetaTileEntity_BasicMachine(String aName, int aTier, int aAmperage, String aDescription, ITexture[][][] aTextures, int aInputSlotCount, int aOutputSlotCount, String aGUIName, String aNEIName) {
         super(aName, aTier, OTHER_SLOT_COUNT + aInputSlotCount + aOutputSlotCount + 1, aDescription, aTextures);
         mInputSlotCount = Math.max(0, aInputSlotCount);
@@ -100,7 +102,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         mGUIName = aGUIName;
         mNEIName = aNEIName;
     }
-    
+
     public GT_MetaTileEntity_BasicMachine(String aName, int aTier, int aAmperage, String[] aDescription, ITexture[][][] aTextures, int aInputSlotCount, int aOutputSlotCount, String aGUIName, String aNEIName) {
         super(aName, aTier, OTHER_SLOT_COUNT + aInputSlotCount + aOutputSlotCount + 1, aDescription, aTextures);
         mInputSlotCount = Math.max(0, aInputSlotCount);
@@ -111,18 +113,19 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     }
 
     protected boolean isValidMainFacing(byte aSide) {
-    	return aSide > 1;
+        return aSide > 1;
     }
-    
-    public boolean setMainFacing(byte aSide){
-    	if (!isValidMainFacing(aSide)) return false;
-    	mMainFacing = aSide;
-    	if(getBaseMetaTileEntity().getFrontFacing() == mMainFacing){
-    		getBaseMetaTileEntity().setFrontFacing(GT_Utility.getOppositeSide(aSide));
-    	}
+
+    public boolean setMainFacing(byte aSide) {
+        if (!isValidMainFacing(aSide))
+            return false;
+        mMainFacing = aSide;
+        if (getBaseMetaTileEntity().getFrontFacing() == mMainFacing) {
+            getBaseMetaTileEntity().setFrontFacing(GT_Utility.getOppositeSide(aSide));
+        }
         onFacingChange();
         onMachineBlockUpdate();
-    	return true;
+        return true;
     }
 
     @Override
@@ -131,33 +134,49 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         aTextures = Arrays.copyOf(aTextures, 14);
 
         for (int i = 0; i < aTextures.length; i++)
-            if (aTextures[i] != null) for (byte c = -1; c < 16; c++) {
-                if (rTextures[i][c + 1] == null)
-                    rTextures[i][c + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][c + 1], aTextures[i]};
-            }
+            if (aTextures[i] != null)
+                for (byte c = -1; c < 16; c++) {
+                    if (rTextures[i][c + 1] == null)
+                        rTextures[i][c + 1] = new ITexture[]{Textures.BlockIcons.MACHINE_CASINGS[mTier][c + 1], aTextures[i]};
+                }
 
         for (byte c = -1; c < 16; c++) {
-            if (rTextures[0][c + 1] == null) rTextures[0][c + 1] = getSideFacingActive(c);
-            if (rTextures[1][c + 1] == null) rTextures[1][c + 1] = getSideFacingInactive(c);
-            if (rTextures[2][c + 1] == null) rTextures[2][c + 1] = getFrontFacingActive(c);
-            if (rTextures[3][c + 1] == null) rTextures[3][c + 1] = getFrontFacingInactive(c);
-            if (rTextures[4][c + 1] == null) rTextures[4][c + 1] = getTopFacingActive(c);
-            if (rTextures[5][c + 1] == null) rTextures[5][c + 1] = getTopFacingInactive(c);
-            if (rTextures[6][c + 1] == null) rTextures[6][c + 1] = getBottomFacingActive(c);
-            if (rTextures[7][c + 1] == null) rTextures[7][c + 1] = getBottomFacingInactive(c);
-            if (rTextures[8][c + 1] == null) rTextures[8][c + 1] = getBottomFacingPipeActive(c);
-            if (rTextures[9][c + 1] == null) rTextures[9][c + 1] = getBottomFacingPipeInactive(c);
-            if (rTextures[10][c + 1] == null) rTextures[10][c + 1] = getTopFacingPipeActive(c);
-            if (rTextures[11][c + 1] == null) rTextures[11][c + 1] = getTopFacingPipeInactive(c);
-            if (rTextures[12][c + 1] == null) rTextures[12][c + 1] = getSideFacingPipeActive(c);
-            if (rTextures[13][c + 1] == null) rTextures[13][c + 1] = getSideFacingPipeInactive(c);
+            if (rTextures[0][c + 1] == null)
+                rTextures[0][c + 1] = getSideFacingActive(c);
+            if (rTextures[1][c + 1] == null)
+                rTextures[1][c + 1] = getSideFacingInactive(c);
+            if (rTextures[2][c + 1] == null)
+                rTextures[2][c + 1] = getFrontFacingActive(c);
+            if (rTextures[3][c + 1] == null)
+                rTextures[3][c + 1] = getFrontFacingInactive(c);
+            if (rTextures[4][c + 1] == null)
+                rTextures[4][c + 1] = getTopFacingActive(c);
+            if (rTextures[5][c + 1] == null)
+                rTextures[5][c + 1] = getTopFacingInactive(c);
+            if (rTextures[6][c + 1] == null)
+                rTextures[6][c + 1] = getBottomFacingActive(c);
+            if (rTextures[7][c + 1] == null)
+                rTextures[7][c + 1] = getBottomFacingInactive(c);
+            if (rTextures[8][c + 1] == null)
+                rTextures[8][c + 1] = getBottomFacingPipeActive(c);
+            if (rTextures[9][c + 1] == null)
+                rTextures[9][c + 1] = getBottomFacingPipeInactive(c);
+            if (rTextures[10][c + 1] == null)
+                rTextures[10][c + 1] = getTopFacingPipeActive(c);
+            if (rTextures[11][c + 1] == null)
+                rTextures[11][c + 1] = getTopFacingPipeInactive(c);
+            if (rTextures[12][c + 1] == null)
+                rTextures[12][c + 1] = getSideFacingPipeActive(c);
+            if (rTextures[13][c + 1] == null)
+                rTextures[13][c + 1] = getSideFacingPipeInactive(c);
         }
         return rTextures;
     }
 
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
-        return mTextures[mMainFacing < 2 ? aSide == aFacing ? aActive ? 2 : 3 : aSide == 0 ? aActive ? 6 : 7 : aSide == 1 ? aActive ? 4 : 5 : aActive ? 0 : 1 : aSide == mMainFacing ? aActive ? 2 : 3 : (showPipeFacing() && aSide == aFacing) ? aSide == 0 ? aActive ? 8 : 9 : aSide == 1 ? aActive ? 10 : 11 : aActive ? 12 : 13 : aSide == 0 ? aActive ? 6 : 7 : aSide == 1 ? aActive ? 4 : 5 : aActive ? 0 : 1][aColorIndex + 1];
+        int temp = aSide == 0 ? aActive ? 6 : 7 : aSide == 1 ? aActive ? 4 : 5 : aActive ? 0 : 1;
+        return mTextures[mMainFacing < 2 ? aSide == aFacing ? aActive ? 2 : 3 : temp : aSide == mMainFacing ? aActive ? 2 : 3 : (showPipeFacing() && aSide == aFacing) ? aSide == 0 ? aActive ? 8 : 9 : aSide == 1 ? aActive ? 10 : 11 : aActive ? 12 : 13 : temp][aColorIndex + 1];
     }
 
     @Override
@@ -242,7 +261,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
     @Override
     public long maxAmperesIn() {
-        return ((long)mEUt * 2L) / V[mTier] + 1L;
+        return ((long) mEUt * 2L) / V[mTier] + 1L;
     }
 
     @Override
@@ -359,18 +378,19 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
     @Override
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
-        if (aBaseMetaTileEntity.isClientSide()) return true;
-        if(!GT_Mod.gregtechproxy.mForceFreeFace) {
-        	aBaseMetaTileEntity.openGUI(aPlayer);
-        	return true;
+        if (aBaseMetaTileEntity.isClientSide())
+            return true;
+        if (!GT_Mod.gregtechproxy.mForceFreeFace) {
+            aBaseMetaTileEntity.openGUI(aPlayer);
+            return true;
         }
-        for(byte i=0;i < 6; i++){
-        	if(aBaseMetaTileEntity.getAirAtSide(i)){
-        		aBaseMetaTileEntity.openGUI(aPlayer);
-        		return true;
-        	}        	
+        for (byte i = 0; i < 6; i++) {
+            if (aBaseMetaTileEntity.getAirAtSide(i)) {
+                aBaseMetaTileEntity.openGUI(aPlayer);
+                return true;
+            }
         }
-        GT_Utility.sendChatToPlayer(aPlayer,"No free Side!");        
+        GT_Utility.sendChatToPlayer(aPlayer, "No free Side!");
         return true;
     }
 
@@ -400,8 +420,10 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         aNBT.setInteger("mMainFacing", mMainFacing);
         aNBT.setInteger("mProgresstime", mProgresstime);
         aNBT.setInteger("mMaxProgresstime", mMaxProgresstime);
-        if (mOutputFluid != null) aNBT.setTag("mOutputFluid", mOutputFluid.writeToNBT(new NBTTagCompound()));
-        if (mFluidOut != null) aNBT.setTag("mFluidOut", mFluidOut.writeToNBT(new NBTTagCompound()));
+        if (mOutputFluid != null)
+            aNBT.setTag("mOutputFluid", mOutputFluid.writeToNBT(new NBTTagCompound()));
+        if (mFluidOut != null)
+            aNBT.setTag("mFluidOut", mFluidOut.writeToNBT(new NBTTagCompound()));
 
         for (int i = 0; i < mOutputItems.length; i++)
             if (mOutputItems[i] != null)
@@ -422,7 +444,8 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         mOutputFluid = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mOutputFluid"));
         mFluidOut = FluidStack.loadFluidStackFromNBT(aNBT.getCompoundTag("mFluidOut"));
 
-        for (int i = 0; i < mOutputItems.length; i++) mOutputItems[i] = GT_Utility.loadItem(aNBT, "mOutputItem" + i);
+        for (int i = 0; i < mOutputItems.length; i++)
+            mOutputItems[i] = GT_Utility.loadItem(aNBT, "mOutputItem" + i);
     }
 
     @Override
@@ -446,10 +469,11 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
                                 if (aBaseMetaTileEntity.addStackToSlot(getOutputSlot() + ((j + i) % mOutputItems.length), mOutputItems[i]))
                                     break;
                         if (mOutputFluid != null)
-                            if (getDrainableStack() == null) setDrainableStack(mOutputFluid.copy());
+                            if (getDrainableStack() == null)
+                                setDrainableStack(mOutputFluid.copy());
                             else if (mOutputFluid.isFluidEqual(getDrainableStack()))
                                 getDrainableStack().amount += mOutputFluid.amount;
-                        for (int i = 0; i < mOutputItems.length; i++) mOutputItems[i] = null;
+                        Arrays.fill(mOutputItems, null);
                         mOutputFluid = null;
                         mEUt = 0;
                         mProgresstime = 0;
@@ -458,13 +482,15 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
                         tSucceeded = true;
                         endProcess();
                     }
-                    if (mProgresstime > 5) mStuttering = false;
+                    if (mProgresstime > 5)
+                        mStuttering = false;
                     //XSTR aXSTR = new XSTR();
                     //if(GT_Mod.gregtechproxy.mAprilFool && aXSTR.nextInt(5000)==0)GT_Utility.sendSoundToPlayers(aBaseMetaTileEntity.getWorld(), GregTech_API.sSoundList.get(5), 10.0F, -1.0F, aBaseMetaTileEntity.getXCoord(), aBaseMetaTileEntity.getYCoord(),aBaseMetaTileEntity.getZCoord());
                 } else {
                     if (!mStuttering) {
                         stutterProcess();
-                        if (canHaveInsufficientEnergy()) mProgresstime = -100;
+                        if (canHaveInsufficientEnergy())
+                            mProgresstime = -100;
                         mStuttering = true;
                     }
                 }
@@ -484,33 +510,41 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
                             tTank.fill(ForgeDirection.getOrientation(aBaseMetaTileEntity.getBackFacing()), drain(tFilledAmount, true), true);
                     }
                 }
-                if (getDrainableStack() == null) tRemovedOutputFluid = true;
+                if (getDrainableStack() == null)
+                    tRemovedOutputFluid = true;
             }
 
             if (doesAutoOutput() && !isOutputEmpty() && aBaseMetaTileEntity.getFrontFacing() != mMainFacing && (tSucceeded || mOutputBlocked % 300 == 1 || aBaseMetaTileEntity.hasInventoryBeenModified() || aTick % 600 == 0)) {
                 TileEntity tTileEntity2 = aBaseMetaTileEntity.getTileEntityAtSide(aBaseMetaTileEntity.getFrontFacing());
                 for (int i = 0, tCosts = 1; i < mOutputItems.length && tCosts > 0 && aBaseMetaTileEntity.isUniversalEnergyStored(128); i++) {
                     tCosts = GT_Utility.moveOneItemStack(aBaseMetaTileEntity, tTileEntity2, aBaseMetaTileEntity.getFrontFacing(), aBaseMetaTileEntity.getBackFacing(), null, false, (byte) 64, (byte) 1, (byte) 64, (byte) 1);
-                    if (tCosts > 0) aBaseMetaTileEntity.decreaseStoredEnergyUnits(tCosts, true);
+                    if (tCosts > 0)
+                        aBaseMetaTileEntity.decreaseStoredEnergyUnits(tCosts, true);
                 }
             }
 
-            if (mOutputBlocked != 0) if (isOutputEmpty()) mOutputBlocked = 0;
-            else mOutputBlocked++;
+            if (mOutputBlocked != 0)
+                if (isOutputEmpty())
+                    mOutputBlocked = 0;
+                else
+                    mOutputBlocked++;
 
             if (allowToCheckRecipe()) {
                 if (mMaxProgresstime <= 0 && aBaseMetaTileEntity.isAllowedToWork() && (tRemovedOutputFluid || tSucceeded || aBaseMetaTileEntity.hasInventoryBeenModified() || aTick % 600 == 0 || aBaseMetaTileEntity.hasWorkJustBeenEnabled()) && hasEnoughEnergyToCheckRecipe()) {
                     if (checkRecipe() == FOUND_AND_SUCCESSFULLY_USED_RECIPE) {
-                        if (mInventory[3] != null && mInventory[3].stackSize <= 0) mInventory[3] = null;
+                        if (mInventory[3] != null && mInventory[3].stackSize <= 0)
+                            mInventory[3] = null;
                         for (int i = getInputSlot(), j = i + mInputSlotCount; i < j; i++)
-                            if (mInventory[i] != null && mInventory[i].stackSize <= 0) mInventory[i] = null;
+                            if (mInventory[i] != null && mInventory[i].stackSize <= 0)
+                                mInventory[i] = null;
                         for (int i = 0; i < mOutputItems.length; i++) {
                             mOutputItems[i] = GT_Utility.copy(mOutputItems[i]);
                             if (mOutputItems[i] != null && mOutputItems[i].stackSize > 64)
                                 mOutputItems[i].stackSize = 64;
                             mOutputItems[i] = GT_OreDictUnificator.get(true, mOutputItems[i]);
                         }
-                        if (mFluid != null && mFluid.amount <= 0) mFluid = null;
+                        if (mFluid != null && mFluid.amount <= 0)
+                            mFluid = null;
                         mMaxProgresstime = Math.max(1, mMaxProgresstime);
                         if (GT_Utility.isDebugItem(mInventory[dechargerSlotStartIndex()])) {
                             mEUt = mMaxProgresstime = 1;
@@ -518,7 +552,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
                         startProcess();
                     } else {
                         mMaxProgresstime = 0;
-                        for (int i = 0; i < mOutputItems.length; i++) mOutputItems[i] = null;
+                        Arrays.fill(mOutputItems, null);
                         mOutputFluid = null;
                     }
                 }
@@ -565,43 +599,44 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
     /**
      * Calcualtes overclocked ness using long integers
-     * @param aEUt          - recipe EUt
-     * @param aDuration     - recipe Duration
+     *
+     * @param aEUt      - recipe EUt
+     * @param aDuration - recipe Duration
      */
     protected void calculateOverclockedNess(int aEUt, int aDuration) {
-        if(mTier==0){
+        if (mTier == 0) {
             //Long time calculation
-            long xMaxProgresstime = ((long)aDuration)<<1;
-            if(xMaxProgresstime>Integer.MAX_VALUE-1){
+            long xMaxProgresstime = ((long) aDuration) << 1;
+            if (xMaxProgresstime > Integer.MAX_VALUE - 1) {
                 //make impossible if too long
-                mEUt=Integer.MAX_VALUE-1;
-                mMaxProgresstime=Integer.MAX_VALUE-1;
-            }else{
-                mEUt=aEUt>>2;
-                mMaxProgresstime=(int)xMaxProgresstime;
+                mEUt = Integer.MAX_VALUE - 1;
+                mMaxProgresstime = Integer.MAX_VALUE - 1;
+            } else {
+                mEUt = aEUt >> 2;
+                mMaxProgresstime = (int) xMaxProgresstime;
             }
-        }else{
+        } else {
             //Long EUt calculation
-            long xEUt=aEUt;
+            long xEUt = aEUt;
             //Isnt too low EUt check?
-            long tempEUt = xEUt<V[1] ? V[1] : xEUt;
+            long tempEUt = Math.max(xEUt, V[1]);
 
             mMaxProgresstime = aDuration;
 
-            while (tempEUt <= V[mTier -1] * (long)mAmperage) {
-                tempEUt<<=2;//this actually controls overclocking
+            while (tempEUt <= V[mTier - 1] * (long) mAmperage) {
+                tempEUt <<= 2;//this actually controls overclocking
                 //xEUt *= 4;//this is effect of everclocking
-                mMaxProgresstime>>=1;//this is effect of overclocking
-                xEUt = mMaxProgresstime==0 ? xEUt>>1 : xEUt<<2;//U know, if the time is less than 1 tick make the machine use 2x less power
+                mMaxProgresstime >>= 1;//this is effect of overclocking
+                xEUt = mMaxProgresstime == 0 ? xEUt >> 1 : xEUt << 2;//U know, if the time is less than 1 tick make the machine use 2x less power
             }
-            if(xEUt>Integer.MAX_VALUE-1){
-                mEUt = Integer.MAX_VALUE-1;
-                mMaxProgresstime = Integer.MAX_VALUE-1;
-            }else{
-                mEUt = (int)xEUt;
-                if(mEUt==0)
+            if (xEUt > Integer.MAX_VALUE - 1) {
+                mEUt = Integer.MAX_VALUE - 1;
+                mMaxProgresstime = Integer.MAX_VALUE - 1;
+            } else {
+                mEUt = (int) xEUt;
+                if (mEUt == 0)
                     mEUt = 1;
-                if(mMaxProgresstime==0)
+                if (mMaxProgresstime == 0)
                     mMaxProgresstime = 1;//set time to 1 tick
             }
         }
@@ -617,7 +652,8 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
     protected ItemStack[] getAllOutputs() {
         ItemStack[] rOutputs = new ItemStack[mOutputItems.length];
-        for (int i = 0; i < mOutputItems.length; i++) rOutputs[i] = getOutputAt(i);
+        for (int i = 0; i < mOutputItems.length; i++)
+            rOutputs[i] = getOutputAt(i);
         return rOutputs;
     }
 
@@ -626,7 +662,8 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     }
 
     protected boolean canOutput(ItemStack... aOutputs) {
-        if (aOutputs == null) return true;
+        if (aOutputs == null)
+            return true;
         ItemStack[] tOutputSlots = getAllOutputs();
         for (int i = 0; i < tOutputSlots.length && i < aOutputs.length; i++)
             if (tOutputSlots[i] != null && aOutputs[i] != null && (!GT_Utility.areStacksEqual(tOutputSlots[i], aOutputs[i], false) || tOutputSlots[i].stackSize + aOutputs[i].stackSize > tOutputSlots[i].getMaxStackSize())) {
@@ -646,16 +683,19 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
     protected ItemStack[] getAllInputs() {
         ItemStack[] rInputs = new ItemStack[mInputSlotCount];
-        for (int i = 0; i < mInputSlotCount; i++) rInputs[i] = getInputAt(i);
+        for (int i = 0; i < mInputSlotCount; i++)
+            rInputs[i] = getInputAt(i);
         return rInputs;
     }
 
     protected boolean isOutputEmpty() {
-        boolean rIsEmpty = true;
-        for (ItemStack tOutputSlotContent : getAllOutputs()) if (tOutputSlotContent != null) rIsEmpty = false;
-        return rIsEmpty;
+        for (ItemStack tOutputSlotContent : getAllOutputs())
+            if (tOutputSlotContent != null)
+                return false;
+        return true;
     }
 
+    @SuppressWarnings("SameReturnValue")
     protected boolean displaysInputFluid() {
         return true;
     }
@@ -677,7 +717,8 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     @Override
     public void doSound(byte aIndex, double aX, double aY, double aZ) {
         super.doSound(aIndex, aX, aY, aZ);
-        if (aIndex == 8) GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(210), 100, 1.0F, aX, aY, aZ);
+        if (aIndex == 8)
+            GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(210), 100, 1.0F, aX, aY, aZ);
     }
 
     public boolean doesAutoOutput() {
@@ -692,6 +733,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         return true;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public boolean showPipeFacing() {
         return true;
     }
@@ -713,6 +755,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     /**
      * Called whenever the Machine aborted a Process, useful for Sound Effects
      */
+    @SuppressWarnings("EmptyMethod")
     public void abortProcess() {
         //
     }
@@ -721,16 +764,19 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
      * Called whenever the Machine aborted a Process but still works on it, useful for Sound Effects
      */
     public void stutterProcess() {
-        if (useStandardStutterSound()) sendSound((byte) 8);
+        if (useStandardStutterSound())
+            sendSound((byte) 8);
     }
 
     /**
      * If this Machine can have the Insufficient Energy Line Problem
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean canHaveInsufficientEnergy() {
         return true;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public boolean useStandardStutterSound() {
         return true;
     }
@@ -740,14 +786,14 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         return new String[]{
                 EnumChatFormatting.BLUE + mNEIName + EnumChatFormatting.RESET,
                 "Progress:",
-                EnumChatFormatting.GREEN + Integer.toString(mProgresstime/20) + EnumChatFormatting.RESET +" s / "+
-                EnumChatFormatting.YELLOW + Integer.toString(mMaxProgresstime/20) + EnumChatFormatting.RESET +" s",
+                EnumChatFormatting.GREEN + Integer.toString(mProgresstime / 20) + EnumChatFormatting.RESET + " s / " +
+                        EnumChatFormatting.YELLOW + mMaxProgresstime / 20 + EnumChatFormatting.RESET + " s",
                 "Stored Energy:",
-                EnumChatFormatting.GREEN + Long.toString(getBaseMetaTileEntity().getStoredEU()) + EnumChatFormatting.RESET +" EU / "+
-                EnumChatFormatting.YELLOW + Long.toString(getBaseMetaTileEntity().getEUCapacity()) + EnumChatFormatting.RESET +" EU",
+                EnumChatFormatting.GREEN + Long.toString(getBaseMetaTileEntity().getStoredEU()) + EnumChatFormatting.RESET + " EU / " +
+                        EnumChatFormatting.YELLOW + getBaseMetaTileEntity().getEUCapacity() + EnumChatFormatting.RESET + " EU",
                 "Probably uses: " +
-                        EnumChatFormatting.RED + Integer.toString(mEUt) + EnumChatFormatting.RESET + " EU/t at " +
-                        EnumChatFormatting.RED + Integer.toString(mEUt==0?0:mAmperage) + EnumChatFormatting.RESET +" A"
+                        EnumChatFormatting.RED + mEUt + EnumChatFormatting.RESET + " EU/t at " +
+                        EnumChatFormatting.RED + (mEUt == 0 ? 0 : mAmperage) + EnumChatFormatting.RESET + " A"
         };
     }
 
@@ -760,7 +806,7 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     public void onScrewdriverRightClick(byte aSide, EntityPlayer aPlayer, float aX, float aY, float aZ) {
         if (aSide == getBaseMetaTileEntity().getFrontFacing() || aSide == mMainFacing) {
             mAllowInputFromOutputSide = !mAllowInputFromOutputSide;
-            GT_Utility.sendChatToPlayer(aPlayer, mAllowInputFromOutputSide ? trans("095","Input from Output Side allowed") : trans("096","Input from Output Side forbidden"));
+            GT_Utility.sendChatToPlayer(aPlayer, mAllowInputFromOutputSide ? trans("095", "Input from Output Side allowed") : trans("096", "Input from Output Side forbidden"));
         }
     }
 
@@ -779,7 +825,8 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         if (aSide == mMainFacing || aIndex < getInputSlot() || aIndex >= getInputSlot() + mInputSlotCount || (!mAllowInputFromOutputSide && aSide == aBaseMetaTileEntity.getFrontFacing()))
             return false;
         for (int i = getInputSlot(), j = i + mInputSlotCount; i < j; i++)
-            if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(aStack), mInventory[i])) return i == aIndex;
+            if (GT_Utility.areStacksEqual(GT_OreDictUnificator.get(aStack), mInventory[i]))
+                return i == aIndex;
         return true;
     }
 
@@ -803,31 +850,33 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
         return checkRecipe(false);
     }
 
-    public static boolean isValidForLowGravity(GT_Recipe tRecipe, int dimId){
+    public static boolean isValidForLowGravity(GT_Recipe tRecipe, int dimId) {
         return //TODO check or get a better solution
                 DimensionManager.getProvider(dimId).getClass().getName().contains("Orbit") ||
-                DimensionManager.getProvider(dimId).getClass().getName().endsWith("Space") ||
-                DimensionManager.getProvider(dimId).getClass().getName().endsWith("Asteroids") ||
-                DimensionManager.getProvider(dimId).getClass().getName().endsWith("SS") ||
-                DimensionManager.getProvider(dimId).getClass().getName().contains("SpaceStation");
+                        DimensionManager.getProvider(dimId).getClass().getName().endsWith("Space") ||
+                        DimensionManager.getProvider(dimId).getClass().getName().endsWith("Asteroids") ||
+                        DimensionManager.getProvider(dimId).getClass().getName().endsWith("SS") ||
+                        DimensionManager.getProvider(dimId).getClass().getName().contains("SpaceStation");
     }
 
 
     /**
-     *
      * @param skipOC disables OverclockedNess calculation and check - if you do you must implement your own method...
      * @return
      */
-    public int checkRecipe(boolean skipOC){
+    public int checkRecipe(boolean skipOC) {
         GT_Recipe_Map tMap = getRecipeList();
-        if (tMap == null) return DID_NOT_FIND_RECIPE;
+        if (tMap == null)
+            return DID_NOT_FIND_RECIPE;
         GT_Recipe tRecipe = tMap.findRecipe(getBaseMetaTileEntity(), mLastRecipe, false, V[mTier], new FluidStack[]{getFillableStack()}, getSpecialSlot(), getAllInputs());
-        if (tRecipe == null) return DID_NOT_FIND_RECIPE;
+        if (tRecipe == null)
+            return DID_NOT_FIND_RECIPE;
 
         if (GT_Mod.gregtechproxy.mLowGravProcessing && (tRecipe.mSpecialValue == -100 || tRecipe.mSpecialValue == -300) &&
-                !isValidForLowGravity(tRecipe,getBaseMetaTileEntity().getWorld().provider.dimensionId))
+                !isValidForLowGravity(tRecipe, getBaseMetaTileEntity().getWorld().provider.dimensionId))
             return FOUND_RECIPE_BUT_DID_NOT_MEET_REQUIREMENTS;
-        if (tRecipe.mCanBeBuffered) mLastRecipe = tRecipe;
+        if (tRecipe.mCanBeBuffered)
+            mLastRecipe = tRecipe;
         if (!canOutput(tRecipe)) {
             mOutputBlocked++;
             return FOUND_RECIPE_BUT_DID_NOT_MEET_REQUIREMENTS;
@@ -841,18 +890,17 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
                 mOutputItems[i] = tRecipe.getOutput(i);
         if (tRecipe.mSpecialValue == -200 || tRecipe.mSpecialValue == -300)
             for (int i = 0; i < mOutputItems.length; i++)
-                if (mOutputItems[i] != null && getBaseMetaTileEntity().getRandomNumber(10000) > mCleanroom.mEfficiency)
-                {
-					if (debugCleanroom) {
-						GT_Log.out.println(
-							"BasicMachine: Voiding output due to efficiency failure. mEfficiency = " + 
-							mCleanroom.mEfficiency
-						);
-					}
+                if (mOutputItems[i] != null && getBaseMetaTileEntity().getRandomNumber(10000) > mCleanroom.mEfficiency) {
+                    if (debugCleanroom) {
+                        GT_Log.out.println(
+                                "BasicMachine: Voiding output due to efficiency failure. mEfficiency = " +
+                                        mCleanroom.mEfficiency
+                        );
+                    }
                     mOutputItems[i] = null;
                 }
         mOutputFluid = tRecipe.getFluidOutput(0);
-        if(!skipOC){
+        if (!skipOC) {
             calculateOverclockedNess(tRecipe);
             //In case recipe is too OP for that machine
             if (mMaxProgresstime == Integer.MAX_VALUE - 1 && mEUt == Integer.MAX_VALUE - 1)

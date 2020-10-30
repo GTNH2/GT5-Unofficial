@@ -183,13 +183,12 @@ public class GT_Cover_Fluidfilter extends GT_CoverBehavior {
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            GT_GuiIconButton b;
-            b = new GT_GuiIconButton(this, 0, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.IMPORT).setTooltipText(trans("232","Filter Input"));
-            b = new GT_GuiIconButton(this, 1, startX + spaceX*1, startY+spaceY*0, GT_GuiIcon.EXPORT).setTooltipText(trans("233","Filter Output"));
-            b = new GT_GuiIconButton(this, 2, startX + spaceX*0, startY+spaceY*2, GT_GuiIcon.BLOCK_INPUT).setTooltipText(trans("234", "Block Output"));
-            b = new GT_GuiIconButton(this, 3, startX + spaceX*1, startY+spaceY*2, GT_GuiIcon.ALLOW_INPUT).setTooltipText(trans("235", "Allow Output"));
-            b = new GT_GuiIconButton(this, 4, startX + spaceX*0, startY+spaceY*1, GT_GuiIcon.WHITELIST).setTooltipText(trans("236","Whitelist Fluid"));
-            b = new GT_GuiIconButton(this, 5, startX + spaceX*1, startY+spaceY*1, GT_GuiIcon.BLACKLIST).setTooltipText(trans("237","Blacklist Fluid"));
+            new GT_GuiIconButton(this, 0, startX, startY, GT_GuiIcon.IMPORT).setTooltipText(trans("232","Filter Input"));
+            new GT_GuiIconButton(this, 1, startX + spaceX, startY, GT_GuiIcon.EXPORT).setTooltipText(trans("233","Filter Output"));
+            new GT_GuiIconButton(this, 2, startX, startY+spaceY*2, GT_GuiIcon.BLOCK_INPUT).setTooltipText(trans("234", "Block Output"));
+            new GT_GuiIconButton(this, 3, startX + spaceX, startY+spaceY*2, GT_GuiIcon.ALLOW_INPUT).setTooltipText(trans("235", "Allow Output"));
+            new GT_GuiIconButton(this, 4, startX, startY+ spaceY, GT_GuiIcon.WHITELIST).setTooltipText(trans("236","Whitelist Fluid"));
+            new GT_GuiIconButton(this, 5, startX + spaceX, startY+ spaceY, GT_GuiIcon.BLACKLIST).setTooltipText(trans("237","Blacklist Fluid"));
 
             fluidFilterButton = new GT_GuiFakeItemButton(this, startX, startY+spaceY*3+2, GT_GuiIcon.SLOT_DARKGRAY);
         }
@@ -228,8 +227,8 @@ public class GT_Cover_Fluidfilter extends GT_CoverBehavior {
         @Override
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
-            this.fontRendererObj.drawString(trans("238","Filter Direction" ),   startX + spaceX*2, 3+startY+spaceY*0, 0xFF555555);
-            this.fontRendererObj.drawString(trans("239", "Filter Type"),        startX + spaceX*2, 3+startY+spaceY*1, 0xFF555555);
+            this.fontRendererObj.drawString(trans("238","Filter Direction" ),   startX + spaceX*2, 3 + startY, 0xFF555555);
+            this.fontRendererObj.drawString(trans("239", "Filter Type"),        startX + spaceX*2, 3+startY+ spaceY, 0xFF555555);
             this.fontRendererObj.drawString(trans("240","Block Flow"),          startX + spaceX*2, 3+startY+spaceY*2, 0xFF555555);
             this.fontRendererObj.drawSplitString(fluidFilterName,                                startX + spaceX+3, 4+startY+spaceY*3, gui_width-40 , 0xFF222222);
         }

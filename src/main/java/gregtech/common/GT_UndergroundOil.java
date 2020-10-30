@@ -43,11 +43,7 @@ public class GT_UndergroundOil {
         if(dimension==null) return null;
 
         //Read hash map
-        HashMap<ChunkCoordIntPair, int[]> chunkData = dimensionWiseChunkData.get(dimensionId);
-        if(chunkData==null){
-            chunkData=new HashMap<>(1024);
-            dimensionWiseChunkData.put(dimensionId,chunkData);
-        }
+        HashMap<ChunkCoordIntPair, int[]> chunkData = dimensionWiseChunkData.computeIfAbsent(dimensionId, k -> new HashMap<>(1024));
 
         int[] tInts = chunkData.get(chunk.getChunkCoordIntPair());
 

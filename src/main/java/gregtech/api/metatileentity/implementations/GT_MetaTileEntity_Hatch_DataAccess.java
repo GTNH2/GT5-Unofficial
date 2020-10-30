@@ -74,22 +74,18 @@ public class GT_MetaTileEntity_Hatch_DataAccess extends GT_MetaTileEntity_Hatch 
 
     @Override
     public Object getServerGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        switch (mTier) {
-            case 4:
-                return new GT_Container_2by2(aPlayerInventory, aBaseMetaTileEntity);
-            default:
-                return new GT_Container_4by4(aPlayerInventory, aBaseMetaTileEntity);
+        if (mTier == 4) {
+            return new GT_Container_2by2(aPlayerInventory, aBaseMetaTileEntity);
         }
+        return new GT_Container_4by4(aPlayerInventory, aBaseMetaTileEntity);
     }
 
     @Override
     public Object getClientGUI(int aID, InventoryPlayer aPlayerInventory, IGregTechTileEntity aBaseMetaTileEntity) {
-        switch (mTier) {
-            case 4:
-                return new GT_GUIContainer_2by2(aPlayerInventory, aBaseMetaTileEntity, "Data Access Hatch", "DataAccess");
-            default:
-                return new GT_GUIContainer_4by4(aPlayerInventory, aBaseMetaTileEntity, "Data Access Hatch", "DataAccess");
+        if (mTier == 4) {
+            return new GT_GUIContainer_2by2(aPlayerInventory, aBaseMetaTileEntity, "Data Access Hatch", "DataAccess");
         }
+        return new GT_GUIContainer_4by4(aPlayerInventory, aBaseMetaTileEntity, "Data Access Hatch", "DataAccess");
     }
 
     @Override

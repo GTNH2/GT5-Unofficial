@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class GT_UO_Dimension {
 
-	private BiMap<String, GT_UO_Fluid> fFluids;
+	private final BiMap<String, GT_UO_Fluid> fFluids;
 	private int maxChance;
 	public String Dimension = "null";
 

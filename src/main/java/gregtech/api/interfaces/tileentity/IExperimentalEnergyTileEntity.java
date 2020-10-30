@@ -44,6 +44,7 @@ public interface IExperimentalEnergyTileEntity extends IColoredTileEntity, IHasW
         public static int RF_PER_EU = 4;
         private static boolean RF_ENERGY = false, IC_ENERGY = false, CHECK_ALL = true;
 
+        @SuppressWarnings({"rawtypes", "ResultOfMethodCallIgnored"})
         private static void checkAvailabilities() {
             if (CHECK_ALL) {
                 try {
@@ -65,10 +66,10 @@ public interface IExperimentalEnergyTileEntity extends IColoredTileEntity, IHasW
          *
          * @return the amount of used secondary value.
          */
-        public static final long emitEnergyToNetwork(SubTag aEnergyType, long aPrimary, long aSecondary, IExperimentalEnergyTileEntity aEmitter) {
+        public static long emitEnergyToNetwork(SubTag aEnergyType, long aPrimary, long aSecondary, IExperimentalEnergyTileEntity aEmitter) {
             long rUsedSecondary = 0;
             checkAvailabilities();
-            for (byte i = 0, j = 0; i < 6 && aSecondary > rUsedSecondary; i++)
+            for (byte i = 0, j; i < 6 && aSecondary > rUsedSecondary; i++)
                 if (aEmitter.outputsEnergyTo(aEnergyType, i)) {
                     j = GT_Utility.getOppositeSide(i);
                     TileEntity tTileEntity = aEmitter.getTileEntityAtSide(i);

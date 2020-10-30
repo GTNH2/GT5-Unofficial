@@ -17,6 +17,7 @@ public class GT_MetaTileEntity_Compressor_Bronze extends GT_MetaTileEntity_Basic
         super(aID, aName, aNameRegional, "Compressing Items", 1, 1, false);
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_Compressor_Bronze(String aName, String aDescription, ITexture[][][] aTextures) {
         super(aName, aDescription, aTextures, 1, 1, false);
     }
@@ -47,7 +48,7 @@ public class GT_MetaTileEntity_Compressor_Bronze extends GT_MetaTileEntity_Basic
     public void startSoundLoop(byte aIndex, double aX, double aY, double aZ) {
         super.startSoundLoop(aIndex, aX, aY, aZ);
         if (aIndex == 1) {
-            GT_Utility.doSoundAtClient((String) GregTech_API.sSoundList.get(Integer.valueOf(203)), 10, 1.0F, aX, aY, aZ);
+            GT_Utility.doSoundAtClient(GregTech_API.sSoundList.get(203), 10, 1.0F, aX, aY, aZ);
         }
     }
 

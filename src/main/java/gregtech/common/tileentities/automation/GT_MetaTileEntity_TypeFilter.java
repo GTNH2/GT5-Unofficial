@@ -94,6 +94,7 @@ public class GT_MetaTileEntity_TypeFilter
                 this.mInventory[9] = null;
             } else {
                 this.mInventory[9] = GT_Utility.copyAmount(1L, this.mPrefix.mPrefixedItems.get(this.mRotationIndex = (this.mRotationIndex + 1) % this.mPrefix.mPrefixedItems.size()));
+                assert this.mInventory[9] != null;
                 if (this.mInventory[9].getItemDamage() == 32767) {
                     this.mInventory[9].setItemDamage(0);
                 }

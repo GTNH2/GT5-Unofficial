@@ -74,7 +74,7 @@ public class GT_Block_Concretes
         }
     }
 
-    /**
+    /*
     public void onEntityCollidedWithBlock(World aWorld, int aX, int aY, int aZ, Entity aEntity) {
         Block tBlock = aWorld.getBlock(aX, aY + 1, aZ);
         if (((aEntity instanceof EntityLivingBase)) && (!(tBlock instanceof IFluidBlock)) && (!(tBlock instanceof BlockLiquid)) && (aEntity.onGround) && (!aEntity.isInWater()) && (!aEntity.isWet())) {

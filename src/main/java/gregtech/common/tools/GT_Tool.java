@@ -21,7 +21,7 @@ import java.util.List;
 
 public abstract class GT_Tool
         implements IToolStats {
-    public static final Enchantment[] FORTUNE_ENCHANTMENT = {Enchantment.fortune};
+    //public static final Enchantment[] FORTUNE_ENCHANTMENT = {Enchantment.fortune};
     public static final Enchantment[] LOOTING_ENCHANTMENT = {Enchantment.looting};
     public static final Enchantment[] ZERO_ENCHANTMENTS = new Enchantment[0];
     public static final int[] ZERO_ENCHANTMENT_LEVELS = new int[0];
@@ -67,7 +67,7 @@ public abstract class GT_Tool
     }
 
     public String getBreakingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(0);
     }
 
     public int getBaseQuality() {

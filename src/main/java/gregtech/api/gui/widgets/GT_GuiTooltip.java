@@ -15,6 +15,7 @@ public class GT_GuiTooltip {
         setToolTipText(text);
     }
 
+    @SuppressWarnings("EmptyMethod")
     protected void updateText() {
     }
 

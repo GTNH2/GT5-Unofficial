@@ -3,7 +3,8 @@ package gregtech.api.gui.widgets;
 import gregtech.api.interfaces.IGuiScreen;
 
 public class GT_GuiIconCheckButton extends GT_GuiIconButton {
-    private GT_GuiIcon checkedIcon, normalIcon;
+    private final GT_GuiIcon checkedIcon;
+    private final GT_GuiIcon normalIcon;
     private boolean checked = false;
 
     public GT_GuiIconCheckButton(IGuiScreen gui, int id, int x, int y, GT_GuiIcon checkedIcon, GT_GuiIcon normalIcon) {

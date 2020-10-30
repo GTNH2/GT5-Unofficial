@@ -22,7 +22,7 @@ import net.minecraftforge.fluids.Fluid;
 public class GT_Cover_EUMeter
         extends GT_CoverBehavior {
     public int doCoverThings(byte aSide, byte aInputRedstone, int aCoverID, int aCoverVariable, ICoverable aTileEntity, long aTimer) {
-        long tScale = 0L;
+        long tScale;
         if (aCoverVariable < 2) {
             tScale = aTileEntity.getUniversalEnergyCapacity() / 15L;
             if (tScale > 0L) {
@@ -178,20 +178,19 @@ public class GT_Cover_EUMeter
             this.coverID = aCoverID;
             this.coverVariable = aCoverVariable;
 
-            GuiButton b;
-            b = new GT_GuiIconCheckButton(this, 0, startX + spaceX*0, startY+spaceY*1, GT_GuiIcon.CHECKMARK, null)
-                    .setTooltipText(trans("256", "Universal Storage"));
-            b = new GT_GuiIconCheckButton(this, 1, startX + spaceX*0, startY+spaceY*0, GT_GuiIcon.CHECKMARK, null)
-                    .setTooltipText(trans("257", "Electricity Storage"));
-            b = new GT_GuiIconCheckButton(this, 2, startX + spaceX*0, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null)
-                    .setTooltipText(trans("258", "Steam Storage"));
-            b = new GT_GuiIconCheckButton(this, 3, startX + spaceX*4, startY+spaceY*1, GT_GuiIcon.CHECKMARK, null)
-                    .setTooltipText(trans("259", "Average Electric Input"));
-            b = new GT_GuiIconCheckButton(this, 4, startX + spaceX*4, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null)
-                    .setTooltipText(trans("260", "Average Electric Output"));
-            b = new GT_GuiIconCheckButton(this, 5, startX + spaceX*4, startY+spaceY*0, GT_GuiIcon.CHECKMARK, null)
-                    .setTooltipText(trans("261", "Electricity Storage(Including Batteries)"));
-            b = new GT_GuiIconCheckButton(this, 6, startX + spaceX*0, startY+spaceY*3+4, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
+            new GT_GuiIconCheckButton(this, 0, startX, startY+ spaceY, GT_GuiIcon.CHECKMARK, null)
+                .setTooltipText(trans("256", "Universal Storage"));
+            new GT_GuiIconCheckButton(this, 1, startX, startY, GT_GuiIcon.CHECKMARK, null)
+                .setTooltipText(trans("257", "Electricity Storage"));
+            new GT_GuiIconCheckButton(this, 2, startX, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null)
+                .setTooltipText(trans("258", "Steam Storage"));
+            new GT_GuiIconCheckButton(this, 3, startX + spaceX*4, startY+ spaceY, GT_GuiIcon.CHECKMARK, null)
+                .setTooltipText(trans("259", "Average Electric Input"));
+            new GT_GuiIconCheckButton(this, 4, startX + spaceX*4, startY+spaceY*2, GT_GuiIcon.CHECKMARK, null)
+                .setTooltipText(trans("260", "Average Electric Output"));
+            new GT_GuiIconCheckButton(this, 5, startX + spaceX*4, startY, GT_GuiIcon.CHECKMARK, null)
+                .setTooltipText(trans("261", "Electricity Storage(Including Batteries)"));
+            new GT_GuiIconCheckButton(this, 6, startX, startY+spaceY*3+4, GT_GuiIcon.REDSTONE_ON, GT_GuiIcon.REDSTONE_OFF);
         }
 
         @Override
@@ -202,20 +201,20 @@ public class GT_Cover_EUMeter
                 s2 = trans("INVERTED","Inverted");
             else
                 s2 = trans("NORMAL","Normal");
-            this.fontRendererObj.drawString(s2,  startX + spaceX*1, 8+startY+spaceY*3, 0xFF555555);
+            this.fontRendererObj.drawString(s2,  startX + spaceX, 8+startY+spaceY*3, 0xFF555555);
 
             this.fontRendererObj.drawString("Universal",
-                    startX + spaceX*1, 4+startY+spaceY*1, 0xFF555555);
+                    startX + spaceX, 4+startY+ spaceY, 0xFF555555);
             this.fontRendererObj.drawString("Int. EU",
-                    startX + spaceX*1, 4+startY+spaceY*0, 0xFF555555);
+                    startX + spaceX, 4 + startY, 0xFF555555);
             this.fontRendererObj.drawString("Steam",
-                    startX + spaceX*1, 4+startY+spaceY*2, 0xFF555555);
+                    startX + spaceX, 4+startY+spaceY*2, 0xFF555555);
             this.fontRendererObj.drawString("Avg. Input",
-                    startX + spaceX*5, 4+startY+spaceY*1, 0xFF555555);
+                    startX + spaceX*5, 4+startY+ spaceY, 0xFF555555);
             this.fontRendererObj.drawString("Avg. Output",
                     startX + spaceX*5, 4+startY+spaceY*2, 0xFF555555);
             this.fontRendererObj.drawString("EU stored",
-                    startX + spaceX*5, 4+startY+spaceY*0, 0xFF555555);
+                    startX + spaceX*5, 4 + startY, 0xFF555555);
         }
 
         @Override

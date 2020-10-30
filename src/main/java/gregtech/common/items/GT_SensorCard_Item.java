@@ -32,6 +32,7 @@ public class GT_SensorCard_Item
         setMaxStackSize(1);
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void addAdditionalToolTips(List aList, ItemStack aStack, EntityPlayer aPlayer) {
         super.addAdditionalToolTips(aList, aStack, aPlayer);
         if (aStack != null) {
@@ -40,7 +41,7 @@ public class GT_SensorCard_Item
             	aList.add(trans("014", "Missing Coodinates!"));
             } else {
             	aList.add(trans("015", "Device at:"));
-                aList.add(String.format("x: %d, y: %d, z: %d", new Object[]{Integer.valueOf(tNBT.getInteger("x")), Integer.valueOf(tNBT.getInteger("y")), Integer.valueOf(tNBT.getInteger("z"))}));
+                aList.add(String.format("x: %d, y: %d, z: %d", tNBT.getInteger("x"), tNBT.getInteger("y"), tNBT.getInteger("z")));
             }
         }
     }

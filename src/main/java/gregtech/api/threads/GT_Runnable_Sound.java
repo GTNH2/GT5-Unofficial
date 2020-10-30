@@ -25,7 +25,7 @@ public class GT_Runnable_Sound implements Runnable {
     public void run() {
         try {
             GT_PlayedSound tSound;
-            if (GT_Utility.sPlayedSoundMap.keySet().contains(tSound = new GT_PlayedSound(mSoundName, mX, mY, mZ)))
+            if (GT_Utility.sPlayedSoundMap.containsKey(tSound = new GT_PlayedSound(mSoundName, mX, mY, mZ)))
                 return;
             mWorld.playSound(mX, mY, mZ, mSoundName, mSoundStrength, mSoundModulation, false);
             GT_Utility.sPlayedSoundMap.put(tSound, mTimeUntilNextSound);

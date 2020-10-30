@@ -1619,7 +1619,7 @@ public class Textures {
                         ENERGY_BAR_8,
                 };
 
-        public static final ITexture[] ERROR_RENDERING = new ITexture[]{new GT_RenderedTexture(RENDERING_ERROR)};
+        public static ITexture[] ERROR_RENDERING = new ITexture[]{new GT_RenderedTexture(RENDERING_ERROR)};
 
         protected IIcon mIcon, mOverlay;
 

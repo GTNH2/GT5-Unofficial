@@ -14,9 +14,10 @@ import net.minecraft.nbt.NBTTagCompound;
 public class GT_MetaTileEntity_Disassembler
         extends GT_MetaTileEntity_BasicMachine {
     public GT_MetaTileEntity_Disassembler(int aID, String aName, String aNameRegional, int aTier) {
-        super(aID, aName, aNameRegional, aTier, 1, "Disassembles Machines at " + Math.min(50 + 10 * aTier,100) + "% Efficiency", 1, 9, "Disassembler.png", "", new ITexture[]{new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_DISASSEMBLER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_DISASSEMBLER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_DISASSEMBLER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_DISASSEMBLER)});
+        super(aID, aName, aNameRegional, aTier, 1, "Disassembles Machines at " + Math.min(50 + 10 * aTier,100) + "% Efficiency", 1, 9, "Disassembler.png", "", new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_SIDE_DISASSEMBLER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_FRONT_DISASSEMBLER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_TOP_DISASSEMBLER), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_DISASSEMBLER_ACTIVE), new GT_RenderedTexture(Textures.BlockIcons.OVERLAY_BOTTOM_DISASSEMBLER));
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_Disassembler(String aName, int aTier, String aDescription, ITexture[][][] aTextures, String aGUIName, String aNEIName) {
         super(aName, aTier, 1, aDescription, aTextures, 1, 9, aGUIName, aNEIName);
     }
@@ -46,7 +47,7 @@ public class GT_MetaTileEntity_Disassembler
                 tNBT = tNBT.getCompoundTag("GT.CraftingComponents");
                 if (tNBT != null) {
                     boolean isAnyOutput=false;
-                    calculateOverclockedNessDisassembler(16);
+                    calculateOverclockedNessDisassembler();
                     this.mMaxProgresstime = 80;
                     //In case recipe is too OP for that machine
                     if (mEUt == Integer.MAX_VALUE - 1)//&& mMaxProgresstime==Integer.MAX_VALUE-1
@@ -79,14 +80,14 @@ public class GT_MetaTileEntity_Disassembler
         return DID_NOT_FIND_RECIPE;
     }
 
-    private void calculateOverclockedNessDisassembler(int aEUt) {
+    private void calculateOverclockedNessDisassembler() {
         if(mTier==0){
-            mEUt=aEUt>>2;
+            mEUt= 16 >>2;
         }else{
             //Long EUt calculation
-            long xEUt=aEUt;
+            long xEUt= 16;
             //Isnt too low EUt check?
-            long tempEUt = xEUt<GT_Values.V[1] ? GT_Values.V[1] : xEUt;
+            long tempEUt = Math.max(xEUt, GT_Values.V[1]);
 
             while (tempEUt <= GT_Values.V[mTier -1] * (long)mAmperage) {
                 tempEUt<<=2;//this actually controls overclocking

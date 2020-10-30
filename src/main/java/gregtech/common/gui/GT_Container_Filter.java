@@ -61,10 +61,12 @@ public class GT_Container_Filter
                         tSlot.putStack(null);
                     } else if (tStack != null) {
                     	tStack = GT_Utility.copyAmountAndMetaData(tStack.stackSize, 32767, tStack);
-                    	if(GT_Utility.isStackInvalid(tStack)){tStack=null;}
+                    	if(GT_Utility.isStackInvalid(tStack)) {
+                    	    tStack = null;
+                    	}
                     }
                 } else {
-                    tSlot.putStack(GT_Utility.copyAmount(1L, new Object[]{tStack}));
+                    tSlot.putStack(GT_Utility.copyAmount(1L, tStack));
                 }
                 return null;
             }

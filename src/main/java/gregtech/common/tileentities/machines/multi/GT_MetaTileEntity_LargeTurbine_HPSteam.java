@@ -80,19 +80,20 @@ public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_La
     int fluidIntoPower(ArrayList<FluidStack> aFluids, int aOptFlow, int aBaseEff) {
         if(looseFit) {
             aOptFlow*=4;
+            double pow = Math.pow(1.1f, ((aBaseEff - 7500) / 10000F) * 20f);
             if(aBaseEff>10000){
-                aOptFlow*=Math.pow(1.1f,((aBaseEff-7500)/10000F)*20f);
+                aOptFlow*= pow;
                 aBaseEff=7500;
             }else if(aBaseEff>7500){
-                aOptFlow*=Math.pow(1.1f,((aBaseEff-7500)/10000F)*20f);
+                aOptFlow*= pow;
                 aBaseEff*=0.75f;
             }else{
                 aBaseEff*=0.75f;
             }
         }
-        int tEU = 0;
+        int tEU;
         int totalFlow = 0; // Byproducts are based on actual flow
-        int flow = 0;
+        int flow;
         int remainingFlow = GT_Utility.safeInt((long)(aOptFlow * 1.25f)); // Allowed to use up to 125% of optimal flow.  Variable required outside of loop for multi-hatch scenarios.
         this.realOptFlow = aOptFlow;
 
@@ -107,8 +108,8 @@ public class GT_MetaTileEntity_LargeTurbine_HPSteam extends GT_MetaTileEntity_La
                 totalFlow += flow; // track total input used
                 if (!achievement) {
                     try {
-                        GT_Mod.instance.achievements.issueAchievement(this.getBaseMetaTileEntity().getWorld().getPlayerEntityByName(this.getBaseMetaTileEntity().getOwnerName()), "efficientsteam");
-                    } catch (Exception e) {
+                        GT_Mod.achievements.issueAchievement(this.getBaseMetaTileEntity().getWorld().getPlayerEntityByName(this.getBaseMetaTileEntity().getOwnerName()), "efficientsteam");
+                    } catch (Exception ignored) {
                     }
                     achievement = true;
                 }

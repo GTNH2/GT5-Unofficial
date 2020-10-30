@@ -34,7 +34,7 @@ public class GT_Worldgen_Boulder extends GT_Worldgen_Ore {
                     float var12b = math_pi / mSize;
 
                     for (int var19 = 0; var19 <= mSize; ++var19) {
-                        float var2b = var19 / mSize;
+                        float var2b = var19 / (float)mSize;
                         float var20 = var7 + var8b * var2b;
                         float var22 = var15 + var7b * var2b;
                         float var24 = var11 + var9b * var2b;

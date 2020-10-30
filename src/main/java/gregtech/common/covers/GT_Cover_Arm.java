@@ -214,7 +214,7 @@ public class GT_Cover_Arm
     private class GUI extends GT_GUICover {
         private final byte side;
         private final int coverID;
-        private GT_GuiIntegerTextBox intSlot, adjSlot;
+        private final GT_GuiIntegerTextBox intSlot;
         private GT_GuiFakeItemButton intSlotIcon, adjSlotIcon;
         private int coverVariable;
 
@@ -240,14 +240,14 @@ public class GT_Cover_Arm
             internalSlotID = (coverVariable & SLOT_ID_MASK);
             adjacentSlotID = (coverVariable >> 14) & SLOT_ID_MASK;
 
-            new GT_GuiIconButton(this, 0, startX + spaceX * 0, startY + spaceY * 0, GT_GuiIcon.EXPORT).setTooltipText(trans("006", "Export"));
-            new GT_GuiIconButton(this, 1, startX + spaceX * 1, startY + spaceY * 0, GT_GuiIcon.IMPORT).setTooltipText(trans("007", "Import"));
+            new GT_GuiIconButton(this, 0, startX, startY, GT_GuiIcon.EXPORT).setTooltipText(trans("006", "Export"));
+            new GT_GuiIconButton(this, 1, startX + spaceX, startY, GT_GuiIcon.IMPORT).setTooltipText(trans("007", "Import"));
 
-            intSlot = new GT_GuiIntegerTextBox(this, 2, startX + spaceX * 0, startY + spaceY * 1 + 2, spaceX * 2+5, 12);
+            intSlot = new GT_GuiIntegerTextBox(this, 2, startX, startY + spaceY + 2, spaceX * 2+5, 12);
             setBoxText(intSlot, internalSlotID-1);
             intSlot.setMaxStringLength(6);
 
-            adjSlot = new GT_GuiIntegerTextBox(this, 3, startX + spaceX * 0, startY + spaceY * 2 + 2, spaceX * 2+5, 12);
+            GT_GuiIntegerTextBox adjSlot = new GT_GuiIntegerTextBox(this, 3, startX, startY + spaceY * 2 + 2, spaceX * 2 + 5, 12);
             setBoxText(adjSlot, adjacentSlotID-1);
             adjSlot.setMaxStringLength(6);
 
@@ -272,11 +272,11 @@ public class GT_Cover_Arm
         public void drawExtras(int mouseX, int mouseY, float parTicks) {
             super.drawExtras(mouseX, mouseY, parTicks);
             if (export)
-                this.getFontRenderer().drawString(trans("006", "Export"),  startX + spaceX*3, 4+startY+spaceY*0, 0xFF555555);
+                this.getFontRenderer().drawString(trans("006", "Export"),  startX + spaceX*3, 4 + startY, 0xFF555555);
             else
-                this.getFontRenderer().drawString(trans("007", "Import"),  startX + spaceX*3, 4+startY+spaceY*0, 0xFF555555);
+                this.getFontRenderer().drawString(trans("007", "Import"),  startX + spaceX*3, 4 + startY, 0xFF555555);
 
-            this.getFontRenderer().drawString(trans("254", "Internal slot#"),     startX + spaceX*3, 4+startY+spaceY*1, 0xFF555555);
+            this.getFontRenderer().drawString(trans("254", "Internal slot#"),     startX + spaceX*3, 4+startY+ spaceY, 0xFF555555);
             this.getFontRenderer().drawString(trans("255", "Adjacent slot#"),  startX + spaceX*3, 4+startY+spaceY*2, 0xFF555555);
         }
 

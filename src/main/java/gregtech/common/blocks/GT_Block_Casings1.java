@@ -74,9 +74,7 @@ public class GT_Block_Casings1
                 case 11:
                     return Textures.BlockIcons.MACHINE_HEATPROOFCASING.getIcon();
                 case 12:
-                    return Textures.BlockIcons.RENDERING_ERROR.getIcon();
                 case 13:
-                    return Textures.BlockIcons.RENDERING_ERROR.getIcon();
                 case 14:
                     return Textures.BlockIcons.RENDERING_ERROR.getIcon();
                 case 15:

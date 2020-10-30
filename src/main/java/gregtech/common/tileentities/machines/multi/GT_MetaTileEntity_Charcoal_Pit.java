@@ -23,7 +23,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class GT_MetaTileEntity_Charcoal_Pit extends GT_MetaTileEntity_MultiBlockBase {
 
     private boolean running = false;
-    private boolean p1, p2, p3, p4, p5, p6;
 
     public GT_MetaTileEntity_Charcoal_Pit(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
@@ -62,8 +61,6 @@ public class GT_MetaTileEntity_Charcoal_Pit extends GT_MetaTileEntity_MultiBlock
 
     @Override
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
-        if (aBaseMetaTileEntity.isClientSide()) return true;
-
         return true;
     }
 
@@ -130,12 +127,12 @@ public class GT_MetaTileEntity_Charcoal_Pit extends GT_MetaTileEntity_MultiBlock
     }
 
     private boolean checkAllBlockSides(int aX, int aY, int aZ, ArrayList<ChunkPosition> aList1, ArrayList<ChunkPosition> aList2) {
-        p1 = false;
-        p2 = false;
-        p3 = false;
-        p4 = false;
-        p5 = false;
-        p6 = false;
+        boolean p1 = false;
+        boolean p2 = false;
+        boolean p3 = false;
+        boolean p4 = false;
+        boolean p5 = false;
+        boolean p6 = false;
         Block tBlock = this.getBaseMetaTileEntity().getBlockOffset(aX + 1, aY, aZ);
         if (aX + 1 < 6 && (isWoodLog(tBlock, this.getBaseMetaTileEntity().getMetaIDOffset(aX + 1, aY, aZ)))) {
             if (!aList1.contains(new ChunkPosition(aX + 1, aY, aZ)) && (!aList2.contains(new ChunkPosition(aX + 1, aY, aZ))))

@@ -122,6 +122,7 @@ public class GT_Renderer_Block
         return false;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public static boolean renderStandardBlock(IBlockAccess aWorld, int aX, int aY, int aZ, Block aBlock, RenderBlocks aRenderer, ITexture[][] aTextures) {
         aBlock.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         aRenderer.setRenderBoundsFromBlock(aBlock);
@@ -154,7 +155,7 @@ public class GT_Renderer_Block
         }
         boolean[] tIsCovered = new boolean[6];
         for (byte i = 0; i < 6; i = (byte) (i + 1)) {
-            tIsCovered[i] = (aTileEntity.getCoverIDAtSide(i) != 0 ? true : false);
+            tIsCovered[i] = (aTileEntity.getCoverIDAtSide(i) != 0);
         }
         if ((tIsCovered[0]) && (tIsCovered[1]) && (tIsCovered[2]) && (tIsCovered[3]) && (tIsCovered[4]) && (tIsCovered[5])) {
             return renderStandardBlock(aWorld, aX, aY, aZ, aBlock, aRenderer);
@@ -427,9 +428,9 @@ public class GT_Renderer_Block
             Tessellator.instance.setBrightness(aBlock.getMixedBrightnessForBlock(aWorld, aX, aFullBlock ? aY - 1 : aY, aZ));
         }
         if (aIcon != null) {
-            for (int i = 0; i < aIcon.length; i++) {
-                if (aIcon[i] != null) {
-                    aIcon[i].renderYNeg(aRenderer, aBlock, aX, aY, aZ);
+            for (ITexture iTexture : aIcon) {
+                if (iTexture != null) {
+                    iTexture.renderYNeg(aRenderer, aBlock, aX, aY, aZ);
                 }
             }
         }
@@ -444,9 +445,9 @@ public class GT_Renderer_Block
             Tessellator.instance.setBrightness(aBlock.getMixedBrightnessForBlock(aWorld, aX, aFullBlock ? aY + 1 : aY, aZ));
         }
         if (aIcon != null) {
-            for (int i = 0; i < aIcon.length; i++) {
-                if (aIcon[i] != null) {
-                    aIcon[i].renderYPos(aRenderer, aBlock, aX, aY, aZ);
+            for (ITexture iTexture : aIcon) {
+                if (iTexture != null) {
+                    iTexture.renderYPos(aRenderer, aBlock, aX, aY, aZ);
                 }
             }
         }
@@ -462,9 +463,9 @@ public class GT_Renderer_Block
         }
         aRenderer.flipTexture = (!aFullBlock);
         if (aIcon != null) {
-            for (int i = 0; i < aIcon.length; i++) {
-                if (aIcon[i] != null) {
-                    aIcon[i].renderZNeg(aRenderer, aBlock, aX, aY, aZ);
+            for (ITexture iTexture : aIcon) {
+                if (iTexture != null) {
+                    iTexture.renderZNeg(aRenderer, aBlock, aX, aY, aZ);
                 }
             }
         }
@@ -479,9 +480,9 @@ public class GT_Renderer_Block
             Tessellator.instance.setBrightness(aBlock.getMixedBrightnessForBlock(aWorld, aX, aY, aFullBlock ? aZ + 1 : aZ));
         }
         if (aIcon != null) {
-            for (int i = 0; i < aIcon.length; i++) {
-                if (aIcon[i] != null) {
-                    aIcon[i].renderZPos(aRenderer, aBlock, aX, aY, aZ);
+            for (ITexture iTexture : aIcon) {
+                if (iTexture != null) {
+                    iTexture.renderZPos(aRenderer, aBlock, aX, aY, aZ);
                 }
             }
         }
@@ -496,9 +497,9 @@ public class GT_Renderer_Block
             Tessellator.instance.setBrightness(aBlock.getMixedBrightnessForBlock(aWorld, aFullBlock ? aX - 1 : aX, aY, aZ));
         }
         if (aIcon != null) {
-            for (int i = 0; i < aIcon.length; i++) {
-                if (aIcon[i] != null) {
-                    aIcon[i].renderXNeg(aRenderer, aBlock, aX, aY, aZ);
+            for (ITexture iTexture : aIcon) {
+                if (iTexture != null) {
+                    iTexture.renderXNeg(aRenderer, aBlock, aX, aY, aZ);
                 }
             }
         }
@@ -514,9 +515,9 @@ public class GT_Renderer_Block
         }
         aRenderer.flipTexture = (!aFullBlock);
         if (aIcon != null) {
-            for (int i = 0; i < aIcon.length; i++) {
-                if (aIcon[i] != null) {
-                    aIcon[i].renderXPos(aRenderer, aBlock, aX, aY, aZ);
+            for (ITexture iTexture : aIcon) {
+                if (iTexture != null) {
+                    iTexture.renderXPos(aRenderer, aBlock, aX, aY, aZ);
                 }
             }
         }

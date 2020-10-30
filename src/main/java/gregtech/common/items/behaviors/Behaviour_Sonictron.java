@@ -31,6 +31,7 @@ public class Behaviour_Sonictron
         return tNBTTagCompound.getInteger("mTickTimer");
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static NBTTagCompound setCurrentIndex(ItemStack aStack, int aIndex) {
         NBTTagCompound tNBTTagCompound = aStack.getTagCompound();
         if (tNBTTagCompound == null) {
@@ -40,6 +41,7 @@ public class Behaviour_Sonictron
         return tNBTTagCompound;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static NBTTagCompound setTickTimer(ItemStack aStack, int aTime) {
         NBTTagCompound tNBTTagCompound = aStack.getTagCompound();
         if (tNBTTagCompound == null) {
@@ -91,7 +93,7 @@ public class Behaviour_Sonictron
             if (aNewContent[i] == null) {
                 aInventory[i] = null;
             } else {
-                aInventory[i] = GT_Utility.copy(new Object[]{aNewContent[i]});
+                aInventory[i] = GT_Utility.copy(aNewContent[i]);
             }
         }
     }

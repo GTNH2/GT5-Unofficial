@@ -2,10 +2,7 @@ package gregtech.api.metatileentity.implementations;
 
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Dyes;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.OrePrefixes;
-import gregtech.api.enums.Textures;
+import gregtech.api.enums.*;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.ICoverable;
@@ -97,7 +94,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     @Override
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aConnections, byte aColorIndex, boolean aConnected, boolean aRedstone) {
     	float tThickNess = getThickNess();
-    	if (mDisableInput == 0) 
+    	if (mDisableInput == 0)
     	    return new ITexture[]{aConnected ? getBaseTexture(tThickNess, mPipeAmount, mMaterial, aColorIndex) : new GT_RenderedTexture(mMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, mMaterial.mRGBa))};
         byte tMask = 0;
         byte down = (byte) ForgeDirection.DOWN.ordinal();
@@ -131,7 +128,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
                 getRestrictorTexture(tMask)};
     }
 
-    protected static final ITexture getBaseTexture(float aThickNess, int aPipeAmount, Materials aMaterial, byte aColorIndex) {
+    protected static ITexture getBaseTexture(float aThickNess, int aPipeAmount, Materials aMaterial, byte aColorIndex) {
     	if (aPipeAmount >= 9) return new GT_RenderedTexture(aMaterial.mIconSet.mTextures[OrePrefixes.pipeNonuple.mTextureIndex], Dyes.getModulation(aColorIndex, aMaterial.mRGBa));
     	if (aPipeAmount >= 4) return new GT_RenderedTexture(aMaterial.mIconSet.mTextures[OrePrefixes.pipeQuadruple.mTextureIndex], Dyes.getModulation(aColorIndex, aMaterial.mRGBa));
     	if (aThickNess < 0.124F) return new GT_RenderedTexture(aMaterial.mIconSet.mTextures[OrePrefixes.pipe.mTextureIndex], Dyes.getModulation(aColorIndex, aMaterial.mRGBa));
@@ -142,7 +139,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
     	return new GT_RenderedTexture(aMaterial.mIconSet.mTextures[OrePrefixes.pipeHuge.mTextureIndex], Dyes.getModulation(aColorIndex, aMaterial.mRGBa));
     }
 
-    protected static final ITexture getRestrictorTexture(byte aMask) {
+    protected static ITexture getRestrictorTexture(byte aMask) {
     	switch (aMask) {
     	case 1: return new GT_RenderedTexture(Textures.BlockIcons.PIPE_RESTRICTOR_UP);
     	case 2: return new GT_RenderedTexture(Textures.BlockIcons.PIPE_RESTRICTOR_DOWN);
@@ -429,7 +426,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
 
                 // Translocators return a TankInfo, but it's of 0 length - so check the class if we see this pattern
                 if (GregTech_API.mTranslocator  && tTileEntity instanceof codechicken.translocator.TileLiquidTranslocator) return true;
-                if (gTileEntity != null && gTileEntity.getCoverBehaviorAtSide(tSide) instanceof GT_Cover_FluidRegulator) return true;
+                return gTileEntity != null && gTileEntity.getCoverBehaviorAtSide(tSide) instanceof GT_Cover_FluidRegulator;
 
             }
        }
@@ -521,7 +518,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
         return fill_default_intoIndex(aSide, aFluid, doFill, index);
     }
 
-    private final int fill_default_intoIndex(ForgeDirection aSide, FluidStack aFluid, boolean doFill, int index) {
+    private int fill_default_intoIndex(ForgeDirection aSide, FluidStack aFluid, boolean doFill, int index) {
     	if (index < 0 || index >= mPipeAmount) return 0;
     	if (aFluid == null || aFluid.getFluid().getID() <= 0) return 0;
 
@@ -580,7 +577,7 @@ public class GT_MetaPipeEntity_Fluid extends MetaPipeEntity {
         return null;
     }
 
-    private final FluidStack drainFromIndex(int maxDrain, boolean doDrain, int index) {
+    private FluidStack drainFromIndex(int maxDrain, boolean doDrain, int index) {
     	if (index < 0 || index >= mPipeAmount) return null;
     	if (mFluids[index] == null) return null;
         if (mFluids[index].amount <= 0) {

@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GT_Tool_Chainsaw_LV
@@ -57,19 +56,19 @@ public class GT_Tool_Chainsaw_LV
     }
 
     public String getCraftingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(104));
+        return GregTech_API.sSoundList.get(104);
     }
 
     public String getEntityHitSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(105));
+        return GregTech_API.sSoundList.get(105);
     }
 
     public String getBreakingSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(0));
+        return GregTech_API.sSoundList.get(0);
     }
 
     public String getMiningSound() {
-        return (String) GregTech_API.sSoundList.get(Integer.valueOf(104));
+        return GregTech_API.sSoundList.get(104);
     }
 
     public boolean canBlock() {
@@ -87,9 +86,9 @@ public class GT_Tool_Chainsaw_LV
     public void onToolCrafted(ItemStack aStack, EntityPlayer aPlayer) {
         super.onToolCrafted(aStack, aPlayer);
         try {
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "brrrr");
-            GT_Mod.instance.achievements.issueAchievement(aPlayer, "buildChainsaw");
-        } catch (Exception e) {
+            GT_Mod.achievements.issueAchievement(aPlayer, "brrrr");
+            GT_Mod.achievements.issueAchievement(aPlayer, "buildChainsaw");
+        } catch (Exception ignored) {
         }
     }
     @Override
@@ -97,9 +96,9 @@ public class GT_Tool_Chainsaw_LV
         int rAmount = 0;
         if ((aBlock.getMaterial() == Material.leaves) && ((aBlock instanceof IShearable))) {
             aPlayer.worldObj.setBlock(aX, aY, aZ, aBlock, aMetaData, 0);
-            if (((IShearable) aBlock).isShearable(aStack, aPlayer.worldObj, aX, aY, aZ)) {
-                ArrayList<ItemStack> tDrops = ((IShearable) aBlock).onSheared(aStack, aPlayer.worldObj, aX, aY, aZ, aFortune);
-                aDrops.clear();
+//            if (((IShearable) aBlock).isShearable(aStack, aPlayer.worldObj, aX, aY, aZ)) {
+//                ArrayList<ItemStack> tDrops = ((IShearable) aBlock).onSheared(aStack, aPlayer.worldObj, aX, aY, aZ, aFortune);
+//                aDrops.clear();
 //                aDrops.addAll(tDrops);
 //                aEvent.dropChance = 1.0F;
 //                for (ItemStack stack : tDrops)
@@ -113,8 +112,8 @@ public class GT_Tool_Chainsaw_LV
 //                  entityitem.delayBeforeCanPickup = 10;
 //                  aPlayer.worldObj.spawnEntityInWorld(entityitem);
 //                }
-//                aPlayer.addStat(net.minecraft.stats.StatList.mineBlockStatArray[Block.getIdFromBlock(aBlock)], 1);                
-            }
+//                aPlayer.addStat(net.minecraft.stats.StatList.mineBlockStatArray[Block.getIdFromBlock(aBlock)], 1);
+//            }
             aPlayer.worldObj.setBlock(aX, aY, aZ, Blocks.air, 0, 0);
         } else 
         	if (((aBlock.getMaterial() == Material.ice) || (aBlock.getMaterial() == Material.packedIce)) && (aDrops.isEmpty())) {

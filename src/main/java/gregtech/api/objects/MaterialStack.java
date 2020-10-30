@@ -42,7 +42,7 @@ public class MaterialStack implements Cloneable {
                 temp3 = ")";
              }
          }
-        return String.valueOf(new StringBuilder().append(temp1).append(temp2).append(temp3).append(temp4));
+        return temp1 + temp2 + temp3 + temp4;
     }
 
     private boolean isMaterialListComplex(MaterialStack materialStack){

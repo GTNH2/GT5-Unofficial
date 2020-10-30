@@ -20,7 +20,7 @@ import static gregtech.api.enums.GT_Values.oreveinPlacerOresMultiplier;
 
 public class GT_Worldgen_GT_Ore_Layer
         extends GT_Worldgen {
-    public static ArrayList<GT_Worldgen_GT_Ore_Layer> sList = new ArrayList();
+    public static ArrayList<GT_Worldgen_GT_Ore_Layer> sList = new ArrayList<>();
     public static int sWeight = 0;
     public final short mMinY;
     public final short mMaxY;
@@ -44,6 +44,7 @@ public class GT_Worldgen_GT_Ore_Layer
     public static final int ORE_PLACED=4;
     public static final int NO_OVERLAP_AIR_BLOCK=5;
 
+    @SuppressWarnings("unused")
     public final boolean mMoon = false, mMars = false, mAsteroid = false;
     public final String aTextWorldgen = "worldgen.";
 
@@ -154,7 +155,7 @@ public class GT_Worldgen_GT_Ore_Layer
             // This is a special empty orevein
             return ORE_PLACED;
         }
-        if (!isGenerationAllowed(aWorld, aDimensionType, ((aDimensionType == -1) && (this.mNether)) || ((aDimensionType == 0) && (this.mOverworld)) || ((aDimensionType == 1) && (this.mEnd)) ? aDimensionType : aDimensionType ^ 0xFFFFFFFF)) {
+        if (!isGenerationAllowed(aWorld, aDimensionType, ((aDimensionType == -1) && (this.mNether)) || ((aDimensionType == 0) && (this.mOverworld)) || ((aDimensionType == 1) && (this.mEnd)) ? aDimensionType : ~aDimensionType)) {
             /* // Debug code, but spams log
             if (debugOrevein) {
                 GT_Log.out.println(
@@ -232,7 +233,7 @@ public class GT_Worldgen_GT_Ore_Layer
                             );
         }
         // Adjust the density down the more chunks we are away from the oreseed.  The 5 chunks surrounding the seed should always be max density due to truncation of Math.sqrt().
-        int localDensity = Math.max(1, this.mDensity / ((int)Math.sqrt(2 + Math.pow(aChunkX/16 - aSeedX/16, 2) + Math.pow(aChunkZ/16 - aSeedZ/16, 2))) );
+        int localDensity = Math.max(1, this.mDensity / ((int)Math.sqrt(2 + Math.pow(aChunkX/16F - aSeedX/16F, 2) + Math.pow(aChunkZ/16F - aSeedZ/16F, 2))) );
 
          // To allow for early exit due to no ore placed in the bottom layer (probably because we are in the sky), unroll 1 pass through the loop
         // Now we do bottom-level-first oregen, and work our way upwards.

@@ -156,7 +156,7 @@ public class GT_MetaTileEntity_Boiler_Solar
             }
             if (aTick % 25L == 0L) { // Every 25 ticks since 1L of water = 150L of steam. So for 120L, have to use 25 instead of 20.
                 if (this.mTemperature > 100) {
-                    if ((this.mFluid == null) || (!GT_ModHandler.isWater(this.mFluid)) || (this.mFluid.amount <= 0)) {
+                    if ((!GT_ModHandler.isWater(this.mFluid)) || (this.mFluid.amount <= 0)) {
                         this.mHadNoWater = true;
                     } else {
                         if (this.mHadNoWater) {

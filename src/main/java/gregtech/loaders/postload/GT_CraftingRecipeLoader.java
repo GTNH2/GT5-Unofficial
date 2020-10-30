@@ -18,11 +18,11 @@ import net.minecraftforge.fluids.FluidStack;
 public class GT_CraftingRecipeLoader implements Runnable {
     private final static String aTextIron1 = "X X";
     private final static String aTextIron2 = "XXX";
-    private final static String aTextRailcraft = "Railcraft";
-    private final static String aTextMachineBeta = "machine.beta";
-    private final static String aTextMachineAlpha = "machine.alpha";
-    private final static long bits = GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED;
-    private final static long bitsd = GT_ModHandler.RecipeBits.DISMANTLEABLE | bits;
+//    private final static String aTextRailcraft = "Railcraft";
+//    private final static String aTextMachineBeta = "machine.beta";
+//    private final static String aTextMachineAlpha = "machine.alpha";
+//    private final static long bits = GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED;
+//    private final static long bitsd = GT_ModHandler.RecipeBits.DISMANTLEABLE | bits;
 
     public void run() {
         GT_Log.out.println("GT_Mod: Adding nerfed Vanilla Recipes.");

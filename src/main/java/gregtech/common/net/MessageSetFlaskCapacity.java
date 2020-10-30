@@ -38,6 +38,7 @@ public final class MessageSetFlaskCapacity extends GT_Packet {
         return 5;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public byte[] encode() {
         ByteArrayDataOutput tOut = ByteStreams.newDataOutput(10);

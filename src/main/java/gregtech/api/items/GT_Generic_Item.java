@@ -34,6 +34,7 @@ import static gregtech.api.enums.GT_Values.RES_PATH_ITEM;
 /**
  * Extended by most Items, also used as a fallback Item, to prevent the accidental deletion when Errors occur.
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class GT_Generic_Item extends Item implements IProjectileItem {
     private final String mName, mTooltip;
     protected IIcon mIcon;
@@ -48,7 +49,8 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
         GT_LanguageManager.addStringLocalization(mName + ".name", aEnglish);
         if (GT_Utility.isStringValid(aEnglishTooltip))
             GT_LanguageManager.addStringLocalization(mTooltip = mName + ".tooltip_main", aEnglishTooltip, aWriteToolTipIntoLangFile);
-        else mTooltip = null;
+        else
+            mTooltip = null;
         setCreativeTab(GregTech_API.TAB_GREGTECH);
         GameRegistry.registerItem(this, mName, MOD_ID);
         BlockDispenser.dispenseBehaviorRegistry.putObject(this, new GT_Item_Dispense());
@@ -93,8 +95,10 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
     public void addInformation(ItemStack aStack, EntityPlayer aPlayer, List aList, boolean aF3_H) {
         if (getMaxDamage() > 0 && !getHasSubtypes())
             aList.add((aStack.getMaxDamage() - getDamage(aStack)) + " / " + aStack.getMaxDamage());
-        if (mTooltip != null) aList.add(GT_LanguageManager.getTranslation(mTooltip));
-        if (GT_ModHandler.isElectricItem(aStack)) aList.add("Tier: " + getTier(aStack));
+        if (mTooltip != null)
+            aList.add(GT_LanguageManager.getTranslation(mTooltip));
+        if (GT_ModHandler.isElectricItem(aStack))
+            aList.add("Tier: " + getTier(aStack));
         addAdditionalToolTips(aList, aStack, aPlayer);
     }
 
@@ -143,9 +147,9 @@ public class GT_Generic_Item extends Item implements IProjectileItem {
     public boolean hasContainerItem(ItemStack aStack) {
         return getContainerItem(aStack) != null;
     }
-    
-    public String trans(String aKey, String aEnglish){
-    	return GT_LanguageManager.addStringLocalization("Item_DESCRIPTION_Index_"+aKey, aEnglish, false);
+
+    public String trans(String aKey, String aEnglish) {
+        return GT_LanguageManager.addStringLocalization("Item_DESCRIPTION_Index_" + aKey, aEnglish, false);
     }
 
     public static class GT_Item_Dispense extends BehaviorProjectileDispense {

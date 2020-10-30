@@ -87,6 +87,7 @@ public abstract class GT_MetaTileEntity_OreDrillingPlantBase extends GT_MetaTile
     }
 
     @Override
+    @SuppressWarnings("unused")
     protected boolean workingDownward(ItemStack aStack, int xDrill, int yDrill, int zDrill, int xPipe, int zPipe, int yHead, int oldYHead) {
         if (yHead != oldYHead)
             oreBlockPositions.clear();
@@ -337,7 +338,7 @@ public abstract class GT_MetaTileEntity_OreDrillingPlantBase extends GT_MetaTile
 
     protected String[] getDescriptionInternal(String tierSuffix) {
         String casings = getCasingBlockItem().get(0).getDisplayName();
-        int d = getRadiusInChunks() * 2;
+//        int d = getRadiusInChunks() * 2;
         return new String[]{
                 "Controller Block for the Ore Drilling Plant " + (tierSuffix != null ? tierSuffix : ""),
                 "Size(WxHxD): 3x7x3, Controller (Front middle bottom)",

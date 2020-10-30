@@ -165,9 +165,10 @@ public enum CombType {
     public Materials material;
     public int chance;
 
-    private String name;
-    private int[] color;
+    private final String name;
+    private final int[] color;
 
+    @SuppressWarnings("SameParameterValue")
     CombType(String pName, boolean show, Materials material, int chance, int... color) {
         this.name = pName;
         this.material = material;

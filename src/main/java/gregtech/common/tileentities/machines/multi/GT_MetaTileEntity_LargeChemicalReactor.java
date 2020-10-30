@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class GT_MetaTileEntity_LargeChemicalReactor extends GT_MetaTileEntity_MultiBlockBase {
 
+	@SuppressWarnings("FieldCanBeLocal")
 	private final int CASING_INDEX = 176;
 
 	public GT_MetaTileEntity_LargeChemicalReactor(int aID, String aName, String aNameRegional) {
@@ -81,8 +82,8 @@ public class GT_MetaTileEntity_LargeChemicalReactor extends GT_MetaTileEntity_Mu
 		int tInputList_sS = tInputList.size();
 		for (int i = 0; i < tInputList_sS - 1; i++) {
 			for (int j = i + 1; j < tInputList_sS; j++) {
-				if (GT_Utility.areStacksEqual((ItemStack) tInputList.get(i), (ItemStack) tInputList.get(j))) {
-					if (((ItemStack) tInputList.get(i)).stackSize >= ((ItemStack) tInputList.get(j)).stackSize) {
+				if (GT_Utility.areStacksEqual(tInputList.get(i), tInputList.get(j))) {
+					if (tInputList.get(i).stackSize >= tInputList.get(j).stackSize) {
 						tInputList.remove(j--);
 						tInputList_sS = tInputList.size();
 					} else {
@@ -94,7 +95,7 @@ public class GT_MetaTileEntity_LargeChemicalReactor extends GT_MetaTileEntity_Mu
 			}
 		}
 		tInputList.add(mInventory[1]);
-		ItemStack[] inputs = tInputList.toArray(new ItemStack[tInputList.size()]);
+		ItemStack[] inputs = tInputList.toArray(new ItemStack[0]);
 
 		ArrayList<FluidStack> tFluidList = getStoredFluids();
 		int tFluidList_sS = tFluidList.size();
@@ -112,7 +113,7 @@ public class GT_MetaTileEntity_LargeChemicalReactor extends GT_MetaTileEntity_Mu
 				}
 			}
 		}
-		FluidStack[] fluids = tFluidList.toArray(new FluidStack[tFluidList.size()]);
+		FluidStack[] fluids = tFluidList.toArray(new FluidStack[0]);
 
 		if (inputs.length > 0 || fluids.length > 0) {
 			long tVoltage = getMaxInputVoltage();

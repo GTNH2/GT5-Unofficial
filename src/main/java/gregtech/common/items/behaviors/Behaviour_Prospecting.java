@@ -48,11 +48,15 @@ public class Behaviour_Prospecting
 
 
         ItemData tAssotiation = GT_OreDictUnificator.getAssociation(new ItemStack(aBlock, 1, aMeta));
-        if ((tAssotiation != null) && (tAssotiation.mPrefix.toString().startsWith("ore"))){
-        	GT_Utility.sendChatToPlayer(aPlayer, trans("100","This is ") + tAssotiation.mMaterial.mMaterial.mDefaultLocalName + trans("101"," Ore."));
-        	GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(1)), 1.0F, -1.0F, aX, aY, aZ);	
-        	return true;
-	    	}
+        if ((tAssotiation != null)) {
+            assert tAssotiation.mPrefix != null;
+            if (tAssotiation.mPrefix.toString().startsWith("ore")) {
+                assert tAssotiation.mMaterial != null;
+                GT_Utility.sendChatToPlayer(aPlayer, trans("100", "This is ") + tAssotiation.mMaterial.mMaterial.mDefaultLocalName + trans("101", " Ore."));
+                GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(1), 1.0F, -1.0F, aX, aY, aZ);
+                return true;
+            }
+        }
 	    	
 		    if (aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone) || 
 		    	aBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.netherrack) || 
@@ -64,12 +68,12 @@ public class Behaviour_Prospecting
 		    	(aBlock == GregTech_API.sBlockOresUb3)  || 
 		    	(aBlock == GregTech_API.sBlockOres1)){
 	            if (GT_ModHandler.damageOrDechargeItem(aStack, this.mVanillaCosts, this.mEUCosts, aPlayer)) {
-              GT_Utility.sendSoundToPlayers(aWorld, (String) GregTech_API.sSoundList.get(Integer.valueOf(1)), 1.0F, -1.0F, aX, aY, aZ);
-              int tMetaID = 0;
-              int tQuality = (aItem instanceof GT_MetaGenerated_Tool) ? ((GT_MetaGenerated_Tool) aItem).getHarvestLevel(aStack, "") : 0;
+              GT_Utility.sendSoundToPlayers(aWorld, GregTech_API.sSoundList.get(1), 1.0F, -1.0F, aX, aY, aZ);
+              int tMetaID;
+              int tQuality = (aItem instanceof GT_MetaGenerated_Tool) ? aItem.getHarvestLevel(aStack, "") : 0;
 		    	int tX = aX, tY = aY, tZ = aZ;
 				Block tBlock;
-		        for (int i = 0, j = (int)(6 + tQuality); i < j; i++) {
+		        for (int i = 0, j = 6 + tQuality; i < j; i++) {
                   tX -= ForgeDirection.getOrientation(aSide).offsetX;
                   tY -= ForgeDirection.getOrientation(aSide).offsetY;
                   tZ -= ForgeDirection.getOrientation(aSide).offsetZ;
@@ -94,7 +98,7 @@ public class Behaviour_Prospecting
 			    }
 		        
 				Random tRandom = new XSTR(aX^aY^aZ^aSide);
-				for (int i = 0, j = (int)(9+2*tQuality); i < j; i++) {
+				for (int i = 0, j = 9+2*tQuality; i < j; i++) {
 					tX = aX-4-tQuality+tRandom.nextInt(j);
 					tY = aY-4-tQuality+tRandom.nextInt(j);
 					tZ = aZ-4-tQuality+tRandom.nextInt(j);
@@ -112,6 +116,7 @@ public class Behaviour_Prospecting
                         tMetaID = aWorld.getBlockMetadata(tX, tY, tZ);
                         tAssotiation = GT_OreDictUnificator.getAssociation(new ItemStack(tBlock, 1, tMetaID));
                         if ((tAssotiation != null) && (tAssotiation.mPrefix.toString().startsWith("ore"))) {
+                            assert tAssotiation.mMaterial != null;
                             GT_Utility.sendChatToPlayer(aPlayer, trans("106","Found traces of ") + tAssotiation.mMaterial.mMaterial.mDefaultLocalName + trans("101"," Ore."));
                             return true;
                         }

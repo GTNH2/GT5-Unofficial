@@ -20,6 +20,7 @@ public class GT_MetaTileEntity_SuperTank
         super(aName, aTier, 3, aDescription, aTextures);
     }
 
+    @SuppressWarnings("unused")
     public GT_MetaTileEntity_SuperTank(String aName, int aTier, String[] aDescription, ITexture[][][] aTextures) {
         super(aName, aTier, 3, aDescription, aTextures);
     }
@@ -110,7 +111,7 @@ public class GT_MetaTileEntity_SuperTank
                     "Stored Fluid:",
                     EnumChatFormatting.GOLD + "No Fluid"+ EnumChatFormatting.RESET,
                     EnumChatFormatting.GREEN + Integer.toString(0) + " L"+ EnumChatFormatting.RESET+" "+
-                    EnumChatFormatting.YELLOW + Integer.toString(getCapacity()) + " L"+ EnumChatFormatting.RESET
+                    EnumChatFormatting.YELLOW + getCapacity() + " L"+ EnumChatFormatting.RESET
             };
         }
         return new String[]{
@@ -118,7 +119,7 @@ public class GT_MetaTileEntity_SuperTank
                 "Stored Fluid:",
                 EnumChatFormatting.GOLD + mFluid.getLocalizedName()+ EnumChatFormatting.RESET,
                 EnumChatFormatting.GREEN + Integer.toString(mFluid.amount) + " L"+ EnumChatFormatting.RESET+" "+
-                EnumChatFormatting.YELLOW+ Integer.toString(getCapacity()) + " L"+ EnumChatFormatting.RESET
+                EnumChatFormatting.YELLOW+ getCapacity() + " L"+ EnumChatFormatting.RESET
         };
     }
 
@@ -127,6 +128,7 @@ public class GT_MetaTileEntity_SuperTank
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {
         return new GT_MetaTileEntity_SuperTank(mName, mTier, mDescription, mTextures);

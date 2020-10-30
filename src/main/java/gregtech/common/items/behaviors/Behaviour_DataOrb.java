@@ -15,7 +15,7 @@ public class Behaviour_DataOrb
             if (aNewContent[i] == null) {
                 aInventory[i] = null;
             } else {
-                aInventory[i] = GT_Utility.copy(new Object[]{aNewContent[i]});
+                aInventory[i] = GT_Utility.copy(aNewContent[i]);
             }
         }
     }
@@ -56,6 +56,7 @@ public class Behaviour_DataOrb
         return tNBT;
     }
 
+    //TODO: change byte to short
     public static ItemStack[] getNBTInventory(ItemStack aStack) {
         ItemStack[] tInventory = new ItemStack[256];
         NBTTagCompound tNBT = aStack.getTagCompound();

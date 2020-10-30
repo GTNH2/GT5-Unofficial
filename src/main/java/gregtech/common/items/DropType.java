@@ -15,7 +15,7 @@ public enum DropType {
     LAPIS("lapis coolant",true),
     ENDERGOO("ender goo",true);
 
-    private static int[][] colours = new int[][]{
+    private static final int[][] colours = new int[][]{
             {0x19191B, 0x303032},
             {0xffc100, 0x00ff11},
             {0x144F5A, 0x2494A2},
@@ -29,8 +29,10 @@ public enum DropType {
     public boolean showInList;
     public Materials material;
     public int chance;
-    private String name;
-    private DropType(String pName, boolean show) {
+    private final String name;
+
+    @SuppressWarnings("SameParameterValue")
+    DropType(String pName, boolean show) {
         this.name = pName;
         this.showInList = show;
     }

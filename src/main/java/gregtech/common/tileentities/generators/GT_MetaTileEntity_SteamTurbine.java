@@ -128,7 +128,6 @@ public class GT_MetaTileEntity_SteamTurbine extends GT_MetaTileEntity_BasicGener
     public boolean isFluidInputAllowed(FluidStack aFluid) {
         if (aFluid.getFluid().getUnlocalizedName(aFluid).equals("ic2.fluidSuperheatedSteam")) {
             aFluid.amount = 0;
-            aFluid = null;
             return false;
         }
         return super.isFluidInputAllowed(aFluid);

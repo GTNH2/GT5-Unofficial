@@ -42,6 +42,7 @@ public class ItemPropolis extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
+	@SuppressWarnings("unchecked")
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		for (PropolisType type : PropolisType.values()) {
 			if (type.showInList) {

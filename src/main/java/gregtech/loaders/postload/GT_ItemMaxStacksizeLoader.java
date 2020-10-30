@@ -8,12 +8,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
+import java.util.Objects;
+
 public class GT_ItemMaxStacksizeLoader
         implements Runnable {
     public void run() {
         GT_Log.out.println("GT_Mod: Changing maximum Stacksizes if configured.");
 
-        ItemList.Upgrade_Overclocker.getItem().setMaxStackSize(GT_Mod.gregtechproxy.mUpgradeCount);
+        Objects.requireNonNull(ItemList.Upgrade_Overclocker.getItem()).setMaxStackSize(GT_Mod.gregtechproxy.mUpgradeCount);
         Items.cake.setMaxStackSize(64);
         Items.wooden_door.setMaxStackSize(8);
         Items.iron_door.setMaxStackSize(8);

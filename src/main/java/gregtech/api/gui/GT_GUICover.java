@@ -27,15 +27,14 @@ public abstract class GT_GUICover extends GuiScreen implements GT_IToolTipRender
 
     protected GT_GuiTooltipManager ttManager = new GT_GuiTooltipManager();
 
-    protected int gui_width = 176;
-    protected int gui_height = 107;
+    protected int gui_width;// = 176;
+    protected int gui_height;// = 107;
     protected int guiTop, guiLeft;
-    protected boolean drawButtons = true;
+    protected final boolean drawButtons = true;
     private GuiButton selectedButton;
     public String header;
     public GT_GuiFakeItemButton headerIcon;
-    public final ICoverable tile;
-
+    public ICoverable tile;
 
     protected List<IGuiElement> elements = new ArrayList<>();
     protected List<GT_GuiIntegerTextBox> textBoxes = new ArrayList<>();
@@ -49,6 +48,7 @@ public abstract class GT_GUICover extends GuiScreen implements GT_IToolTipRender
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void initGui() {
         guiLeft = (this.width - this.gui_width) / 2;
         guiTop = (this.height - this.gui_height) / 2;
@@ -138,7 +138,7 @@ public abstract class GT_GUICover extends GuiScreen implements GT_IToolTipRender
     }
 
     public void closeScreen() {
-        this.mc.displayGuiScreen((GuiScreen) null);
+        this.mc.displayGuiScreen(null);
         this.mc.setIngameFocus();
     }
 

@@ -121,7 +121,7 @@ public class GT_MetaTileEntity_ItemDistributor extends GT_MetaTileEntity_Buffer 
 
     protected void moveItems(IGregTechTileEntity aBaseMetaTileEntity, long aTimer) {
         fillStacksIntoFirstSlots();
-        int movedItems = 0;
+        int movedItems;
         TileEntity adjacentTileEntity = aBaseMetaTileEntity.getTileEntityAtSide(currentSide);
         int inspectedSides = 0;
         while (itemsPerSide[currentSide] == 0) {

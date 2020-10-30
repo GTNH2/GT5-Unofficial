@@ -22,7 +22,7 @@ import static gregtech.api.enums.GT_Values.RES_PATH_GUI;
  */
 public class GT_GUIContainer_MultiMachine extends GT_GUIContainerMetaTile_Machine {
 
-    String mName = "";
+    final String mName;
 
     public GT_GUIContainer_MultiMachine(InventoryPlayer aInventoryPlayer, IGregTechTileEntity aTileEntity, String aName, String aTextureFile) {
         super(new GT_Container_MultiMachine(aInventoryPlayer, aTileEntity), RES_PATH_GUI + "multimachines/" + (aTextureFile == null ? "MultiblockDisplay" : aTextureFile));
@@ -34,23 +34,23 @@ public class GT_GUIContainer_MultiMachine extends GT_GUIContainerMetaTile_Machin
         fontRendererObj.drawString(mName, 10, 8, 16448255);
 
         if (mContainer != null) {//(mWrench ? 0 : 1) | (mScrewdriver ? 0 : 2) | (mSoftHammer ? 0 : 4) | (mHardHammer ? 0 : 8) | (mSolderingTool ? 0 : 16) | (mCrowbar ? 0 : 32) | (mMachine ? 0 : 64));
-            if ((((GT_Container_MultiMachine) mContainer).mDisplayErrorCode & 1) != 0)
+            if ((mContainer.mDisplayErrorCode & 1) != 0)
                 fontRendererObj.drawString(trans("132", "Pipe is loose."), 10, 16, 16448255);
-            if ((((GT_Container_MultiMachine) mContainer).mDisplayErrorCode & 2) != 0)
+            if ((mContainer.mDisplayErrorCode & 2) != 0)
                 fontRendererObj.drawString(trans("133", "Screws are loose."), 10, 24, 16448255);
-            if ((((GT_Container_MultiMachine) mContainer).mDisplayErrorCode & 4) != 0)
+            if ((mContainer.mDisplayErrorCode & 4) != 0)
                 fontRendererObj.drawString(trans("134", "Something is stuck."), 10, 32, 16448255);
-            if ((((GT_Container_MultiMachine) mContainer).mDisplayErrorCode & 8) != 0)
+            if ((mContainer.mDisplayErrorCode & 8) != 0)
                 fontRendererObj.drawString(trans("135", "Platings are dented."), 10, 40, 16448255);
-            if ((((GT_Container_MultiMachine) mContainer).mDisplayErrorCode & 16) != 0)
+            if ((mContainer.mDisplayErrorCode & 16) != 0)
                 fontRendererObj.drawString(trans("136", "Circuitry burned out."), 10, 48, 16448255);
-            if ((((GT_Container_MultiMachine) mContainer).mDisplayErrorCode & 32) != 0)
+            if ((mContainer.mDisplayErrorCode & 32) != 0)
                 fontRendererObj.drawString(trans("137", "That doesn't belong there."), 10, 56, 16448255);
-            if ((((GT_Container_MultiMachine) mContainer).mDisplayErrorCode & 64) != 0)
+            if ((mContainer.mDisplayErrorCode & 64) != 0)
                 fontRendererObj.drawString(trans("138", "Incomplete Structure."), 10, 64, 16448255);
 
-            if (((GT_Container_MultiMachine) mContainer).mDisplayErrorCode == 0) {
-                if (((GT_Container_MultiMachine) mContainer).mActive == 0) {
+            if (mContainer.mDisplayErrorCode == 0) {
+                if (mContainer.mActive == 0) {
                     fontRendererObj.drawString(trans("139", "Hit with Soft Mallet"), 10, 16, 16448255);
                     fontRendererObj.drawString(trans("140", "to (re-)start the Machine"), 10, 24, 16448255);
                     fontRendererObj.drawString(trans("141", "if it doesn't start."), 10, 32, 16448255);
@@ -60,12 +60,12 @@ public class GT_GUIContainer_MultiMachine extends GT_GUIContainerMetaTile_Machin
                 if (mContainer.mTileEntity.getMetaTileEntity() instanceof GT_MetaTileEntity_DrillerBase) {
                     ItemStack tItem = mContainer.mTileEntity.getMetaTileEntity().getStackInSlot(1);
                     if (tItem == null || !GT_Utility.areStacksEqual(tItem, GT_ModHandler.getIC2Item("miningPipe", 1L))) {
-                        fontRendererObj.drawString(trans("143", "Missing Mining Pipe"), 10, ((GT_Container_MultiMachine) mContainer).mActive == 0 ? 40 : 24, 16448255);
+                        fontRendererObj.drawString(trans("143", "Missing Mining Pipe"), 10, mContainer.mActive == 0 ? 40 : 24, 16448255);
                     }
                 } else if (mContainer.mTileEntity.getMetaTileEntity() instanceof GT_MetaTileEntity_LargeTurbine) {
                     ItemStack tItem = mContainer.mTileEntity.getMetaTileEntity().getStackInSlot(1);
                     if (tItem == null || !(tItem.getItem() == GT_MetaGenerated_Tool_01.INSTANCE && tItem.getItemDamage() >= 170 && tItem.getItemDamage() <= 177)) {
-                        fontRendererObj.drawString(trans("144", "Missing Turbine Rotor"), 10, ((GT_Container_MultiMachine) mContainer).mActive == 0 ? 40 : 24, 16448255);
+                        fontRendererObj.drawString(trans("144", "Missing Turbine Rotor"), 10, mContainer.mActive == 0 ? 40 : 24, 16448255);
                     }
                 }
             }

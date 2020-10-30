@@ -23,7 +23,7 @@ public class GT_Log {
     public static File mExplosionLog;
 
     public static class LogBuffer extends PrintStream {
-        public final List<String> mBufferedOreDictLog = new ArrayList<String>();
+        public final List<String> mBufferedOreDictLog = new ArrayList<>();
 
         public LogBuffer() {
             super(new OutputStream() {
